@@ -8,10 +8,11 @@
     <script src="https://unpkg.com/@jspsych/plugin-instructions@1.1.2"></script>
     <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.2"></script>
     <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-slider-response@1.1.2"></script>
     <link href="https://unpkg.com/jspsych@7.3.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
     <!--- CSS classes to show/hide the slider thumb  --->
     <style>
       .jspsych-slider.hidden::-webkit-slider-thumb {
@@ -45,7 +46,7 @@ var jsPsych = initJsPsych({
         'experimentName': 'experiment1',
         'curData': data.csv()
         };
-        await $.post("https://dibs-web01.vm.duke.edu/debrigard/continuous_causation/experiment/save.php",
+        await $.post("https://dibs-web01.vm.duke.edu/debrigard/continuous_causation/exp/save.php",
                     dataToServer,
                     function(data) {
                                 document.getElementById('done').style.visibility = "visible";
@@ -135,6 +136,49 @@ var comments = {
 }
 
 
+var background = {
+  type: jsPsychInstructions,
+  pages: ["There are two plants, Plant A and Plant B, in the small town of Huxley. Every day, both plants send their sewage to the town’s water treatment facility. <br><br>We will show you how much sewage each of the two plants produced on N days. Please try to pay attention to how much each plant produces on average."],
+  show_clickable_nav: true
+}
+
+function sampleNormal(min=0, max=Infinity) {
+  let s = Math.round(jStat.normal.sample(jsPsych.timelineVariable('mean'), jsPsych.timelineVariable('sd')));
+  while (s < min || s > max)
+    s = Math.round(jStat.normal.sample(jsPsych.timelineVariable('mean'), jsPsych.timelineVariable('sd')));
+  return s;
+}
+
+var learning = {
+  timeline: [
+    {
+      type: jsPsychHtmlKeyboardResponse,
+      response_ends_trial: false,
+      trial_duration: 5000,
+      stimulus: function () {
+        return 'Today, Plant ' + jsPsych.timelineVariable('cause') + ' sent ' + sampleNormal() + ' gallons of sewage to the water treatment plant.'
+      }}
+  ],
+  timeline_variables: [
+    { cause: 'C', mean: 1, sd: 1 },
+    { cause: 'C', mean: 1, sd: 1 },
+    { cause: 'A', mean: 0, sd: 1 },
+    { cause: 'A', mean: 0, sd: 1 }
+  ]
+}
+
+var manipulation_check = {
+  
+}
+
+var judgment = {
+  
+}
+
+var confidence = {
+  
+}
+
 /* start the experiment */
-jsPsych.run([consent, age, gender, attn_check, comments]);
+jsPsych.run([consent, background, learning, age, gender, attn_check, comments]);
 </script>
