@@ -12,7 +12,7 @@
 # Warning:
 # Note that this means that anybody can load this file directly and
 # create files on your server. E.g., if somebody goes to the URL
-# dibs-web01.vm.duke.edu/debrigard/UG-causation/exp/save.php?id=hello&experimentName=tim&curData=you+da+bomb,
+# dibs-web01.vm.duke.edu/debrigard/continuous_causation/exp/save.php?id=hello&experimentName=tim&curData=you+da+bomb,
 # that will create a file on the server in the directory "data". So it isn't the
 # safest thing in the world.
 
