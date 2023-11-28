@@ -135,10 +135,10 @@ var comments = {
     }
 }
 
-
+/* display background */
 var background = {
   type: jsPsychInstructions,
-  pages: ["There are two plants, Plant A and Plant B, in the small town of Huxley. Every day, both plants send their sewage to the town’s water treatment facility. <br><br>We will show you how much sewage each of the two plants produced on N days. Please try to pay attention to how much each plant produces on average."],
+  pages: ["There are two plants, Plant A and Plant B, in the small town of Huxley. Every day, both plants send their sewage to the town's water treatment facility. <br><br>We will show you how much sewage each of the two plants produced on N days. Please try to pay attention to how much each plant produces on average."],
   show_clickable_nav: true
 }
 
@@ -149,6 +149,7 @@ function sampleNormal(min=0, max=Infinity) {
   return s;
 }
 
+/* run learning trials */
 var learning = {
   timeline: [
     {
@@ -167,18 +168,70 @@ var learning = {
   ]
 }
 
-var manipulation_check = {
-  
-}
+/*display manipulation check */
+var man_check = {
+    timeline: [{type: jsPsychSurveyText,
+		        questions: [
+              {name: 'average_a', prompt: "How many gallons of sewage does Plant A produce on average?", required: true},
+              {name: 'average_b', prompt: "How many gallons of sewage does Plant B produce on average?", required: true}],
+		        on_finish: function (data) {
+		        data.response_a = parseFloat(data.response.average_a);
+            data.response_b = parseFloat(data.response.average_b)
+		        }}],
+    loop_function: function (data) {
+  	  let response_a = parseFloat(data.values()[0].response_a);
+  	  if (isNaN(response_a)) alert("Please enter your response as a number.");
+  	  if (!isNaN(response_a) & (response_a <= 0 || response_a > 150)) alert("Please enter a valid number of gallons.");
+  	  return isNaN(response_a) || response_a <= 0 || response_a > 150;
+      let response_b = parseFloat(data.values()[0].response_b);
+  	  if (isNaN(response_b)) alert("Please enter your response as a number.");
+  	  if (!isNaN(response_b) & (response_b <= 0 || response_b > 150)) alert("Please enter a valid number of gallons.");
+  	  return isNaN(response_b) || response_b <= 0 || response_b > 150;
+    }
 
+  }
+
+/*display judgment */
 var judgment = {
-  
+  type: jsPsychHtmlSliderResponse,
+    stimulus: "<p>The water facility is capable of filtering Z gallons of sewage per day. So, if Plant A and Plant B together produce more than Z gallons of sewage, then some pollution will leak out into the town’s rivers and creeks. <br> <br/> To what extent do you agree with the following statement? <br> <br/> The town’s water became polluted because Plant A produced a gallons of sewage. <p/>",
+    min: 0, max: 1, step: 'any', require_movement: true,
+    labels: ['Not Caused by Plant A at All', 'Definitely Caused by Plant A'],
+    // Hide the slider thumb until response
+    on_load: function () {
+      document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
+      document.getElementById('jspsych-html-slider-response-response').addEventListener('click', function (e) {
+        e.target.classList.remove('hidden');
+      });
+    },
+    on_finish: function (data) {
+    data.measure = "judgment";
+    data.response = data.response.judgment;
+    }
 }
 
+
+
+/*display confidence */
 var confidence = {
-  
+    type: jsPsychHtmlSliderResponse,
+    stimulus: '<p>Please rate how confident you are in your choice.<p/>',
+    min: 0, max: 1, step: 'any', require_movement: true,
+    labels: ['Not Confident at All', 'Extremely Confident'],
+    // Hide the slider thumb until response
+    on_load: function () {
+      document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
+      document.getElementById('jspsych-html-slider-response-response').addEventListener('click', function (e) {
+        e.target.classList.remove('hidden');
+      });
+    },
+    on_finish: function (data) {
+    data.measure = "confidence";
+    data.response = data.response.confidence;
+    }
+    
 }
 
 /* start the experiment */
-jsPsych.run([consent, background, learning, age, gender, attn_check, comments]);
+jsPsych.run([confidence, judgment, man_check, consent, background, learning, age, gender, attn_check, comments]);
 </script>
