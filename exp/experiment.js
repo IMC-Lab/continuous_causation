@@ -13,6 +13,12 @@ for (let i = 0; i<n_learning; i++) {
     learning_params[i] = { trial: i+1, c: c, a: a, e: e }
 }
 
+// convert a number to a string in gallons
+function gallons(g) {
+    if (g == 1)
+        return g + ' gallon';
+    return g + ' gallons';
+}
 
 var jsPsych = initJsPsych({
     experiment_width: 600,
@@ -26,7 +32,7 @@ var jsPsych = initJsPsych({
 
         //  Save data via HTTP POST
         let dataToServer = {
-            'id': id,
+            'id': jsPsych.randomization.randomID(),
             'extension': 'csv',
             'directory': 'data',
             'experimentName': 'experiment1',
@@ -128,16 +134,13 @@ var comments = {
 
 var instructions = {
     type: jsPsychInstructions,
-    pages: ["<p>In this study, you will be asked to read some scenarios and to answer questions about those scenarios.</p>"]
+    show_clickable_nav: true,
+    pages: ["<p>In this study, you will be asked to read some scenarios and to answer questions about those scenarios.</p>",
+        "There are two plants, Plant A and Plant B, in the small town of Huxley. Every day, both plants send their sewage to the town's water treatment facility. The water facility is capable of filtering " + 
+        gallons(threshold) + " of sewage per day. So, if Plant A and Plant B together produce more than " + gallons(threshold) + 
+        " of sewage, then some pollution will leak out into the town’s rivers and creeks. <br><br>We will show you how much sewage each of the two plants produced on " + n_learning + 
+        " days. You will be asked whether, on a given day, some pollution will leak out into the town’s rivers and creeks.<br><br><strong>Please try to pay attention to how much each plant produces on average.</strong>"]
 }
-
-/* display background */
-var background = {
-    type: jsPsychInstructions,
-    pages: ["There are two plants, Plant A and Plant B, in the small town of Huxley. Every day, both plants send their sewage to the town's water treatment facility. The water facility is capable of filtering Z gallons of sewage per day. So, if Plant A and Plant B together produce more than Z gallons of sewage, then some pollution will leak out into the town’s rivers and creeks. <br><br>We will show you how much sewage each of the two plants produced on N days. Please try to pay attention to how much each plant produces on average. You will be asked whether, on a given day, some pollution will leak out into the town’s rivers and creeks."],
-    show_clickable_nav: true
-}
-
 
 function sampleNormal(mean, sd, min = 0, max = Infinity) {
     let s = Math.round(jStat.normal.sample(mean, sd));
@@ -153,24 +156,9 @@ var learning = {
             type: jsPsychHtmlButtonResponse,
             choices: ['No', 'Yes'],
             stimulus: function () {
-                let c = jsPsych.timelineVariable('c');
-                if (c == 1) {
-                    let g = "gallon";
-                }
-                else {
-                    let g = "gallons";
-                }
-                let a = jsPsych.timelineVariable('a');
-                if (a == 1) {
-                    let g2 = "gallon";
-                }
-                else {
-                    let g2 = "gallons";
-                }
-                
-                return '<p>Plant A sent ' + jsPsych.timelineVariable('c') + g + ' of sewage to the water treatment plant.</p>' +
-                    '<p>Plant B sent ' + jsPsych.timelineVariable('a') + g2 + ' of sewage to the water treatment plant.</p>' +
-                    '<p><strong>Did the water treatment plant leak sewage into the river today?</strong></p>'
+                return '<p>Plant A sent ' + gallons(jsPsych.timelineVariable('c')) + ' of sewage to the water treatment plant.</p>' +
+                    '<p>Plant B sent ' + gallons(jsPsych.timelineVariable('a')) + ' of sewage to the water treatment plant.</p>' +
+                    '<p><strong>Did the water treatment plant leak sewage into the river today?</strong></p>';
             },
             data: {
                 c: jsPsych.timelineVariable('c'),
@@ -197,8 +185,9 @@ var man_check = {
             { name: 'average_a', prompt: "How many gallons of sewage does Plant A produce on average?", required: true },
             { name: 'average_b', prompt: "How many gallons of sewage does Plant B produce on average?", required: true }],
         on_finish: function (data) {
+            data.measure = 'manipulation_check';
             data.response_a = parseFloat(data.response.average_a);
-            data.response_b = parseFloat(data.response.average_b)
+            data.response_b = parseFloat(data.response.average_b);
         }
     }],
     loop_function: function (data) {
@@ -227,16 +216,13 @@ var judgment = {
     },
     on_finish: function (data) {
         data.measure = "judgment";
-        data.response = data.response.judgment;
     }
 }
-
-
 
 /* display confidence */
 var confidence = {
     type: jsPsychHtmlSliderResponse,
-    stimulus: '<p>Please rate how confident you are in your choice.<p/>',
+    stimulus: '<p>Please rate how confident you are in your choice.</p>',
     min: 0, max: 1, step: 'any', require_movement: true,
     labels: ['Not Confident at All', 'Extremely Confident'],
     // Hide the slider thumb until response
@@ -248,9 +234,8 @@ var confidence = {
     },
     on_finish: function (data) {
         data.measure = "confidence";
-        data.response = data.response.confidence;
     }
 }
 
 /* start the experiment */
-jsPsych.run([learning, consent, instructions, background, man_check, confidence, judgment, age, gender, attn_check, comments]);
+jsPsych.run([consent, instructions, learning, man_check, judgment, confidence, age, gender, attn_check, comments]);
