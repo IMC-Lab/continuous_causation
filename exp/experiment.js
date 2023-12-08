@@ -126,12 +126,18 @@ var comments = {
     }
 }
 
+var instructions = {
+    type: jsPsychInstructions,
+    pages: ["<p>In this study, you will be asked to read some scenarios and to answer questions about those scenarios.</p>"]
+}
+
 /* display background */
 var background = {
     type: jsPsychInstructions,
-    pages: ["There are two plants, Plant A and Plant B, in the small town of Huxley. Every day, both plants send their sewage to the town's water treatment facility. <br><br>We will show you how much sewage each of the two plants produced on N days. Please try to pay attention to how much each plant produces on average."],
+    pages: ["There are two plants, Plant A and Plant B, in the small town of Huxley. Every day, both plants send their sewage to the town's water treatment facility. The water facility is capable of filtering Z gallons of sewage per day. So, if Plant A and Plant B together produce more than Z gallons of sewage, then some pollution will leak out into the town’s rivers and creeks. <br><br>We will show you how much sewage each of the two plants produced on N days. Please try to pay attention to how much each plant produces on average. You will be asked whether, on a given day, some pollution will leak out into the town’s rivers and creeks."],
     show_clickable_nav: true
 }
+
 
 function sampleNormal(mean, sd, min = 0, max = Infinity) {
     let s = Math.round(jStat.normal.sample(mean, sd));
@@ -149,12 +155,21 @@ var learning = {
             stimulus: function () {
                 let c = jsPsych.timelineVariable('c');
                 if (c == 1) {
-                    // use gallon
-                } else {
-                    // use gallons
+                    let g = "gallon";
                 }
-                return '<p>Plant A sent ' + jsPsych.timelineVariable('c') + ' gallons of sewage to the water treatment plant.</p>' +
-                    '<p>Plant B sent ' + jsPsych.timelineVariable('a') + ' gallons of sewage to the water treatment plant.</p>' +
+                else {
+                    let g = "gallons";
+                }
+                let a = jsPsych.timelineVariable('a');
+                if (a == 1) {
+                    let g2 = "gallon";
+                }
+                else {
+                    let g2 = "gallons";
+                }
+                
+                return '<p>Plant A sent ' + jsPsych.timelineVariable('c') + g + ' of sewage to the water treatment plant.</p>' +
+                    '<p>Plant B sent ' + jsPsych.timelineVariable('a') + g2 + ' of sewage to the water treatment plant.</p>' +
                     '<p><strong>Did the water treatment plant leak sewage into the river today?</strong></p>'
             },
             data: {
@@ -238,4 +253,4 @@ var confidence = {
 }
 
 /* start the experiment */
-jsPsych.run([consent, background, learning, man_check, confidence, judgment, age, gender, attn_check, comments]);
+jsPsych.run([learning, consent, instructions, background, man_check, confidence, judgment, age, gender, attn_check, comments]);
