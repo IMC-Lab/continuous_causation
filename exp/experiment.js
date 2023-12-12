@@ -138,8 +138,8 @@ var instructions = {
     pages: ["<p>In this study, you will be asked to read some scenarios and to answer questions about those scenarios.</p>",
         "There are two plants, Plant A and Plant B, in the small town of Huxley. Every day, both plants send their sewage to the town's water treatment facility. The water facility is capable of filtering " + 
         gallons(threshold) + " of sewage per day. So, if Plant A and Plant B together produce more than " + gallons(threshold) + 
-        " of sewage, then some pollution will leak out into the town’s rivers and creeks. <br><br>We will show you how much sewage each of the two plants produced on " + n_learning + 
-        " days. You will be asked whether, on a given day, some pollution will leak out into the town’s rivers and creeks.<br><br><strong>Please try to pay attention to how much each plant produces on average.</strong>"]
+        " of sewage, then some pollution will leak out into the town’s river. <br><br>We will show you how much sewage each of the two plants produced on " + n_learning + 
+        " separate days. For each day, you will be asked whether some pollution will leak out into the town’s river.<br><br><strong>Please try to pay attention to how much each plant produces on average.</strong>"]
 }
 
 function sampleNormal(mean, sd, min = 0, max = Infinity) {
@@ -204,7 +204,9 @@ var man_check = {
 /*display judgment */
 var judgment = {
     type: jsPsychHtmlSliderResponse,
-    stimulus: "<p>The water facility is capable of filtering Z gallons of sewage per day. So, if Plant A and Plant B together produce more than Z gallons of sewage, then some pollution will leak out into the town’s rivers and creeks. <br> <br/> To what extent do you agree with the following statement? <br> <br/> The town’s water became polluted because Plant A produced a gallons of sewage. <p/>",
+    stimulus: "<p>As a reminder, the water facility is capable of filtering " + gallons(threshold) + " of sewage per day. So, if Plant A and Plant B together produce more than " + gallons(threshold) + 
+    " of sewage, then some pollution will leak out into the town’s river. On this day, Plant A sent c gallons of sewage to the water treatment plant, and Plant B sent a gallons" +
+    " of sewage to the water treatment plant. <br> <br/> To what extent do you agree with the following statement? <br> <br/> The town’s water became polluted because Plant A produced c gallons of sewage. <p/>",
     min: 0, max: 1, step: 'any', require_movement: true,
     labels: ['Not Caused by Plant A at All', 'Definitely Caused by Plant A'],
     // Hide the slider thumb until response
