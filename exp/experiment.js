@@ -159,9 +159,9 @@ var vignettes = [{
   },{
     name:'missed bus',
     instructions: 'Sam and Jeffrey are siblings. Every morning, they catch the bus to their school together. When they wake up, they take turns getting ready in the bathroom. If Sam and Jeffrey together take longer than '
-    + unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school. We will show you how many minutes each sibling took to get ready on '
+    + unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school. <br><br>We will show you how many minutes each sibling took to get ready on '
     + n_learning + ' separate days. For each day, you will be asked whether they missed their bus. <br><br><strong>Please try to pay'
-    + 'attention to how long each sibling takes to get ready on average. </strong>' ,
+    + ' attention to how long each sibling takes to get ready on average. </strong>' ,
     units: 'minute',
     learning:{
         stim1: 'Sam took ',
@@ -181,7 +181,7 @@ var vignettes = [{
     name: 'power grid',
   instructions: 'Plant A and Plant B are the biggest energy facilities in the town of Williamsburg. The power grid of Williamsburg is able to supply up to '
    + unit(threshold, 'volt') + ' of electricity per day. If both plants together use more than ' + unit(threshold, 'volt') + ' of electricity per day, the power grid will shut down.' +
-   ' We will show you how much electricity each of the two plants used on ' + n_learning + ' separate days. For each day, you will be asked whether the power grid temporarily shut down. '
+   ' <br><br>We will show you how much electricity each of the two plants used on ' + n_learning + ' separate days. For each day, you will be asked whether the power grid temporarily shut down. '
    + '<br><br><strong> Please try to pay attention to how much electricity each plant uses on average. </strong>' ,
   units: 'volt',
  learning:{
@@ -202,17 +202,17 @@ var vignettes = [{
 },{
     name: 'water tank',
     instructions: 'Alison and Tony live together in a cabin outside of town. Their cabin has a water tank that automatically refills over the course of a day. The water tank holds '
-    + unit(threshold, 'gallon') + ' when it is completely full. If more than ' + unit(threshold, 'gallon') + 'are used, then the water will no longer run in their cabin. '
-    + 'So, if Alison and Tony together use more than ' + unit(threshold, 'gallon') + 'of water, the water will no longer run in their cabin. '
-    + 'We will show you how much water Tony and Alison used on ' + n_learning +  ' days. For each day, you will be asked whether the cabin ran out of water.'
+    + unit(threshold, 'gallon') + ' when it is completely full. If more than ' + unit(threshold, 'gallon') + ' are used, then the water will no longer run in their cabin. '
+    + 'So, if Alison and Tony together use more than ' + unit(threshold, 'gallon') + ' of water, the water will no longer run in their cabin. '
+    + '<br><br>We will show you how much water Tony and Alison used on ' + n_learning +  ' separate days. For each day, you will be asked whether the cabin ran out of water.'
     + '<br><br><strong> Please try to pay attention to how much water each person uses on average. </strong>',
     units: 'gallon',
    learning:{
         stim1: 'Alison used ',
         stim2: ' of water.',
-        stim3: 'Tony used ',
-        stim4: 'of water.<p><strong> Did the cabin run out of water today?</strong></p>', 
-        alert: 'Incorrect response, please try again. \n\nRemember that the tank will run out of water whenever the total amount of water used exceeds ' + threshold + ' volts per day.',
+        stim3: ' Tony used ',
+        stim4: ' of water.<p><strong> Did the cabin run out of water today?</strong></p>', 
+        alert: 'Incorrect response, please try again. \n\nRemember that the tank will run out of water whenever the total amount of water used exceeds ' + threshold + ' gallons per day.',
     },
     man_check:{
         c: 'How much water does Alison use on average?',
@@ -220,7 +220,7 @@ var vignettes = [{
     },
     judgment_stim: 'As a reminder, the water tank holds ' + unit(threshold, 'gallon') + ' of water when it is completely filled. So, if Alison and Tony use more than '
     + unit(threshold, 'gallon') + ' of water in a single day, the water will no longer run in their cabin. Today, Alison used ' + unit(c, 'gallon') + ' of water, '
-    + ' and Tony used ' + unit(a, 'gallon') + ' of water. <br><br/> To what extent do you agree with the following statement? <br><br/> Alison using ' + unit(c, 'gallon') + 'of water caused the cabin to run out of water/'
+    + ' and Tony used ' + unit(a, 'gallon') + ' of water. <br><br/> To what extent do you agree with the following statement? <br><br/> Alison using ' + unit(c, 'gallon') + ' of water caused the cabin to run out of water.'
   },
   /*{
     name: ,
