@@ -65,9 +65,11 @@ var vignettes = [{
         stim4:  ' of sewage to the water treatment plant.<p><strong>Did the water treatment plant leak sewage into the river today?</strong></p>',
         alert: 'Incorrect response, please try again.\n\nRemember that the treatment plant leaks sewage whenever the total amount of sewage exceeds ' + threshold + ' gallons.',
     },
-    man_check_c: "How many gallons of sewage does Plant A produce on average?",
-    man_check_a: "How many gallons of sewage does Plant B produce on average?",
-    judgment_stimulus: "<p>As a reminder, the water facility is capable of filtering " + unit(threshold, 'gallon') + " of sewage per day. So, if Plant A and Plant B together produce more than " + unit(threshold, 'gallon') + 
+    man_check: {
+        c: "How many gallons of sewage does Plant A produce on average?",
+        a: "How many gallons of sewage does Plant B produce on average?",
+    },
+    judgment_stim: "<p>As a reminder, the water facility is capable of filtering " + unit(threshold, 'gallon') + " of sewage per day. So, if Plant A and Plant B together produce more than " + unit(threshold, 'gallon') + 
     " of sewage, then some pollution will leak out into the town’s river. On this day, Plant A sent " + unit(c, 'gallon') + " of sewage to the water treatment plant, and Plant B sent " + unit(a, 'gallon') +
     " of sewage to the water treatment plant. So, the town's river became polluted. <br> <br/> To what extent do you agree with the following statement? <br> <br/> Plant A producing " + unit(c, 'gallon') + " of sewage caused the town’s water to become polluted. <p/>"
   },{
@@ -77,135 +79,184 @@ var vignettes = [{
       unit(threshold, 'ream') + " of paper, then their branch will make a profit for that day. <br><br>We will show you how many reams of paper each of the two employees sold on " + n_learning + 
       " separate days. For each day, you will be asked whether the branch made a profit.<br><br><strong>Please try to pay attention to how many reams of paper each employee sold on average.</strong>",
     units: "ream" ,
-    learning1: "Susan sold ",
-    learning2: " of paper for the branch.",
-    learning3: "<p>Mike sold ",
-    learning4: " of paper for the branch.",
-    learning_alert: 'Incorrect response, please try again.\n\nRemember that the local branch makes a profit whenever the total amount of paper exceeds ' + threshold + ' reams.' ,
-    man_check_c: "How many reams of paper does Susan sell on average?",
-    man_check_a: "How many reams of paper does Susan sell on average?",
-    judgment_stimulus: "As a reminder, the local branch of the company will make a profit if Susan and Mike together sell over " +
+    learning: {
+        stim1: "Susan sold ",
+        stim2: " of paper for the branch.",
+        stim3: "<p>Mike sold ",
+        stim4: " of paper for the branch. <p><strong>Did the branch make a profit today?</strong></p>",
+        alert: 'Incorrect response, please try again.\n\nRemember that the local branch makes a profit whenever the total amount of paper exceeds ' + threshold + ' reams.' ,
+    },
+    man_check:{
+        c: "How many reams of paper does Susan sell on average?",
+        a: "How many reams of paper does Susan sell on average?",
+    },
+    judgment_stim: "As a reminder, the local branch of the company will make a profit if Susan and Mike together sell over " +
      unit(threshold, 'ream') + " of paper. On this day, Susan sold " + unit(c, 'ream') + " of paper, and Mike sold " + unit(a, 'ream') + " of paper. So, the branch made a profit. <br> <br/> To what extent do you agree with the following statement? <br> <br/> Susan selling " + unit(c, 'ream') + " of paper caused the branch to make a profit."
-  }/*,{
+  },{
     name: "basketball games",
     instructions: "There are two basketball players, Max and Carl, who are the two main scorers on their school’s basketball team. Every game, both players try to score as many points as possible." +
-    "The coach has promised to take the team out for ice cream after any game that they score over" + unit(threshold) + "So, if Max and Carl together score over" +
-    unit(threshold) + "points during a game, the coach will take the team out for ice cream. <br><br>We will show you how many points each of the two basketball players scored during" + [n_learning] +
-    "separate games. For each day, you will be asked whether the team went out for ice cream after the game. <br><br><strong>Please try to pay attention to how much each player scores on average. </strong>" ,
-    units: "points",
-    learning1: ,
-    learning2: ,
-    learning3: ,
-    learning4: ,
-    learning_alert: 'Incorrect response, please try again.\n\nRemember that the team goes out for ice cream whenever the total amount of points exceeds ' + threshold + 'points'. 
-    man_check_c: "How many points does Max score on average?",
-    man_check_a: "How many points does Carl score on average?",
-    judgment_stimulus: ,
-    judgment_labels:['Not Caused by Max at All', 'Definitely Caused by Max']
+    "The coach has promised to take the team out for ice cream after any game that they score over " + unit(threshold, 'point') + ". So, if Max and Carl together score over " +
+    unit(threshold, 'point') + " during a game, the coach will take the team out for ice cream. <br><br>We will show you how many points each of the two basketball players scored during " + [n_learning] +
+    " separate games. For each day, you will be asked whether the team went out for ice cream after the game. <br><br><strong>Please try to pay attention to how much each player scores on average. </strong>" ,
+    units: "point",
+    learning: {
+        stim1: 'Max scored ',
+        stim2: ' during this game.',
+        stim3: ' Carl scored ',
+        stim4: ' during this game. <p><strong>Did the coach take the team out for ice cream today?</strong></p>',
+        alert: 'Incorrect response, please try again.\n\nRemember that the team goes out for ice cream whenever the total amount of points exceeds ' + threshold + ' points.' ,
+    },
+    man_check: {
+        c: "How many points does Max score on average?",
+        a: "How many points does Carl score on average?",
+    },
+    judgment_stim: 'As a reminder, the coach will take the team out for ice cream if Max and Carl together score over' + unit(threshold, 'point') 
+    + '. On this day, Max scored' + unit(c, 'point') + ', and Carl scored' + unit(a, 'point') + 'during the game. So, the coach took the team out for ice cream. <br> <br/> To what extent do you agree with the following statement? <br> <br/> Max scoring ' 
+    + unit(c, 'point') + ' during the game caused the coach to take the team out for ice cream.'
+  },{
+    name: 'food drive',
+    instructions: 'Ms. Sampson is hosting a food drive for her class. Rachel and Jim are the only students in the class that bring in canned goods. Ms. Sampson has told the class that they will receive 15 extra minutes of recess when over '
+     + unit(threshold, 'canned good') + '. So, if Rachel and Jim together bring in over ' + unit(threshold, 'canned good') 
+     + ' , the class will receive 15 extra minutes of recess. <br><br>We will show you how many canned goods each of the two students brought in on ' 
+     + n_learning + ' separate days. For each day, you will be asked whether the class received 15 extra minutes of recess. <br><br><strong>Please try to pay attention to how many canned goods each student brings in on average. </strong>' ,
+    units: 'canned good',
+    learning:{
+        stim1: 'Rachel brought in ',
+        stim2: ' for the food drive. ',
+        stim3: 'Jim brought in ',
+        stim4: ' for the food drive.<p><strong>Did the class receive 15 extra minutes of recess?</strong></p>',
+        alert: 'Incorrect response, please try again.\n\nRemember that the class receives 15 extra minutes of recess whenever the total amount of canned goods exceeds ' + threshold + ' canned goods.',
+    },
+    man_check:{
+        c: "How many canned goods does Rachel bring to class on average?",
+        a: "How many canned goods does Jim bring to class on average?",
+    },
+    judgment_stim: 'As a reminder, the class will receive 15 extra minutes of recess whenever the total number of canned goods brought in exceeds ' 
+    + unit(threshold, 'canned good') + '. On this day, Rachel brought in ' + unit(c, 'canned good') + '. amd Jim brought in' + unit(a, 'canned good') 
+    + ' to class. So, the class received 15 extra minutes of recess. <br> <br/> To what extent do you agree with the following statement? <br> <br/> Rachel bringing in ' 
+    + unit(c, 'canned good') + ' to class caused the class to receive 15 extra minutes of recess.'
+  },{
+    name: 'savings account' ,
+    instructions: 'Luke and Lisa have a joint savings account together. Every month, they each add money to their account. If Luke and Lisa together save over  '
+    + unit(threshold, 'dollar') + ', they will go out to a nice dinner together to celebrate. <br><br>We will show you how much money each person saved for ' 
+    + n_learning + ' separate months. For each month, you will be asked whether Luke and Lisa went out to a nice dinner. <br><br><strong>Please try to pay'
+    + 'attention to how much money each person saves on average. </strong>' ,
+    units: 'dollar' ,
+    learning:{
+        stim1: 'Luke saved ',
+        stim2: ' during this month. ',
+        stim3: 'Lisa saved ',
+        stim4: ' during this month.<p><strong>Did they take themselves out to a nice dinner?</strong></p>',
+        alert: 'Incorrect response, please try again.\n\nRemember that Luke and Lisa go out for a nice dinner whenever the total amount of money saved exceeds ' + threshold + ' dollars.',
+    },
+    man_check:{
+        c: "How much money does Luke save on average?",
+        a: "How much money does Lisa save on average?",
+    },
+    judgment_stim: ' As a reminder, Luke and Lisa will go out to a nice dinner together whenever they save over ' + unit(threshold, 'dollar') + ' . During this month, Luke saved '
+    + unit(c, 'dollar') + ', and Lisa saved ' + unit(a, 'dollar') + '. So, they will go out to a nice dinner to celebrate.<br> <br/> To what extent do you agree with the following statement? <br> <br/> Luke saving ' 
+    + unit(c, 'dollar') + ' caused him and Lisa to go out for a nice dinner.'
+  },{
+    name:'missed bus',
+    instructions: 'Sam and Jeffrey are siblings. Every morning, they catch the bus to their school together. When they wake up, they take turns getting ready in the bathroom. If Sam and Jeffrey together take longer than '
+    + unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school. We will show you how many minutes each sibling took to get ready on '
+    + n_learning + ' separate days. For each day, you will be asked whether they missed their bus. <br><br><strong>Please try to pay'
+    + 'attention to how long each sibling takes to get ready on average. </strong>' ,
+    units: 'minute',
+    learning:{
+        stim1: 'Sam took ',
+        stim2: ' to get ready this morning. ',
+        stim3: 'Jeffrey took ',
+        stim4: ' to get ready this morning.', 
+        alert: 'Incorrect response, please try again.\n\nRemember that Sam and Jeffrey miss their bus whenever the total amount of time exceeds ' + threshold + ' minutes.',
+    },
+    man_check:{
+        c: "How long does Sam take to get ready on average?",
+        a: "How long does Jeffrey take to get ready on average?",
+    },
+    judgment_stim: 'As a reminder, Sam and Jeffrey will miss their bus if they take over ' + unit(threshold, 'minute') + ' to get ready. On this day, Sam took '
+    + unit(c, 'minute') + ' to get ready, and Jeffrey took ' + unit(a, 'minute') + ' to get ready. So, they missed their bus.<br> <br/> To what extent do you agree with the following statement? <br> <br/> Sam taking ' 
+    + unit(c, 'minute') + ' to get ready caused him and Jeffrey to miss their bus.'
+  }/*{
+    name: ,
+    instructions: ,
+    units: ,
+   learning:{
+        stim1: ,
+        stim2: ,
+        stim3: ,
+        stim4: . 
+        alert: ,
+    },
+    man_check:{
+        c: ,
+        a: ,
+    },
+    judgment_stim:
   }{
     name: ,
     instructions: ,
     units: ,
-    learning1: ,
-    learning2: ,
-    learning3: ,
-    learning4: . 
-    learning_alert: ,
-    man_check_c: ,
-    man_check_a: ,
-    judgment_stimulus: , 
-    judgment_labels:
+   learning:{
+        stim1: ,
+        stim2: ,
+        stim3: ,
+        stim4: . 
+        alert: ,
+    },
+    man_check:{
+        c: ,
+        a: ,
+    },
+    judgment_stim: 
   }{
     name: ,
     instructions: ,
     units: ,
-    learning1: ,
-    learning2: ,
-    learning3: ,
-    learning4: . 
-    learning_alert: ,
-    man_check_c: ,
-    man_check_a: ,
-    judgment_stimulus: , 
-    judgment_labels:
+    learning:{
+        stim1: ,
+        stim2: ,
+        stim3: ,
+        stim4: . 
+        alert: ,
+    },
+    man_check:{
+        c: ,
+        a: ,
+    },
+    judgment_stim:
   }{
     name: ,
     instructions: ,
     units: ,
-    learning1: ,
-    learning2: ,
-    learning3: ,
-    learning4: . 
-    learning_alert: ,
-    man_check_c: ,
-    man_check_a: ,
-    judgment_stimulus: , 
-    judgment_labels:
+    learning:{
+        stim1: ,
+        stim2: ,
+        stim3: ,
+        stim4: . 
+        alert: ,
+    },
+    man_check:{
+        c: ,
+        a: ,
+    },
+    judgment_stim:
   }{
     name: ,
     instructions: ,
     units: ,
-    learning1: ,
-    learning2: ,
-    learning3: ,
-    learning4: . 
-    learning_alert: ,
-    man_check_c: ,
-    man_check_a: ,
-    judgment_stimulus: , 
-    judgment_labels:
-  }{
-    name: ,
-    instructions: ,
-    units: ,
-    learning1: ,
-    learning2: ,
-    learning3: ,
-    learning4: . 
-    learning_alert: ,
-    man_check_c: ,
-    man_check_a: ,
-    judgment_stimulus: , 
-    judgment_labels:
-  }{
-    name: ,
-    instructions: ,
-    units: ,
-    learning1: ,
-    learning2: ,
-    learning3: ,
-    learning4: . 
-    learning_alert: ,
-    man_check_c: ,
-    man_check_a: ,
-    judgment_stimulus: , 
-    judgment_labels:
-  }{
-    name: ,
-    instructions: ,
-    units: ,
-    learning1: ,
-    learning2: ,
-    learning3: ,
-    learning4: . 
-    learning_alert: ,
-    man_check_c: ,
-    man_check_a: ,
-    judgment_stimulus: , 
-    judgment_labels:
-  }{
-    name: ,
-    instructions: ,
-    units: ,
-    learning1: ,
-    learning2: ,
-    learning3: ,
-    learning4: . 
-    learning_alert: ,
-    man_check_c: ,
-    man_check_a: ,
-    judgment_stimulus: , 
-    judgment_labels:
+    learning:{
+        stim1: ,
+        stim2: ,
+        stim3: ,
+        stim4: . 
+        alert: ,
+    },
+    man_check:{
+        c: ,
+        a: ,
+    },
+    judgment_stim:
   }*/]
 
 /* Randomly assign a condition */
@@ -324,7 +375,7 @@ var learning = {
             type: jsPsychHtmlButtonResponse,
             choices: ['No', 'Yes'],
             stimulus: function () {
-                return vignette.learning1 + unit(jsPsych.timelineVariable('c'), vignette.units) + vignette.learning2 + vignette.learning3 + unit(jsPsych.timelineVariable('a'), vignette.units) + vignette.learning4;
+                return vignette.learning.stim1 + unit(jsPsych.timelineVariable('c'), vignette.units) + vignette.learning.stim2 + vignette.learning.stim3 + unit(jsPsych.timelineVariable('a'), vignette.units) + vignette.learning.stim4;
             },
             data: {
                 c: jsPsych.timelineVariable('c'),
@@ -336,7 +387,7 @@ var learning = {
             let response = data.values()[0].response;
             let e = data.values()[0].e;
             if (response != e)
-                alert(vignette.learning_alert);
+                alert(vignette.learning.alert);
             return response != e;
         }
     }],
@@ -348,8 +399,8 @@ var man_check = {
     timeline: [{
         type: jsPsychSurveyText,
         questions: [
-            { name: 'average_c', prompt: vignette.man_check_c, required: true },
-            { name: 'average_a', prompt: vignette.man_check_a, required: true }],
+            { name: 'average_c', prompt: vignette.man_check.c, required: true },
+            { name: 'average_a', prompt: vignette.man_check.a, required: true }],
         on_finish: function (data) {
             data.measure = 'manipulation_check';
             data.response_c = parseFloat(data.response.average_c);
@@ -359,10 +410,10 @@ var man_check = {
     loop_function: function (data) {
         let response_c = parseFloat(data.values()[0].response_c);
         if (isNaN(response_c)) alert("Please enter your response for the first question as a number.");
-        if (!isNaN(response_c) & (response_c <= 0 || response_c > 150)) alert("Please enter a valid number of " + vignette.units + "s");
+        if (!isNaN(response_c) & (response_c <= 0 || response_c > 150)) alert("Please enter a valid number of " + vignette.units + "s for the first question.");
         let response_a = parseFloat(data.values()[0].response_a);
         if (isNaN(response_a)) alert("Please enter your response for the second question as a number.");
-        if (!isNaN(response_a) & (response_a <= 0 || response_a > 150)) alert("Please enter a valid number of " + vignette.units + "s");
+        if (!isNaN(response_a) & (response_a <= 0 || response_a > 150)) alert("Please enter a valid number of " + vignette.units + "s for the second question.");
         return isNaN(response_c) || response_c <= 0 || response_c > 150 || isNaN(response_a) || response_a <= 0 || response_a > 150;
     }
 }
@@ -370,7 +421,7 @@ var man_check = {
 /*display judgment */
 var judgment = {
     type: jsPsychHtmlSliderResponse,
-    stimulus: vignette.judgment_stimulus,
+    stimulus: vignette.judgment_stim,
     min: 0, max: 1, step: 'any', require_movement: true,
     labels: ['not at all', 'totally'],
     // Hide the slider thumb until response
