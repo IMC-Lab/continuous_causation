@@ -38,7 +38,7 @@ var sd_a = 1;
 var threshold = 3;
 var c = 1;
 var a = 1;
-var n_learning = 10;
+var n_learning = 4;
 
 var learning_params = new Array(n_learning);
 for (let i = 0; i<n_learning; i++) {
@@ -55,8 +55,8 @@ var vignettes = [{
     name: 'water plant',
     instructions: "There are two plants, Plant A and Plant B, in the small town of Huxley. Every day, both plants send their sewage to the town's water treatment facility. The water facility is capable of filtering " + 
     unit(threshold, 'gallon') + " of sewage per day. So, if Plant A and Plant B together produce more than " + unit(threshold, 'gallon') + 
-    " of sewage, then some pollution will leak out into the town’s river. <br><br>We will show you how much sewage each of the two plants produced on " + n_learning + 
-    " separate days. For each day, you will be asked whether some pollution will leak out into the town’s river.<br><br><strong>Please try to pay attention to how much each plant produces on average.</strong>",
+    " of sewage on a given day, then some pollution will leak out into the town’s river. <br><br>We will show you how much sewage each of the two plants produced on " + n_learning + 
+    " separate days. For each day, you will be asked whether some pollution leaked out into the town’s river.<br><br><strong>Please try to pay attention to how much each plant produces on average.</strong>",
     units: "gallon",
     learning: {
         stim1: 'Plant A sent ' ,
@@ -90,7 +90,7 @@ var vignettes = [{
         c: "How many reams of paper does Susan sell on average?",
         a: "How many reams of paper does Mike sell on average?",
     },
-    judgment_stim: "As a reminder, the local branch of the company will make a profit if Susan and Mike together sell over " +
+    judgment_stim: "As a reminder, each day the local branch of the company will make a profit if Susan and Mike together sell over " +
      unit(threshold, 'ream') + " of paper. On this day, Susan sold " + unit(c, 'ream') + " of paper, and Mike sold " + unit(a, 'ream') + " of paper. So, the branch made a profit. <br> <br/> To what extent do you agree with the following statement? <br> <br/> Susan selling " + unit(c, 'ream') + " of paper caused the branch to make a profit."
   },{
     name: "basketball games",
@@ -138,7 +138,7 @@ var vignettes = [{
   },{
     name: 'savings account' ,
     instructions: 'Luke and Lisa have a joint savings account together. Every month, they each add money to their account. If Luke and Lisa together save over  '
-    + unit(threshold, 'dollar') + ', they will go out to a nice dinner together to celebrate. <br><br>We will show you how much money each person saved for ' 
+    + unit(threshold, 'dollar') + ' that month, they will go out to a nice dinner together to celebrate. <br><br>We will show you how much money each person saved for ' 
     + n_learning + ' separate months. For each month, you will be asked whether Luke and Lisa went out to a nice dinner. <br><br><strong>Please try to pay '
     + 'attention to how much money each person saves on average. </strong>' ,
     units: 'dollar' ,
@@ -153,7 +153,7 @@ var vignettes = [{
         c: "How much money does Luke save on average?",
         a: "How much money does Lisa save on average?",
     },
-    judgment_stim: ' As a reminder, Luke and Lisa will go out to a nice dinner together whenever they save over ' + unit(threshold, 'dollar') + ' . During this month, Luke saved '
+    judgment_stim: ' As a reminder, Luke and Lisa will go out to a nice dinner together whenever they save over ' + unit(threshold, 'dollar') + ' for that month. During this month, Luke saved '
     + unit(c, 'dollar') + ', and Lisa saved ' + unit(a, 'dollar') + '. So, they will go out to a nice dinner to celebrate.<br> <br/> To what extent do you agree with the following statement? <br> <br/> Luke saving ' 
     + unit(c, 'dollar') + ' caused him and Lisa to go out for a nice dinner.'
   },{
@@ -167,7 +167,7 @@ var vignettes = [{
         stim1: 'Sam took ',
         stim2: ' to get ready this morning. ',
         stim3: 'Jeffrey took ',
-        stim4: ' to get ready this morning.', 
+        stim4: ' to get ready this morning.<p><strong> Did they miss the bus today?</strong></p>', 
         alert: 'Incorrect response, please try again.\n\nRemember that Sam and Jeffrey miss their bus whenever the total amount of time exceeds ' + threshold + ' minutes.',
     },
     man_check:{
@@ -179,26 +179,26 @@ var vignettes = [{
     + unit(c, 'minute') + ' to get ready caused him and Jeffrey to miss their bus.'
   },{
     name: 'power grid',
-  instructions: 'Plant A and Plant B are the biggest energy facilities in the town of Williamsburg. The power grid of Williamsburg is able to supply up to '
-   + unit(threshold, 'volt') + ' of electricity per day. If both plants together use more than ' + unit(threshold, 'volt') + ' of electricity per day, the power grid will shut down.' +
-   ' <br><br>We will show you how much electricity each of the two plants used on ' + n_learning + ' separate days. For each day, you will be asked whether the power grid temporarily shut down. '
-   + '<br><br><strong> Please try to pay attention to how much electricity each plant uses on average. </strong>' ,
+  instructions: 'Town A and Town B are the two towns supplied by the local power grid. The local power grid is able to supply up to '
+   + unit(threshold, 'volt') + ' of electricity per day. If both towns together use more than ' + unit(threshold, 'volt') + ' of electricity per day, the power grid will shut down.' +
+   ' <br><br>We will show you how much electricity each of the two towns used on ' + n_learning + ' separate days. For each day, you will be asked whether the power grid temporarily shut down. '
+   + '<br><br><strong> Please try to pay attention to how much electricity each town uses on average. </strong>' ,
   units: 'volt',
  learning:{
-      stim1: 'Plant A used ',
+      stim1: 'Town A used ',
       stim2: ' of electricity. ',
-      stim3: 'Plant B used ',
+      stim3: 'Town B used ',
       stim4: ' of electricity.<p><strong> Did the power grid shut down today?</strong></p>', 
       alert: 'Incorrect response, please try again. \n\nRemember that the power grid will shut down whenever the total amount of energy used exceeds ' + threshold + ' volts per day.',
   },
   man_check:{
-      c: 'How much electricity does Plant A use on average?',
-      a: 'How much electricity does Plant B use on average?',
+      c: 'How much electricity does Town A use on average?',
+      a: 'How much electricity does Town B use on average?',
   },
-  judgment_stim: 'As a reminder, the power grid of Williamsburg is able to supply up to ' + unit(threshold, 'volt') + ' of electricity at any given time.' +
-  ' So, if Plants A and B together use over ' + unit(threshold, 'volt') + ' of  electricity, there will not be enough power to supply the town, and the power grid will temporarily shut down.' +
-  ' Today, Plant A used ' + unit(c, 'volt') + ' of electricity, and Plant B used ' + unit(a, 'volt') + ' of electricity. So, the power grid shut down. <br><br/> To what ' +
-  ' extent do you agree with the following statement? <br><br/> Plant A using ' + unit(c, 'volt') + ' of electricity caused the town to lose power.'
+  judgment_stim: 'As a reminder, the power grid is able to supply up to ' + unit(threshold, 'volt') + ' of electricity at any given time.' +
+  ' So, if Towns A and B together use over ' + unit(threshold, 'volt') + ' of  electricity, there will not be enough power to supply the towns, and the power grid will temporarily shut down.' +
+  ' Today, Town A used ' + unit(c, 'volt') + ' of electricity, and Town B used ' + unit(a, 'volt') + ' of electricity. So, the power grid shut down. <br><br/> To what ' +
+  ' extent do you agree with the following statement? <br><br/> Town A using ' + unit(c, 'volt') + ' of electricity caused the power grid to shut down.'
 },{
     name: 'water tank',
     instructions: 'Alison and Tony live together in a cabin outside of town. Their cabin has a water tank that automatically refills over the course of a day. The water tank holds '
@@ -378,7 +378,7 @@ var learning = {
             type: jsPsychHtmlButtonResponse,
             choices: ['No', 'Yes'],
             stimulus: function () {
-                return vignette.learning.stim1 + unit(jsPsych.timelineVariable('c'), vignette.units) + vignette.learning.stim2 + vignette.learning.stim3 + unit(jsPsych.timelineVariable('a'), vignette.units) + vignette.learning.stim4;
+                return vignette.learning.stim1 + unit(jsPsych.timelineVariable('c'), vignette.units) + vignette.learning.stim2 + '<br>' + vignette.learning.stim3 + unit(jsPsych.timelineVariable('a'), vignette.units) + vignette.learning.stim4;
             },
             data: {
                 c: jsPsych.timelineVariable('c'),
