@@ -88,14 +88,14 @@ var vignettes = [{
     },
     man_check:{
         c: "How many reams of paper does Susan sell on average?",
-        a: "How many reams of paper does Susan sell on average?",
+        a: "How many reams of paper does Mike sell on average?",
     },
     judgment_stim: "As a reminder, the local branch of the company will make a profit if Susan and Mike together sell over " +
      unit(threshold, 'ream') + " of paper. On this day, Susan sold " + unit(c, 'ream') + " of paper, and Mike sold " + unit(a, 'ream') + " of paper. So, the branch made a profit. <br> <br/> To what extent do you agree with the following statement? <br> <br/> Susan selling " + unit(c, 'ream') + " of paper caused the branch to make a profit."
   },{
     name: "basketball games",
-    instructions: "There are two basketball players, Max and Carl, who are the two main scorers on their school’s basketball team. Every game, both players try to score as many points as possible." +
-    "The coach has promised to take the team out for ice cream after any game that they score over " + unit(threshold, 'point') + ". So, if Max and Carl together score over " +
+    instructions: "There are two basketball players, Max and Carl, who are the two main scorers on their school’s basketball team. Every game, both players try to score as many points as possible. " +
+    "The coach has promised to take the team out for ice cream after any game in which they score over " + unit(threshold, 'point') + ". So, if Max and Carl together score over " +
     unit(threshold, 'point') + " during a game, the coach will take the team out for ice cream. <br><br>We will show you how many points each of the two basketball players scored during " + [n_learning] +
     " separate games. For each day, you will be asked whether the team went out for ice cream after the game. <br><br><strong>Please try to pay attention to how much each player scores on average. </strong>" ,
     units: "point",
@@ -110,12 +110,12 @@ var vignettes = [{
         c: "How many points does Max score on average?",
         a: "How many points does Carl score on average?",
     },
-    judgment_stim: 'As a reminder, the coach will take the team out for ice cream if Max and Carl together score over' + unit(threshold, 'point') 
-    + '. On this day, Max scored' + unit(c, 'point') + ', and Carl scored' + unit(a, 'point') + 'during the game. So, the coach took the team out for ice cream. <br> <br/> To what extent do you agree with the following statement? <br> <br/> Max scoring ' 
+    judgment_stim: 'As a reminder, the coach will take the team out for ice cream if Max and Carl together score over ' + unit(threshold, 'point') 
+    + '. On this day, Max scored ' + unit(c, 'point') + ', and Carl scored ' + unit(a, 'point') + ' during the game. So, the coach took the team out for ice cream. <br> <br/> To what extent do you agree with the following statement? <br> <br/> Max scoring ' 
     + unit(c, 'point') + ' during the game caused the coach to take the team out for ice cream.'
   },{
     name: 'food drive',
-    instructions: 'Ms. Sampson is hosting a food drive for her class. Rachel and Jim are the only students in the class that bring in canned goods. Ms. Sampson has told the class that they will receive 15 extra minutes of recess when over '
+    instructions: 'Ms. Sampson is hosting a food drive for her class. Rachel and Jim are the only students in the class that bring in canned goods. Ms. Sampson has told the class that they will receive 15 extra minutes of recess when they bring in over '
      + unit(threshold, 'canned good') + '. So, if Rachel and Jim together bring in over ' + unit(threshold, 'canned good') 
      + ' , the class will receive 15 extra minutes of recess. <br><br>We will show you how many canned goods each of the two students brought in on ' 
      + n_learning + ' separate days. For each day, you will be asked whether the class received 15 extra minutes of recess. <br><br><strong>Please try to pay attention to how many canned goods each student brings in on average. </strong>' ,
@@ -132,14 +132,14 @@ var vignettes = [{
         a: "How many canned goods does Jim bring to class on average?",
     },
     judgment_stim: 'As a reminder, the class will receive 15 extra minutes of recess whenever the total number of canned goods brought in exceeds ' 
-    + unit(threshold, 'canned good') + '. On this day, Rachel brought in ' + unit(c, 'canned good') + '. amd Jim brought in' + unit(a, 'canned good') 
-    + ' to class. So, the class received 15 extra minutes of recess. <br> <br/> To what extent do you agree with the following statement? <br> <br/> Rachel bringing in ' 
+    + unit(threshold, 'canned good') + '. Today, Rachel brought in ' + unit(c, 'canned good') + ' and Jim brought in ' + unit(a, 'canned good') 
+    + '. So, the class received 15 extra minutes of recess. <br> <br/> To what extent do you agree with the following statement? <br> <br/> Rachel bringing in ' 
     + unit(c, 'canned good') + ' to class caused the class to receive 15 extra minutes of recess.'
   },{
     name: 'savings account' ,
     instructions: 'Luke and Lisa have a joint savings account together. Every month, they each add money to their account. If Luke and Lisa together save over  '
     + unit(threshold, 'dollar') + ', they will go out to a nice dinner together to celebrate. <br><br>We will show you how much money each person saved for ' 
-    + n_learning + ' separate months. For each month, you will be asked whether Luke and Lisa went out to a nice dinner. <br><br><strong>Please try to pay'
+    + n_learning + ' separate months. For each month, you will be asked whether Luke and Lisa went out to a nice dinner. <br><br><strong>Please try to pay '
     + 'attention to how much money each person saves on average. </strong>' ,
     units: 'dollar' ,
     learning:{
@@ -177,39 +177,52 @@ var vignettes = [{
     judgment_stim: 'As a reminder, Sam and Jeffrey will miss their bus if they take over ' + unit(threshold, 'minute') + ' to get ready. On this day, Sam took '
     + unit(c, 'minute') + ' to get ready, and Jeffrey took ' + unit(a, 'minute') + ' to get ready. So, they missed their bus.<br> <br/> To what extent do you agree with the following statement? <br> <br/> Sam taking ' 
     + unit(c, 'minute') + ' to get ready caused him and Jeffrey to miss their bus.'
-  }/*{
-    name: ,
-    instructions: ,
-    units: ,
+  },{
+    name: 'power grid',
+  instructions: 'Plant A and Plant B are the biggest energy facilities in the town of Williamsburg. The power grid of Williamsburg is able to supply up to '
+   + unit(threshold, 'volt') + ' of electricity per day. If both plants together use more than ' + unit(threshold, 'volt') + ' of electricity per day, the power grid will shut down.' +
+   ' We will show you how much electricity each of the two plants used on ' + n_learning + ' separate days. For each day, you will be asked whether the power grid temporarily shut down. '
+   + '<br><br><strong> Please try to pay attention to how much electricity each plant uses on average. </strong>' ,
+  units: 'volt',
+ learning:{
+      stim1: 'Plant A used ',
+      stim2: ' of electricity. ',
+      stim3: 'Plant B used ',
+      stim4: ' of electricity.<p><strong> Did the power grid shut down today?</strong></p>', 
+      alert: 'Incorrect response, please try again. \n\nRemember that the power grid will shut down whenever the total amount of energy used exceeds ' + threshold + ' volts per day.',
+  },
+  man_check:{
+      c: 'How much electricity does Plant A use on average?',
+      a: 'How much electricity does Plant B use on average?',
+  },
+  judgment_stim: 'As a reminder, the power grid of Williamsburg is able to supply up to ' + unit(threshold, 'volt') + ' of electricity at any given time.' +
+  ' So, if Plants A and B together use over ' + unit(threshold, 'volt') + ' of  electricity, there will not be enough power to supply the town, and the power grid will temporarily shut down.' +
+  ' Today, Plant A used ' + unit(c, 'volt') + ' of electricity, and Plant B used ' + unit(a, 'volt') + ' of electricity. So, the power grid shut down. <br><br/> To what ' +
+  ' extent do you agree with the following statement? <br><br/> Plant A using ' + unit(c, 'volt') + ' of electricity caused the town to lose power.'
+},{
+    name: 'water tank',
+    instructions: 'Alison and Tony live together in a cabin outside of town. Their cabin has a water tank that automatically refills over the course of a day. The water tank holds '
+    + unit(threshold, 'gallon') + ' when it is completely full. If more than ' + unit(threshold, 'gallon') + 'are used, then the water will no longer run in their cabin. '
+    + 'So, if Alison and Tony together use more than ' + unit(threshold, 'gallon') + 'of water, the water will no longer run in their cabin. '
+    + 'We will show you how much water Tony and Alison used on ' + n_learning +  ' days. For each day, you will be asked whether the cabin ran out of water.'
+    + '<br><br><strong> Please try to pay attention to how much water each person uses on average. </strong>',
+    units: 'gallon',
    learning:{
-        stim1: ,
-        stim2: ,
-        stim3: ,
-        stim4: . 
-        alert: ,
+        stim1: 'Alison used ',
+        stim2: ' of water.',
+        stim3: 'Tony used ',
+        stim4: 'of water.<p><strong> Did the cabin run out of water today?</strong></p>', 
+        alert: 'Incorrect response, please try again. \n\nRemember that the tank will run out of water whenever the total amount of water used exceeds ' + threshold + ' volts per day.',
     },
     man_check:{
-        c: ,
-        a: ,
+        c: 'How much water does Alison use on average?',
+        a: 'How much water does Tony use on average?',
     },
-    judgment_stim:
-  }{
-    name: ,
-    instructions: ,
-    units: ,
-   learning:{
-        stim1: ,
-        stim2: ,
-        stim3: ,
-        stim4: . 
-        alert: ,
-    },
-    man_check:{
-        c: ,
-        a: ,
-    },
-    judgment_stim: 
-  }{
+    judgment_stim: 'As a reminder, the water tank holds ' + unit(threshold, 'gallon') + ' of water when it is completely filled. So, if Alison and Tony use more than '
+    + unit(threshold, 'gallon') + ' of water in a single day, the water will no longer run in their cabin. Today, Alison used ' + unit(c, 'gallon') + ' of water, '
+    + ' and Tony used ' + unit(a, 'gallon') + ' of water. <br><br/> To what extent do you agree with the following statement? <br><br/> Alison using ' + unit(c, 'gallon') + 'of water caused the cabin to run out of water/'
+  },
+  /*{
     name: ,
     instructions: ,
     units: ,
