@@ -132,7 +132,7 @@ var vignettes = [{
         a: "How many canned goods does Jim bring to class on average?",
     },
     judgment_stim: 'As a reminder, the class will receive 15 extra minutes of recess whenever the total number of canned goods brought in exceeds ' 
-    + unit(threshold, 'canned good') + '. Today, Rachel brought in ' + unit(c, 'canned good') + ' and Jim brought in ' + unit(a, 'canned good') 
+    + unit(threshold, 'canned good') + '. Today, Rachel brought in ' + unit(c, 'canned good') + ', and Jim brought in ' + unit(a, 'canned good') 
     + '. So, the class received 15 extra minutes of recess. <br> <br/> To what extent do you agree with the following statement? <br> <br/> Rachel bringing in ' 
     + unit(c, 'canned good') + ' to class caused the class to receive 15 extra minutes of recess.'
   },{
@@ -220,25 +220,31 @@ var vignettes = [{
     },
     judgment_stim: 'As a reminder, the water tank holds ' + unit(threshold, 'gallon') + ' of water when it is completely filled. So, if Alison and Tony use more than '
     + unit(threshold, 'gallon') + ' of water in a single day, the water will no longer run in their cabin. Today, Alison used ' + unit(c, 'gallon') + ' of water, '
-    + ' and Tony used ' + unit(a, 'gallon') + ' of water. <br><br/> To what extent do you agree with the following statement? <br><br/> Alison using ' + unit(c, 'gallon') + ' of water caused the cabin to run out of water.'
-  },
-  /*{
-    name: ,
-    instructions: ,
-    units: ,
+    + ' and Tony used ' + unit(a, 'gallon') + ' of water. So, the cabin ran out of water. <br><br/> To what extent do you agree with the following statement? <br><br/> Alison using ' + unit(c, 'gallon') + ' of water caused the cabin to run out of water.'
+  },{
+    name: 'district funding',
+    instructions: 'School A and School B are the two high schools in their district.'
+    + ' Every year, their students take exams to see how they rank with the rest of the schools in their state.'
+    + ' The state uses the two schools’ combined test scores to determine how much funding their district’s education program will get for the year.'
+    + ' So, if School A and School B together score over ' + unit(threshold, 'point') + ', their district will receive more education funding.'
+    + '<br><br>We will show you how many points each of the two schools scored for ' + n_learning +  ' separate years. For each year, you will be asked whether the district received more funding.'
+    + '<br><br><strong> Please try to pay attention to how many points each school scores on average. </strong>',
+    units: 'point',
     learning:{
-        stim1: ,
-        stim2: ,
-        stim3: ,
-        stim4: . 
-        alert: ,
+        stim1: 'School A scored ' ,
+        stim2: ' on the test. ',
+        stim3: 'School B scored ',
+        stim4: ' on the test. <p><strong>Did the district receive more funding this year?</strong></p>', 
+        alert: 'Incorrect response, please try again. \n\nRemember that the district will receive more funding whenever the total amount points scored exceeds ' + threshold + ' points.',
     },
     man_check:{
-        c: ,
-        a: ,
+        c: 'How many points does School A score on average?' ,
+        a: 'How many points does School B score on average?',
     },
-    judgment_stim:
-  }{
+    judgment_stim: 'As a reminder, the district will receive more funding for education if Schools A and B together score over '
+    + unit(threshold, 'point') + '. For this year, School A scored ' + unit(c, 'point') + ', and School B scored '
+    + unit(a, 'point') + '. So, the district will receive more funding. <br><br/> To what extent do you agree with the following statement? <br><br/> School A scoring ' + unit(c, 'gallon') + ' on the exam caused the district to receive more funding.'
+  }/*,{
     name: ,
     instructions: ,
     units: ,
