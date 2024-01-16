@@ -254,22 +254,6 @@ var vignettes = [{
         a: ,
     },
     judgment_stim:
-  }{
-    name: ,
-    instructions: ,
-    units: ,
-    learning:{
-        stim1: ,
-        stim2: ,
-        stim3: ,
-        stim4: . 
-        alert: ,
-    },
-    man_check:{
-        c: ,
-        a: ,
-    },
-    judgment_stim:
   }*/]
 
 /* Randomly assign a condition */
@@ -370,7 +354,7 @@ var comments = {
 var instructions = {
     type: jsPsychInstructions,
     show_clickable_nav: true,
-    pages: ["<p>In this study, you will be asked to read some scenarios and to answer questions about those scenarios.</p>",
+    pages: ["<p>In this study, you will be asked to read some scenarios and to answer questions about those scenarios.</p> If you answer these questions more accurately than other participants, you will have the opportunity to receive a bonus payment of $amount.",
             vignette.instructions]
 }
 
