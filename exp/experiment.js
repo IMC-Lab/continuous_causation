@@ -244,27 +244,33 @@ var vignettes = [{
     judgment_stim: 'As a reminder, the district will receive more funding for education if Schools A and B together score over '
     + unit(threshold, 'point') + '. For this year, School A scored ' + unit(c, 'point') + ', and School B scored '
     + unit(a, 'point') + '. So, the district will receive more funding. <br><br/> To what extent do you agree with the following statement? <br><br/> School A scoring ' + unit(c, 'gallon') + ' on the exam caused the district to receive more funding.'
-  }/*,{
-    name: ,
-    instructions: ,
-    units: ,
+  },{
+    name: 'airplane baggage',
+    instructions: 'Sky Airlines is a flight company. For each of their flights, half the passengers are always in first class and the other half are always in economy. Every flight, the total weight of checked bags is measured for each group.'
+    + ' The plane can carry up to ' + unit(threshold, 'lb') + ' of checked bags for every flight. If the total weight of checked bags for a given flight exceeds ' + unit(threshold, 'lb')
+    + ', the flight will be delayed. <br><br> We will show you how much baggage the first class and economy class passengers checked in on ' + n_learning + ' separate flights. For each flight, you will be asked whether the flight was delayed.'
+    + '<br><br><strong> Please try to pay attention to how much checked baggage the first class and economy group packed on average. </strong>',
+    units: 'lb',
     learning:{
-        stim1: ,
-        stim2: ,
-        stim3: ,
-        stim4: . 
-        alert: ,
+        stim1: 'The first class group packed ',
+        stim2: ' of checked baggage.',
+        stim3: 'The economy group packed ',
+        stim4: ' of  checked baggage. <p><strong>Was the flight delayed?</strong></p>', 
+        alert: 'Incorrect response, please try again. \n\nRemember that the flight will be delayed whenever the total amount of checked baggage packed exceeds ' + threshold + 'lbs.',
     },
     man_check:{
-        c: ,
-        a: ,
+        c: 'How much checked baggage did passengers in the first class group pack on average?',
+        a: 'How much checked baggage did passengers in the economy group pack on average?',
     },
-    judgment_stim:
-  }*/]
+    judgment_stim: 'As a reminder, the plane is capable of carrying ' + unit(threshold, 'lb') + ' of checked baggage every flight. So, if the total weight of checked bags for a given flight exceeds '
+    + unit(threshold, 'lb') + ', the flight will be delayed. On the current flight, the first class group packed ' + unit(c, 'lb') + ' of checked baggage, and the economy group packed '
+    + unit(threshold, 'lb') + ' of checked baggage. <br><br/> To what extent do you agree with the following statement? <br><br/> The first class group packing ' + unit(c, 'lb') + ' of checked baggage caused the flight to be delayed.'
+  }]
 
 /* Randomly assign a condition */
 var id = jsPsych.randomization.randomID();
-var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
+var vignette = vignettes[9]
+//var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
 
