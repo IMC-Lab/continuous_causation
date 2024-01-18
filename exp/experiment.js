@@ -50,251 +50,311 @@ for (let i = 0; i < n_learning; i++) {
 /* A complete list of all vignettes */
 var vignettes = [{
     name: 'sewage', units: 'gallon', interval: 'day', valence: 'negative',
-    instructions: "There are two plants, Plant A and Plant B, in the small town of Huxley. Every day, both plants send their sewage to the town's water treatment facility. The water facility is capable of filtering " +
-        unit(threshold, 'gallon') + ' of sewage per day. So, if Plant A and Plant B together produce more than ' + unit(threshold, 'gallon') +
-        ' of sewage on a given day, then some pollution will leak out into the river. <br><br>We will show you how much sewage each of the two plants produced on ' + n_learning +
-        ' separate days. For each day, you will be asked whether some pollution leaked out into the river.<br><br><strong>Please try to pay attention to how much each plant produces on average.</strong>',
+    instructions: "There are two plants, Huxley Steel and Huxley Lumber, in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants and it is only capable of filtering " +
+        unit(threshold, 'gallon') + ' of sewage per day. So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') +
+        ' of sewage on a given day, then the river will get polluted that day.' +
+        '<br><br>We will show you how much sewage each of the two plants produced on ' + n_learning +
+        ' separate days. For each day, you will be asked whether the river was polluted.' +
+        '<br><br><strong>Please try to pay attention to how much sewage each plant produces on average.</strong>',
     learning: {
-        stim1: 'Plant A sent ',
-        stim2: ' of sewage to the water treatment plant. ',
-        stim3: '<p>Plant B sent ',
-        stim4: ' of sewage to the water treatment plant.<p><strong>Did the water treatment plant leak sewage into the river today?</strong></p>',
-        alert: 'Remember that the treatment plant leaks sewage whenever the total amount of sewage exceeds ' + threshold + ' gallons.',
+        stim1: 'Huxley Steel produced ',
+        stim2: ' of sewage. ',
+        stim3: '<p>Huxley Lumber produced ',
+        stim4: ' of sewage.<p><strong>Did the river get polluted today?</strong></p>',
+        alert: 'Remember that the river gets polluted whenever Huxley Steel and Huxley Lumber produce more than ' + unit(threshold, 'gallon') + ' of sewage in total.',
     },
     man_check: {
-        c: "How many gallons of sewage does Plant A produce on average?",
-        a: "How many gallons of sewage does Plant B produce on average?",
+        c: "How many gallons of sewage does Huxley Steel produce on an average day?",
+        a: "How many gallons of sewage does Huxley Lumber produce on an average day?",
     },
     judgment: {
         reminder: 'As a reminder, the water facility is capable of filtering ' + unit(threshold, 'gallon') +
-            ' of sewage per day. So, if Plant A and Plant B together produce more than ' + unit(threshold, 'gallon') +
-            ' of sewage, then some pollution will leak out into the river.',
-        vignette: 'On this day, Plant A sent ' + unit(c, 'gallon') + ' of sewage to the water treatment plant and Plant B sent ' + 
-            unit(a, 'gallon') + ' of sewage to the water treatment plant. So, the river became polluted.',
-        statement: 'Plant A producing ' + unit(c, 'gallon') + ' of sewage caused the river to become polluted.'
+            ' of sewage per day. So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') +
+            ' of sewage, then the river will get polluted.',
+        vignette: 'Today, Huxley Steel sent ' + unit(c, 'gallon') + ' of sewage to the water treatment plant and Huxley Lumber sent ' +
+            unit(a, 'gallon') + ' of sewage to the water treatment plant. So, the river got polluted.',
+        statement: 'Huxley Steel producing ' + unit(c, 'gallon') + ' of sewage caused the river to get polluted today.'
     }
 }, {
     name: 'sales', units: 'ream', interval: 'day', valence: 'positive',
-    instructions: "There are two employees, Susan and Mike, in the sales department of their paper company’s local branch. Every day, both employees try to sell as many reams of paper as possible. " +
-        'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make any profit for their company. So, if Susan and Mike together sell at least ' +
-        unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day. <br><br>We will show you how many reams of paper each of the two employees sold on ' + n_learning +
-        ' separate days. For each day, you will be asked whether the branch made a profit.<br><br><strong>Please try to pay attention to how many reams of paper each employee sold on average.</strong>',
+    instructions: "There are two employees, Susan and Mike, in the sales department of a paper company’s local branch. Every day, both employees try to sell as many reams of paper as possible. " +
+        'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. So, if Susan and Mike together sell more than ' +
+        unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day.<br><br>We will show you how many reams of paper each of the two employees sold on ' + n_learning +
+        ' separate days. For each day, you will be asked whether the branch made a profit.' +
+        '<br><br><strong>Please try to pay attention to how many reams of paper each employee sells on average.</strong>',
     learning: {
         stim1: 'Susan sold ',
         stim2: ' of paper for the branch.',
         stim3: '<p>Mike sold ',
         stim4: ' of paper for the branch. <p><strong>Did the branch make a profit today?</strong></p>',
-        alert: 'Remember that the local branch makes a profit whenever the total amount of paper exceeds ' + threshold + ' reams.',
+        alert: 'Remember that the local branch makes a profit whenever Susan and Mike sell over ' + unit(threshold, 'ream') + ' of paper in total.',
     },
     man_check: {
-        c: 'How many reams of paper does Susan sell on average?',
-        a: 'How many reams of paper does Mike sell on average?',
+        c: 'How many reams of paper does Susan sell on an average day?',
+        a: 'How many reams of paper does Mike sell on an average day?',
     },
     judgment: {
         reminder: 'As a reminder, each day the local branch of the company will make a profit if Susan and Mike together sell over ' +
             unit(threshold, 'ream') + ' of paper.',
-        vignette: 'On this day, Susan sold ' + unit(c, 'ream') + ' of paper and Mike sold ' + 
+        vignette: 'Today, Susan sold ' + unit(c, 'ream') + ' of paper and Mike sold ' +
             unit(a, 'ream') + ' of paper. So, the branch made a profit.',
-        statement: 'Susan selling ' + unit(c, 'ream') + ' of paper caused the branch to make a profit.'
-    }
-}, {
-    name: 'basketball', units: 'point', interval: 'game', valence: 'positive',
-    instructions: "There are two basketball players, Max and Carl, who are the two main scorers on their school’s basketball team. Every game, both players try to score as many points as possible. " +
-        'The coach has promised to take the team out for ice cream after any game in which they score over ' + unit(threshold, 'point') + '. So, if Max and Carl together score over ' +
-        unit(threshold, 'point') + ' during a game, the coach will take the team out for ice cream. <br><br>We will show you how many points each of the two basketball players scored during ' + [n_learning] +
-        ' separate games. For each game, you will be asked whether the team went out for ice cream after the game. <br><br><strong>Please try to pay attention to how much each player scores on average. </strong>',
-    learning: {
-        stim1: 'Max scored ',
-        stim2: ' during this game.',
-        stim3: ' Carl scored ',
-        stim4: ' during this game. <p><strong>Did the coach take the team out for ice cream today?</strong></p>',
-        alert: 'Remember that the team goes out for ice cream whenever the total amount of points exceeds ' + threshold + ' points.',
-    },
-    man_check: {
-        c: 'How many points does Max score on average?',
-        a: 'How many points does Carl score on average?',
-    },
-    judgment: {
-        reminder: 'As a reminder, the coach will take the team out for ice cream if Max and Carl together score over ' + unit(threshold, 'point') + '.',
-        vignette: 'During the game today, Max scored ' + unit(c, 'point') + ' and Carl scored ' + unit(a, 'point') + '. So, the coach took the team out for ice cream.',
-        statement: 'Max scoring ' + unit(c, 'point') + ' during the game caused the coach to take the team out for ice cream.'
-    }
-}, {
-    name: 'drive', units: 'canned good', interval: 'day', valence: 'positive',
-    instructions: 'Ms. Sampson is hosting a food drive for her class. Rachel and Jim are the only students in the class that bring in canned goods. Ms. Sampson has told the class that they will receive 15 extra minutes of recess when they bring in over ' +
-        unit(threshold, 'canned good') + '. So, if Rachel and Jim together bring in over ' + unit(threshold, 'canned good') +
-        ', the class will receive 15 extra minutes of recess. <br><br>We will show you how many canned goods each of the two students brought in on ' +
-        n_learning + ' separate days. For each day, you will be asked whether the class received 15 extra minutes of recess. <br><br><strong>Please try to pay attention to how many canned goods each student brings in on average. </strong>',
-    learning: {
-        stim1: 'Rachel brought in ',
-        stim2: ' for the food drive. ',
-        stim3: 'Jim brought in ',
-        stim4: ' for the food drive.<p><strong>Did the class receive 15 extra minutes of recess?</strong></p>',
-        alert: 'Remember that the class receives 15 extra minutes of recess whenever the total amount of canned goods exceeds ' + threshold + ' canned goods.',
-    },
-    man_check: {
-        c: 'How many canned goods does Rachel bring to class on average?',
-        a: 'How many canned goods does Jim bring to class on average?',
-    },
-    judgment: {
-        reminder: "As a reminder, the class will receive 15 extra minutes of recess whenever the total number of canned goods brought in exceeds " + unit(threshold, 'canned good') + ".",
-        vignette: 'Today, Rachel brought in ' + unit(c, 'canned good') + ' and Jim brought in ' +
-            unit(a, 'canned good') + '. So, the class received 15 extra minutes of recess.',
-        statement: 'Rachel bringing in ' + unit(c, 'canned good') + ' to class caused the class to receive 15 extra minutes of recess.'
+        statement: 'Susan selling ' + unit(c, 'ream') + ' of paper caused the branch to make a profit today.'
     }
 }, {
     name: 'savings', units: 'dollar', interval: 'month', valence: 'positive',
-    instructions: 'Luke and Lisa have a joint savings account together. Every month, they each add money to their account. If Luke and Lisa together save over ' +
-        unit(threshold, 'dollar') + ' that month, they will go out to a nice dinner together to celebrate. <br><br>We will show you how much money each person saved for ' +
-        n_learning + ' separate months. For each month, you will be asked whether Luke and Lisa went out to a nice dinner. <br><br><strong>Please try to pay ' +
-        'attention to how much money each person saves on average. </strong>',
+    instructions: 'Luke and Lisa have a special joint savings account together. Every month, they each add money to their account. If Luke and Lisa save over ' +
+        unit(threshold, 'dollar') + ' by the end of the month, their bank deposits a bonus into their account. <br><br>We will show you how much money each person saved for ' +
+        n_learning + ' separate months. For each month, you will be asked whether their bank deposited a bonus into their account.' +
+        '<br><br><strong>Please try to pay attention to how much money each person saves on average.</strong>',
     learning: {
         stim1: 'Luke saved ',
-        stim2: ' during this month. ',
+        stim2: '. ',
         stim3: 'Lisa saved ',
-        stim4: ' during this month.<p><strong>Did they take themselves out to a nice dinner?</strong></p>',
-        alert: 'Remember that Luke and Lisa go out for a nice dinner whenever the total amount of money saved exceeds ' + threshold + ' dollars.',
+        stim4: '.<p><strong>Did the bank deposit a bonus into their savings account this month?</strong></p>',
+        alert: 'Remember that the bank deposits a bonus into their savings account whenever Luke and Lisa save over ' + unit(threshold, 'dollar') + ' in total.',
     },
     man_check: {
-        c: 'How much money does Luke save on average?',
-        a: 'How much money does Lisa save on average?',
+        c: 'How many dollars does Luke save on an average month?',
+        a: 'How many dollars does Lisa save on an average month?',
     },
     judgment: {
-        reminder: 'As a reminder, Luke and Lisa will go out to a nice dinner together whenever they save over ' + 
-            unit(threshold, 'dollar') + ' for that month.',
-        vignette: 'During this month, Luke saved ' + unit(c, 'dollar') + ', and Lisa saved ' + 
-            unit(a, 'dollar') + '. So, they went out to a nice dinner to celebrate.',
-        statement: 'Luke saving ' + unit(c, 'dollar') + ' caused him and Lisa to go out for a nice dinner.'
+        reminder: 'As a reminder, the bank deposits a bonus into their savings account if they save over ' +
+            unit(threshold, 'dollar') + ' during that month.',
+        vignette: 'During this month, Luke saved ' + unit(c, 'dollar') + ', and Lisa saved ' +
+            unit(a, 'dollar') + '. So, the bank deposited a bonus into their savings account.',
+        statement: 'Luke saving ' + unit(c, 'dollar') + ' caused the bank to deposit a bonus into their savings account this month.'
+    }
+}, {
+    name: 'basketball', units: 'point', interval: 'game', valence: 'positive',
+    instructions: 'The local high school has a varsity basketball team and a junior varsity basketball team that separately compete against other nearby schools. ' +
+        'To motivate everyone, the coach has promised to take both teams out for ice cream after any game in which they score over ' + unit(threshold, 'point') +
+        ' total. So, if the varsity and junior varsity teams together score over ' +
+        unit(threshold, 'point') + ' points during a game, the coach will take them out for ice cream.' +
+        '<br><br>We will show you how many points each of the two basketball teams scored during ' + n_learning +
+        ' separate games. For each game, you will be asked whether they went out for ice cream after the game.</strong>',
+    learning: {
+        stim1: 'The varsity team scored ',
+        stim2: '.',
+        stim3: 'The junior varsity team scored ',
+        stim4: '. <p><strong>Did the team go out for ice cream today?</strong></p>',
+        alert: 'Remember that the team goes out for ice cream whenever the varsity and junior varsity teams score over ' + unit(threshold + 'point') + ' in total.',
+    },
+    man_check: {
+        c: 'How many points does the varsity team score on an average game?',
+        a: 'How many points does the junior varsity team score on an average game?',
+    },
+    judgment: {
+        reminder: 'As a reminder, the coach will take the team out for ice cream if the varsity and junior varsity teams score over ' + unit(threshold, 'point') + ' in total.',
+        vignette: 'During today’s game, the varsity team scored ' + unit(c, 'point') + ' and the junior varsity team scored ' + unit(a, 'point') + '. So, the coach took the team out for ice cream.',
+        statement: 'The varsity team scoring ' + unit(c, 'point') + ' points caused the team to go out for ice cream today.'
+    }
+}, {
+    name: 'food', units: 'canned good', interval: 'day', valence: 'positive',
+    instructions: 'Fairfield Middle School, which teaches 7th grade and 8th grade students, is hosting a food drive for their community. To encourage their students to donate to the food drive, the principal told the school that everyone can leave 15 minutes early whenever the school collects over ' +
+        unit(threshold, 'canned good') + '. So, if the 7th grade students and the 8th grade students bring in over ' + unit(threshold, 'canned good') +
+        ' in total, school will end early that day.<br><br>We will show you how many canned goods brought in by the 7th grade class and the 8th grade class on ' +
+        n_learning + ' separate days. For each day, you will be asked whether the school ended 15 minutes early.' +
+        '<br><br><strong>Please try to pay attention to how many canned goods each class brings in on average.</strong>',
+    learning: {
+        stim1: 'The 7th grade class brought in ',
+        stim2: ' for the food drive. ',
+        stim3: 'The 8th grade class brought in ',
+        stim4: ' for the food drive.<p><strong>Did Fairfield Middle School end their classes 15 minutes early today?</strong></p>',
+        alert: 'Remember that Fairfield Middle School ends their classes 15 minutes early whenever they bring over ' + unit(threshold, ' canned good') + ' in total.',
+    },
+    man_check: {
+        c: 'How many canned goods does the 7th grade class bring in on an average day?',
+        a: 'How many canned goods does the 8th grade class bring in on an average day?',
+    },
+    judgment: {
+        reminder: 'As a reminder, the Fairfield Middle School will end their classes 15 minutes early if the 7th grade class and the 8th grade class bring in over ' + unit(threshold, 'canned good') + ' that day.',
+        vignette: 'Today, the 7th grade class brought in ' + unit(c, 'canned good') + ' and the 8th grade class brought in ' +
+            unit(a, 'canned good') + '. So, Fairfield Middle School ended their classes 15 minutes early.',
+        statement: 'The 7th grade class bringing in ' + unit(c, 'canned good') + ' caused Fairfield Middle School to end their classes 15 minutes early today.'
     }
 }, {
     name: 'bus', units: 'minute', interval: 'day', valence: 'negative',
-    instructions: 'Sam and Jeffrey are siblings. Every morning, they catch the bus to their school together. When they wake up, they take turns getting ready in the bathroom. If Sam and Jeffrey together take longer than ' +
-        unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school. <br><br>We will show you how many minutes each sibling took to get ready on ' +
-        n_learning + ' separate days. For each day, you will be asked whether they missed their bus. <br><br><strong>Please try to pay' +
-        ' attention to how long each sibling takes to get ready on average. </strong>',
+    instructions: 'Sam and Jeffrey are siblings that share a bathroom. Every morning, they catch the bus to their school together. After their mom wakes them up at 6am, they take turns getting ready in the bathroom. If Sam and Jeffrey together take longer than ' +
+        unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school.' +
+        '<br><br>We will show you how many minutes each sibling took to get ready on ' +
+        n_learning + ' separate days. For each day, you will be asked whether they missed their bus.' +
+        '<br><br><strong>Please try to pay attention to how long each sibling takes to get ready on average.</strong>',
     learning: {
         stim1: 'Sam took ',
-        stim2: ' to get ready this morning. ',
+        stim2: ' to get ready. ',
         stim3: 'Jeffrey took ',
-        stim4: ' to get ready this morning.<p><strong> Did they miss the bus today?</strong></p>',
-        alert: 'Remember that Sam and Jeffrey miss their bus whenever the total amount of time exceeds ' + threshold + ' minutes.',
+        stim4: ' to get ready.<p><strong> Did they miss the bus today?</strong></p>',
+        alert: 'Remember that Sam and Jeffrey miss their bus whenever they take over ' + unit(threshold + 'minute') + ' to get ready in total.',
     },
     man_check: {
-        c: "How long does Sam take to get ready on average?",
-        a: "How long does Jeffrey take to get ready on average?",
+        c: 'How many minutes does Sam take to get ready on an average day?',
+        a: 'How many minutes does Jeffrey take to get ready on an average day?',
     },
     judgment: {
-        reminder: 'As a reminder, Sam and Jeffrey will miss their bus if they take over ' + unit(threshold, 'minute') + ' to get ready.',
-        vignette: 'On this day, Sam took ' + unit(c, 'minute') + ' to get ready and Jeffrey took ' + unit(a, 'minute') + ' to get ready. So, they missed their bus.',
-        statement: 'Sam taking ' + unit(c, 'minute') + ' to get ready caused him and Jeffrey to miss their bus.'
+        reminder: 'As a reminder, Sam and Jeffrey will miss their bus if they take over ' + unit(threshold, 'minute') + ' to get ready in total.',
+        vignette: 'Today, Sam took ' + unit(c, 'minute') + ' to get ready and Jeffrey took ' + unit(a, 'minute') + ' to get ready. So, they missed the bus.',
+        statement: 'Sam taking ' + unit(c, 'minute') + ' to get ready caused him and Jeffrey to miss their bus today.'
     }
 }, {
-    name: 'power', units: 'megawatt', interval: 'day', valence: 'negative',
-    instructions: 'Town A and Town B are the two towns supplied by the local power grid. The local power grid is able to supply up to ' +
-        unit(threshold, 'megawatt') + ' of electricity per day. If both towns together use more than ' + unit(threshold, 'megawatt') + ' of electricity per day, the power grid will shut down.' +
-        ' <br><br>We will show you how much electricity each of the two towns used on ' + n_learning + ' separate days. For each day, you will be asked whether the power grid temporarily shut down. ' +
-        '<br><br><strong> Please try to pay attention to how much electricity each town uses on average.</strong>',
+    name: 'electricity', units: 'megawatt', interval: 'day', valence: 'negative',
+    instructions: 'Chester and Franklin are the only two towns supplied by their local power grid. The power grid is able to supply up to ' +
+        unit(threshold, 'megawatt') + ' of renewable electricity per day. So, if the two towns together use more than ' + unit(threshold, 'megawatt') +
+        ' of electricity on a given day, the power grid will resort to using non-renewable energy.' +
+        ' <br><br>We will show you how much electricity each of the two towns used on ' + n_learning +
+        ' separate days. For each day, you will be asked whether the power grid used non-renewable energy.' +
+        '<br><br><strong>Please try to pay attention to how much electricity each town uses on average.</strong>',
     learning: {
-        stim1: 'Town A used ',
+        stim1: 'Chester used ',
         stim2: ' of electricity. ',
-        stim3: 'Town B used ',
-        stim4: ' of electricity.<p><strong> Did the power grid shut down today?</strong></p>',
-        alert: 'Remember that the power grid will shut down whenever the total amount of energy used exceeds ' + threshold + ' megawatts per day.',
+        stim3: 'Franklin used ',
+        stim4: ' of electricity. <p><strong>Did the power grid use non-renewable energy today?</strong></p>',
+        alert: 'Remember that the power grid will use non-renewable energy whenever Cheester and Franklin use over ' + unit(threshold, 'megawatt') + ' in total.',
     },
     man_check: {
-        c: 'How much electricity does Town A use on average?',
-        a: 'How much electricity does Town B use on average?',
+        c: 'How many megawatts of electricity does Chester use on an average day?',
+        a: 'How many megawatts of electricity does Franklin use on an average day?',
     },
     judgment: {
-        reminder: 'As a reminder, the power grid is able to supply up to ' + unit(threshold, 'megawatt') + 
-            ' of electricity at any given time. So, if Towns A and B together use over ' + unit(threshold, 'megawatt') + 
-            ' of  electricity, there will not be enough power to supply the towns, and the power grid will temporarily shut down.',
-        vignette: 'Today, Town A used ' + unit(c, 'megawatt') + ' of electricity, and Town B used ' + unit(a, 'megawatt') + ' of electricity. So, the power grid shut down.',
-        statement: 'Town A using ' + unit(c, 'megawatt') + ' of electricity caused the power grid to shut down.'
+        reminder: 'As a reminder, the power grid is able to supply up to ' + unit(threshold, 'megawatt') +
+            ' of renewable electricity on any given day. So, if Chester and Franklin together use ove ' + unit(threshold, 'megawatt') +
+            ' of electricity, there will not be enough renewable energy to supply the towns, and the power grid will use non-renewable energy.',
+        vignette: 'Today, Chester used ' + unit(c, 'megawatt') + ' of electricity and Franklin used ' + unit(a, 'megawatt') + ' of electricity. So, the power grid used non-renewable energy.',
+        statement: 'Chester using ' + unit(c, 'megawatt') + ' of electricity caused the power grid to use non-renewable energy today.'
     }
 }, {
     name: 'water', units: 'gallon', interval: 'day', valence: 'negative',
-    instructions: 'Alison and Tony live together in a cabin outside of town. Their cabin has a water tank that automatically refills over the course of a day. The water tank holds ' +
-        unit(threshold, 'gallon') + ' when it is completely full. If more than ' + unit(threshold, 'gallon') + ' are used, then the water will no longer run in their cabin. ' +
-        'So, if Alison and Tony together use more than ' + unit(threshold, 'gallon') + ' of water, the water will no longer run in their cabin. ' +
-        '<br><br>We will show you how much water Tony and Alison used on ' + n_learning + ' separate days. For each day, you will be asked whether the cabin ran out of water.' +
-        '<br><br><strong> Please try to pay attention to how much water each person uses on average. </strong>',
+    instructions: 'Alison and Tony live together in an apartment in town. To help with utilities, their landlord agreed to pay part of their monthly water bill up to a limit. So, if Alison and Tony together use more than ' +
+        unit(threshold, 'gallon') + ' of water in a month, their landlord will send them a bill to pay for the remainder.' +
+        '<br><br>We will show you how much water Tony and Alison used on ' + n_learning + ' separate month. For each month, you will be asked whether their landlord sent them a bill.' +
+        '<br><br><strong>Please try to pay attention to how much water each person uses on average.</strong>',
     learning: {
         stim1: 'Alison used ',
         stim2: ' of water.',
-        stim3: ' Tony used ',
-        stim4: ' of water.<p><strong> Did the cabin run out of water today?</strong></p>',
-        alert: 'Remember that the tank will run out of water whenever the total amount of water used exceeds ' + threshold + ' gallons per day.',
+        stim3: 'Tony used ',
+        stim4: ' of water. <p><strong>Did their landlord send them a bill this month?</strong></p>',
+        alert: 'Remember that their landlord will send them a bill whenever Alison and Tony use over ' + unit(threshold, 'gallon') + ' of water in total.',
     },
     man_check: {
-        c: 'How much water does Alison use on average?',
-        a: 'How much water does Tony use on average?',
+        c: 'How many gallons of water does Alison use on an average month?',
+        a: 'How many gallons of water does Tony use on an average month?',
     },
     judgment: {
-        reminder: 'As a reminder, the water tank holds ' + unit(threshold, 'gallon') +
-            ' of water when it is completely filled. So, if Alison and Tony use more than ' + unit(threshold, 'gallon') +
-            ' of water in a single day, the water will no longer run in their cabin.',
-        vignette: 'Today, Alison used ' + unit(c, 'gallon') + ' of water, ' + ' and Tony used ' + 
-            unit(a, 'gallon') + ' of water. So, the cabin ran out of water.',
-        statement: 'Alison using ' + unit(c, 'gallon') + ' of water caused the cabin to run out of water.'
+        reminder: 'As a reminder, their landlord will pay for Alison and Tony to use ' + unit(threshold, 'gallon') +
+            ' of water. So, if Alison and Tony use more than ' + unit(threshold, 'gallon') +
+            ' of water in a single month, their landlord will send them a bill.',
+        vignette: 'This month, Alison used ' + unit(c, 'gallon') + ' of water and Tony used ' +
+            unit(a, 'gallon') + ' of water. So, their landlord sent them a bill.',
+        statement: 'Alison using ' + unit(c, 'gallon') + ' of water caused their landlord to send them a bill this month.'
     }
 }, {
-    name: 'funding', units: 'point', interval: 'year', valence: 'positive',
-    instructions: 'School A and School B are the two high schools in their district.' +
-        ' Every year, their students take exams to see how they rank with the rest of the schools in their state.' +
-        ' The state uses the two schools’ combined test scores to determine how much funding their district’s education program will get for the year.' +
-        ' So, if School A and School B together score over ' + unit(threshold, 'point') + ', their district will receive more education funding.' +
-        '<br><br>We will show you how many points each of the two schools scored for ' + n_learning +
+    name: 'funding', units: 'student', interval: 'year', valence: 'positive',
+    instructions: 'Williamsburg North and Williamsburg South are the two high schools in their district. ' +
+        'Every year, each school sends some of their graduating students to different universities. ' +
+        'To encourage college admissions, the state uses the number of students sent to a university to determine how much funding their district’s education program will get for the year. ' +
+        'So, if Williamsburg North and Williamsburg South together send over ' + unit(threshold, 'student') +
+        ' to a university, their district will receive more education funding.' +
+        '<br><br>We will show you how many students the two schools sent to a university for ' + n_learning +
         ' separate years. For each year, you will be asked whether the district received more funding.' +
-        '<br><br><strong> Please try to pay attention to how many points each school scores on average. </strong>',
+        '<br><br><strong>Please try to pay attention to how many students each school sends to a university on average.</strong>',
     learning: {
-        stim1: 'School A scored ',
-        stim2: ' on the test. ',
-        stim3: 'School B scored ',
-        stim4: ' on the test. <p><strong>Did the district receive more funding this year?</strong></p>',
-        alert: 'Remember that the district will receive more funding whenever the total amount points scored exceeds ' + threshold + ' points.',
+        stim1: 'Williamsburg North sent ',
+        stim2: ' to a university.',
+        stim3: 'Williamsburg South sent ',
+        stim4: ' to a university. <p><strong>Did the district receive more funding this year?</strong></p>',
+        alert: 'Remember that the district will receive more funding whenever Williamsburg North and Williamsburg South send over ' + unit(threshold, 'student') + ' to a university in total.',
     },
     man_check: {
-        c: 'How many points does School A score on average?',
-        a: 'How many points does School B score on average?',
+        c: 'How many students does Williamsburg North send to a university on an average year?',
+        a: 'How many students does Williamsburg South send to a university on an average year?',
     },
     judgment: {
-        reminder: 'As a reminder, the district will receive more funding for education if Schools A and B together score over ' + unit(threshold, 'point') + '.',
-        vignette: 'For this year, School A scored ' + unit(c, 'point') + ', and School B scored ' + unit(a, 'point') + '. So, the district will receive more funding.',
-        statement: 'School A scoring ' + unit(c, 'gallon') + ' on the exam caused the district to receive more funding.'
+        reminder: 'As a reminder, the district will receive more funding for education if Williamsburg North and Williamsburg South together send over ' + unit(threshold, 'student') + ' to a university.',
+        vignette: 'This year, Williamsburg North sent ' + unit(c, 'student') + ' to a university and Williamsburg South sent ' + unit(a, 'student') + ' to a university. So, the district received more funding.',
+        statement: 'Williamsburg North sending ' + unit(c, 'student') + ' to a university caused the district to receive more funding this year.'
     }
 }, {
-    name: 'airplane', units: 'lb', interval: 'flight', valence: 'negative',
-    instructions: 'Sky Airlines is a flight company. For each of their flights, half the passengers are always in first class and the other half are always in economy. Every flight, the total weight of checked bags is measured for each group.' +
-        ' The plane can carry up to ' + unit(threshold, 'lb') + ' of checked bags for every flight. If the total weight of checked bags for a given flight exceeds ' + unit(threshold, 'lb') +
-        ', the flight will be delayed. <br><br> We will show you how much baggage the first class and economy class passengers checked in on ' +
-        n_learning + ' separate flights. For each flight, you will be asked whether the flight was delayed.' +
-        '<br><br><strong> Please try to pay attention to how much checked baggage the first class and economy group packed on average. </strong>',
+    name: 'trucking', units: 'ton', interval: 'day', valence: 'negative',
+    instructions: 'Ned is a trucker that delivers construction supplies for two clients, Hammerco and Brick Works. ' +
+        'Every day, he receives an order from both companies to pick up bricks on the other side of Middleview river. ' +
+        'To get there, he must cross the Middleview bridge which has a maximum weight capacity of ' + unit(threshold, 'ton') + 
+        '. So, if Hammerco and Brick Works need more than ' + unit(threshold, 'ton') + 
+        ' of bricks, Ned has to take two trips across the river that day.' +
+        '<br><br>We will show you how much brick Hammerco and Brick Works ordered on ' + n_learning +
+        ' separate days. For each day, you will be asked whether Ned took two trips across the river.' +
+        '<br><br><strong>Please try to pay attention to how much brick Hammerco and Brick Works order on average.</strong>',
     learning: {
-        stim1: 'The first class group packed ',
-        stim2: ' of checked baggage.',
-        stim3: 'The economy group packed ',
-        stim4: ' of  checked baggage. <p><strong>Was the flight delayed?</strong></p>',
-        alert: 'Remember that the flight will be delayed whenever the total amount of checked baggage packed exceeds ' + unit(threshold, 'lb') + '.',
+        stim1: 'Hammerco ordered ',
+        stim2: ' of bricks.',
+        stim3: 'Brick Works ordered ',
+        stim4: ' of bricks. <p><strong>Did Ned take two trips across the river today?</strong></p>',
+        alert: 'Remember that Ned takes two trips across the river whenever Hammerco and Brick Works order over ' + unit(threshold, 'ton') + ' of bricks in total.',
     },
     man_check: {
-        c: 'How much checked baggage did passengers in the first class group pack on average?',
-        a: 'How much checked baggage did passengers in the economy group pack on average?',
+        c: 'How many tons of bricks does Hammerco order on an average day?',
+        a: 'How many tons of bricks does Brick Works order on an average day?',
     },
     judgment: {
-        reminder: 'As a reminder, the plane is capable of carrying ' + unit(threshold, 'lb') + 
-            ' of checked baggage every flight. So, if the total weight of checked bags for a given flight exceeds ' +
-            unit(threshold, 'lb') + ', the flight will be delayed.',
-        vignette: 'On the current flight, the first class group packed ' + unit(c, 'lb') + ' of checked baggage, and the economy group packed ' +
-            unit(threshold, 'lb') + ' of checked baggage. So, the flight was delayed.',
-        statement: 'The first class group packing ' + unit(c, 'lb') + ' of checked baggage caused the flight to be delayed.'
+        reminder: 'As a reminder, the Middleview bridge can support a maximum of ' + unit(threshold, 'ton') + 
+            '. So, if Hammerco and Brick Works order more than ' + unit(threshold, 'ton') + ' of bricks in total, Ned has to take two trips across the river that day.',
+        vignette: 'Today, Hammerco ordered ' + unit(c, 'ton') + ' of brick and Brick Works ordered ' + unit(a, 'ton') + ' of brick. So, Ned took two trips across the river today.',
+        statement: 'Hammerco ordering ' + unit(c, 'ton') + ' of brick caused Ned to take two trips across the river today.'
+    }
+}, {
+    name: 'exercise', units: 'pound', interval: 'month', valence: 'positive',
+    instructions: 'Francine wants to help her friends Olivia and Mimi to lose some weight. To help achieve their goal, they agreed to a deal. ' +
+        'At the start of each month, they will measure how much weight Olivia and Mimi each lost since the previous month. Their goal is to lose ' + 
+        unit(threshold, 'pound') + ' combined each month. So, if they lost a total of more than ' + unit(threshold, 'pound') + ' that month, Francine will throw them a party.' +
+        '<br><br>We will show you how much weight Olivia and Mimi lost on ' + n_learning +
+        ' separate months. For each month, you will be asked whether Francine threw them a party.' +
+        '<br><br><strong>Please try to pay attention to how much weight Olivia and Mimi lose on average.</strong>',
+    learning: {
+        stim1: 'Olivia lost ',
+        stim2: '.',
+        stim3: 'Mimi lost ',
+        stim4: '. <p><strong>Did Francine throw them a party this month?</strong></p>',
+        alert: 'Remember that Francine throws Olivia and Mimi a party whenever they lose over ' + unit(threshold, 'pound') + ' of weight in total.',
+    },
+    man_check: {
+        c: 'How many pounds of weight does Olivia lose on an average month?',
+        a: 'How many pounds of weight does Mimi lose on an average month?',
+    },
+    judgment: {
+        reminder: 'As a reminder, Olivia and Mimi set a goal to lose a total of ' + unit(threshold, 'pound') + 
+            ' each month. So, if Olivia and Francine together lose over ' + unit(threshold, 'pound') + ', then Francine will throw them a party.',
+        vignette: 'This month, Olivia lost ' + unit(c, 'pound') + ' and Mimi lost ' + unit(a, 'pound') + '.',
+        statement: 'Olivia losing ' + unit(c, 'pound') + ' caused Francine to throw a party this month.'
+    }
+}, {
+    name: 'cellular', units: 'gigabyte', interval: 'month', valence: 'negative',
+    instructions: 'To save money, Ricardo and Pierre are on a family cell phone plan. The plan has a cellular data limit of ' + 
+        unit(threshold, 'gigabyte') + ' per month. So, if Ricardo and Pierre together use more than ' +
+        unit(threshold, 'gigabyte') + ' of data in a given month, then the cell company will charge them a data overage fee.' +
+        '<br><br>We will show you how much data Ricardo and Pierre used on ' + n_learning +
+        ' separate months. For each month, you will be asked whether the company charged them a fee.' +
+        '<br><br><strong>Please try to pay attention to how much data Ricardo and Pierre use on average.</strong>',
+    learning: {
+        stim1: 'Ricardo used ',
+        stim2: ' of data.',
+        stim3: 'Pierre used ',
+        stim4: ' of data. <p><strong>Did the cell company charge them a fee this month?</strong></p>',
+        alert: 'Remember that the cell company charges a data overage fee whenever Ricardo and Pierre use over ' + unit(threshold, 'gigabyte') + ' of data in total.',
+    },
+    man_check: {
+        c: 'How many gigabytes of data does Ricardo use on an average month?',
+        a: 'How many gigabytes of data does Pierre use on an average month?',
+    },
+    judgment: {
+        reminder: 'As a reminder, the cell company will charge Ricardo and Pierre a data overage fee whenever they use over ' + unit(threshold, 'gigabyte') + ' of data in a month.',
+        vignette: 'This month, Ricardo used ' + unit(c, 'gigabyte') + ' of data and Pierre used ' + unit(a, 'gigabyte') + ' of data. So, the cell company charged them a fee this month.',
+        statement: 'Ricardo using ' + unit(c, 'gigabyte') + ' of data caused the cell company to charge them a fee this month.'
     }
 }]
 
 /* Randomly assign a condition */
 var id = jsPsych.randomization.randomID();
-var vignette = vignettes[0];
-//var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
+var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
+//var vignette = vignettes[0];  // use to pre-select a specific vignette
+
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
 
@@ -411,8 +471,8 @@ var learning = {
             choices: ['No', 'Yes'],
             stimulus: function () {
                 return '<p align="left">' + capitalize(vignette.interval) + ' ' + jsPsych.timelineVariable('trial') + ' of ' + n_learning + ':</p>' +
-                    vignette.learning.stim1 + unit(jsPsych.timelineVariable('c'), vignette.units) + 
-                    vignette.learning.stim2 + '<br>' + vignette.learning.stim3 + 
+                    vignette.learning.stim1 + unit(jsPsych.timelineVariable('c'), vignette.units) +
+                    vignette.learning.stim2 + '<br>' + vignette.learning.stim3 +
                     unit(jsPsych.timelineVariable('a'), vignette.units) + vignette.learning.stim4;
             },
             data: {
@@ -428,10 +488,10 @@ var learning = {
                 let d = jsPsych.data.getLastTrialData().values()[0];
                 let header = '<p align="left">' + capitalize(vignette.interval) + ' ' + d.trial + ' of ' + n_learning + ':</p>';
                 if (d.response == d.e)
-                    return [ header + '<p style="font-weight: bold; color: green;">Correct!</p>' ];
-                
-                return [ header + '<p style="font-weight: bold; color: red;">Incorrect, please try again.</p>' + 
-                         '<p>' + vignette.learning.alert + '</p>'];
+                    return [header + '<p style="font-weight: bold; color: green;">Correct!</p>'];
+
+                return [header + '<p style="font-weight: bold; color: red;">Incorrect, please try again.</p>' +
+                    '<p>' + vignette.learning.alert + '</p>'];
             }
         }],
         loop_function: function (data) {
@@ -468,9 +528,9 @@ var man_check = {
 /*display judgment */
 var judgment = {
     type: jsPsychHtmlSliderResponse,
-    stimulus: '<p>' + vignette.judgment.reminder + '</p><p>' + 
-        vignette.judgment.vignette + 
-        '</p><br><p><strong>To what degree do you agree with the following statement?</strong></p><p>' + 
+    stimulus: '<p>' + vignette.judgment.reminder + '</p><p>' +
+        vignette.judgment.vignette +
+        '</p><br><p><strong>To what degree do you agree with the following statement?</strong></p><p>' +
         vignette.judgment.statement
     ,
     min: 0, max: 1, step: 'any', require_movement: true, labels: ['not at all', 'totally'],
