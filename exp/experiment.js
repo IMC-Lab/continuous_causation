@@ -50,7 +50,7 @@ for (let i = 0; i < n_learning; i++) {
 /* A complete list of all vignettes */
 var vignettes = [{
     name: 'sewage', units: 'gallon', interval: 'day', valence: 'negative',
-    instructions: "There are two plants, Huxley Steel and Huxley Lumber, in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants and it is only capable of filtering " +
+    instructions: "There are two plants, Huxley Steel and Huxley Lumber, in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants, and it is only capable of filtering " +
         unit(threshold, 'gallon') + ' of sewage per day. So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') +
         ' of sewage on a given day, then the river will get polluted that day.' +
         '<br><br>We will show you how much sewage each of the two plants produced on ' + n_learning +
@@ -70,7 +70,7 @@ var vignettes = [{
     judgment: {
         reminder: 'As a reminder, the water facility is capable of filtering ' + unit(threshold, 'gallon') +
             ' of sewage per day. So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') +
-            ' of sewage, then the river will get polluted.',
+            ' of sewage, then the river will get polluted on that day.',
         vignette: 'Today, Huxley Steel sent ' + unit(c, 'gallon') + ' of sewage to the water treatment plant and Huxley Lumber sent ' +
             unit(a, 'gallon') + ' of sewage to the water treatment plant. So, the river got polluted.',
         statement: 'Huxley Steel producing ' + unit(c, 'gallon') + ' of sewage caused the river to get polluted today.'
@@ -140,8 +140,8 @@ var vignettes = [{
         alert: 'Remember that the team goes out for ice cream whenever the varsity and junior varsity teams score over ' + unit(threshold + 'point') + ' in total.',
     },
     man_check: {
-        c: 'How many points does the varsity team score on an average game?',
-        a: 'How many points does the junior varsity team score on an average game?',
+        c: 'How many points does the varsity team score during an average game?',
+        a: 'How many points does the junior varsity team score during an average game?',
     },
     judgment: {
         reminder: 'As a reminder, the coach will take the team out for ice cream if the varsity and junior varsity teams score over ' + unit(threshold, 'point') + ' in total.',
@@ -175,31 +175,31 @@ var vignettes = [{
 }, {
     name: 'bus', units: 'minute', interval: 'day', valence: 'negative',
     instructions: 'Sam and Jeffrey are siblings that share a bathroom. Every morning, they catch the bus to their school together. After their mom wakes them up at 6am, they take turns getting ready in the bathroom. If Sam and Jeffrey together take longer than ' +
-        unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school.' +
+        unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school. If they miss their bus, they will have to walk instead, and they will be late to school.' +
         '<br><br>We will show you how many minutes each sibling took to get ready on ' +
-        n_learning + ' separate days. For each day, you will be asked whether they missed their bus.' +
+        n_learning + ' separate days. For each day, you will be asked whether they were late to school.' +
         '<br><br><strong>Please try to pay attention to how long each sibling takes to get ready on average.</strong>',
     learning: {
         stim1: 'Sam took ',
         stim2: ' to get ready. ',
         stim3: 'Jeffrey took ',
-        stim4: ' to get ready.<p><strong> Did they miss the bus today?</strong></p>',
-        alert: 'Remember that Sam and Jeffrey miss their bus whenever they take over ' + unit(threshold + 'minute') + ' to get ready in total.',
+        stim4: ' to get ready.<p><strong> Were they late to school today?</strong></p>',
+        alert: 'Remember that Sam and Jeffrey will be late to school whenever they take over ' + unit(threshold + 'minute') + ' to get ready in total.',
     },
     man_check: {
         c: 'How many minutes does Sam take to get ready on an average day?',
         a: 'How many minutes does Jeffrey take to get ready on an average day?',
     },
     judgment: {
-        reminder: 'As a reminder, Sam and Jeffrey will miss their bus if they take over ' + unit(threshold, 'minute') + ' to get ready in total.',
-        vignette: 'Today, Sam took ' + unit(c, 'minute') + ' to get ready and Jeffrey took ' + unit(a, 'minute') + ' to get ready. So, they missed the bus.',
-        statement: 'Sam taking ' + unit(c, 'minute') + ' to get ready caused him and Jeffrey to miss their bus today.'
+        reminder: 'As a reminder, Sam and Jeffrey will miss their bus and be late to school if they take over ' + unit(threshold, 'minute') + ' to get ready in total.',
+        vignette: 'Today, Sam took ' + unit(c, 'minute') + ' to get ready, and Jeffrey took ' + unit(a, 'minute') + ' to get ready. So, they were late to school.',
+        statement: 'Sam taking ' + unit(c, 'minute') + ' to get ready caused him and Jeffrey to be late to school.'
     }
 }, {
     name: 'electricity', units: 'megawatt', interval: 'day', valence: 'negative',
     instructions: 'Chester and Franklin are the only two towns supplied by their local power grid. The power grid is able to supply up to ' +
         unit(threshold, 'megawatt') + ' of renewable electricity per day. So, if the two towns together use more than ' + unit(threshold, 'megawatt') +
-        ' of electricity on a given day, the power grid will resort to using non-renewable energy.' +
+        ' of electricity on a given day, the power grid will resort to using non-renewable energy for that day.' +
         ' <br><br>We will show you how much electricity each of the two towns used on ' + n_learning +
         ' separate days. For each day, you will be asked whether the power grid used non-renewable energy.' +
         '<br><br><strong>Please try to pay attention to how much electricity each town uses on average.</strong>',
@@ -208,7 +208,7 @@ var vignettes = [{
         stim2: ' of electricity. ',
         stim3: 'Franklin used ',
         stim4: ' of electricity. <p><strong>Did the power grid use non-renewable energy today?</strong></p>',
-        alert: 'Remember that the power grid will use non-renewable energy whenever Cheester and Franklin use over ' + unit(threshold, 'megawatt') + ' in total.',
+        alert: 'Remember that the power grid will use non-renewable energy whenever Chester and Franklin use over ' + unit(threshold, 'megawatt') + ' in total.',
     },
     man_check: {
         c: 'How many megawatts of electricity does Chester use on an average day?',
@@ -216,7 +216,7 @@ var vignettes = [{
     },
     judgment: {
         reminder: 'As a reminder, the power grid is able to supply up to ' + unit(threshold, 'megawatt') +
-            ' of renewable electricity on any given day. So, if Chester and Franklin together use ove ' + unit(threshold, 'megawatt') +
+            ' of renewable electricity on any given day. So, if Chester and Franklin together use over ' + unit(threshold, 'megawatt') +
             ' of electricity, there will not be enough renewable energy to supply the towns, and the power grid will use non-renewable energy.',
         vignette: 'Today, Chester used ' + unit(c, 'megawatt') + ' of electricity and Franklin used ' + unit(a, 'megawatt') + ' of electricity. So, the power grid used non-renewable energy.',
         statement: 'Chester using ' + unit(c, 'megawatt') + ' of electricity caused the power grid to use non-renewable energy today.'
@@ -225,7 +225,7 @@ var vignettes = [{
     name: 'water', units: 'gallon', interval: 'day', valence: 'negative',
     instructions: 'Alison and Tony live together in an apartment in town. To help with utilities, their landlord agreed to pay part of their monthly water bill up to a limit. So, if Alison and Tony together use more than ' +
         unit(threshold, 'gallon') + ' of water in a month, their landlord will send them a bill to pay for the remainder.' +
-        '<br><br>We will show you how much water Tony and Alison used on ' + n_learning + ' separate month. For each month, you will be asked whether their landlord sent them a bill.' +
+        '<br><br>We will show you how much water Tony and Alison used on ' + n_learning + ' separate months. For each month, you will be asked whether their landlord sent them a bill.' +
         '<br><br><strong>Please try to pay attention to how much water each person uses on average.</strong>',
     learning: {
         stim1: 'Alison used ',
