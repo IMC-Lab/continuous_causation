@@ -24,7 +24,7 @@ var jsPsych = initJsPsych({
                 // Re-direct back to Prolific if  is present
                 if (jsPsych.data.getURLVariable('PROLIFIC_PID') != null)
                     setTimeout(function () {
-                        window.location = "https://app.prolific.co/submissions/complete?cc=XXXXXXXXX";
+                        window.location = "https://app.prolific.com/submissions/complete?cc=CZY3BN55";
                     }, 3000);
             }).promise().catch(function () { });
     }
@@ -34,9 +34,10 @@ var mu_c = 10;
 var mu_a = 10;
 var sd_c = jsPsych.randomization.sampleWithoutReplacement([5, .1], 1)[0];
 var sd_a = 5;
-var threshold = jsPsych.randomization.sampleWithoutReplacement([11, 23], 1)[0];
-var c = 12;
-var a = 12;
+var c = 15;
+var a = c;
+var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
+
 var n_learning = 20;
 
 var learning_params = new Array(n_learning);
