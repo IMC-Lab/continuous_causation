@@ -30,14 +30,14 @@ var jsPsych = initJsPsych({
     }
 });
 
-var mu_c = 1;
-var mu_a = 1;
-var sd_c = 1;
-var sd_a = 1;
-var threshold = 3;
-var c = 1;
-var a = 1;
-var n_learning = 4;
+var mu_c = 10;
+var mu_a = 10;
+var sd_c = jsPsych.randomization.sampleWithoutReplacement([5, .1], 1)[0];
+var sd_a = 5;
+var threshold = jsPsych.randomization.sampleWithoutReplacement([11, 23], 1)[0];
+var c = 12;
+var a = 12;
+var n_learning = 20;
 
 var learning_params = new Array(n_learning);
 for (let i = 0; i < n_learning; i++) {
@@ -125,34 +125,35 @@ var vignettes = [{
         statement: 'Luke saving ' + unit(c, 'dollar') + ' caused the bank to deposit a bonus into their savings account this month.'
     }
 }, {
-    name: 'basketball', units: 'point', interval: 'game', valence: 'positive',
-    instructions: 'The local high school has a varsity basketball team and a junior varsity basketball team that separately compete against other nearby schools. ' +
-        'To motivate everyone, the coach has promised to take both teams out for ice cream after any game in which they score over ' + unit(threshold, 'point') +
+    name: 'basketball', units: 'point', interval: 'match', valence: 'positive',
+    instructions: 'The local high school has a varsity basketball team and a junior varsity basketball team. Every match, both teams play a separate game against teams from other nearby schools. ' +
+        'To motivate everyone, the coach has promised to take both teams out for ice cream after any match in which they score over ' + unit(threshold, 'point') +
         ' total. So, if the varsity and junior varsity teams together score over ' +
-        unit(threshold, 'point') + ' points during a game, the coach will take them out for ice cream.' +
+        unit(threshold, 'point') + ' points during a match, the coach will take them out for ice cream.' +
         '<br><br>We will show you how many points each of the two basketball teams scored during ' + n_learning +
-        ' separate games. For each game, you will be asked whether they went out for ice cream after the game.</strong>',
+        ' separate matches. For each match, you will be asked whether they went out for ice cream after the match.</strong>' +
+        '<br><br><strong>Please try to pay attention to how many points each team scores on average.</strong>',
     learning: {
         stim1: 'The varsity team scored ',
         stim2: '.',
         stim3: 'The junior varsity team scored ',
         stim4: '. <p><strong>Did the team go out for ice cream today?</strong></p>',
-        alert: 'Remember that the team goes out for ice cream whenever the varsity and junior varsity teams score over ' + unit(threshold + 'point') + ' in total.',
+        alert: 'Remember that the team goes out for ice cream whenever the varsity and junior varsity teams score over ' + unit(threshold, 'point') + ' in total.',
     },
     man_check: {
-        c: 'How many points does the varsity team score during an average game?',
-        a: 'How many points does the junior varsity team score during an average game?',
+        c: 'How many points does the varsity team score during an average match?',
+        a: 'How many points does the junior varsity team score during an average match?',
     },
     judgment: {
         reminder: 'As a reminder, the coach will take the team out for ice cream if the varsity and junior varsity teams score over ' + unit(threshold, 'point') + ' in total.',
-        vignette: 'During today’s game, the varsity team scored ' + unit(c, 'point') + ' and the junior varsity team scored ' + unit(a, 'point') + '. So, the coach took the team out for ice cream.',
-        statement: 'The varsity team scoring ' + unit(c, 'point') + ' points caused the team to go out for ice cream today.'
+        vignette: 'During today’s match, the varsity team scored ' + unit(c, 'point') + ' and the junior varsity team scored ' + unit(a, 'point') + '. So, the coach took the team out for ice cream.',
+        statement: 'The varsity team scoring ' + unit(c, 'point') + ' caused the team to go out for ice cream today.'
     }
 }, {
     name: 'food', units: 'canned good', interval: 'day', valence: 'positive',
     instructions: 'Fairfield Middle School, which teaches 7th grade and 8th grade students, is hosting a food drive for their community. To encourage their students to donate to the food drive, the principal told the school that everyone can receive 15 extra minutes of lunch time whenever the school collects over ' +
         unit(threshold, 'canned good') + '. So, if the 7th grade students and the 8th grade students bring in over ' + unit(threshold, 'canned good') +
-        ' in total, the school will receive 15 minutes of lunch for that day.<br><br>We will show you how many canned goods brought in by the 7th grade class and the 8th grade class on ' +
+        ' in total, the school will receive 15 extra minutes of lunch for that day.<br><br>We will show you how many canned goods brought in by the 7th grade class and the 8th grade class on ' +
         n_learning + ' separate days. For each day, you will be asked whether the school received 15 extra minutes of lunch time.' +
         '<br><br><strong>Please try to pay attention to how many canned goods each class brings in on average.</strong>',
     learning: {
@@ -184,7 +185,7 @@ var vignettes = [{
         stim2: ' to get ready. ',
         stim3: 'Jeffrey took ',
         stim4: ' to get ready.<p><strong> Were they late to school today?</strong></p>',
-        alert: 'Remember that Sam and Jeffrey will be late to school whenever they take over ' + unit(threshold + 'minute') + ' to get ready in total.',
+        alert: 'Remember that Sam and Jeffrey will be late to school whenever they take over ' + unit(threshold, 'minute') + ' to get ready in total.',
     },
     man_check: {
         c: 'How many minutes does Sam take to get ready on an average day?',
@@ -223,7 +224,7 @@ var vignettes = [{
     }
 }, {
     name: 'water', units: 'gallon', interval: 'day', valence: 'negative',
-    instructions: 'Alison and Tony live together in an apartment in town. To help with utilities, their landlord agreed to pay part of their monthly water bill up to a limit. So, if Alison and Tony together use more than ' +
+    instructions: 'Alison and Tony live together in an apartment in town. To help with utilities, their landlord agreed to pay for them to use up to ' + unit(threshold, 'gallon') + '. So, if Alison and Tony together use more than ' +
         unit(threshold, 'gallon') + ' of water in a month, their landlord will send them a bill to pay for the remainder.' +
         '<br><br>We will show you how much water Tony and Alison used on ' + n_learning + ' separate months. For each month, you will be asked whether their landlord sent them a bill.' +
         '<br><br><strong>Please try to pay attention to how much water each person uses on average.</strong>',
@@ -300,29 +301,30 @@ var vignettes = [{
         statement: 'Hammerco ordering ' + unit(c, 'ton') + ' of brick caused Ned to take two trips across the river today.'
     }
 }, {
-    name: 'exercise', units: 'pound', interval: 'month', valence: 'positive',
-    instructions: 'Francine wants to help her friends Olivia and Mimi to lose some weight. To help achieve their goal, they agreed to a deal. ' +
-        'At the start of each month, they will measure how much weight Olivia and Mimi each lost since the previous month. Their goal is to lose ' + 
-        unit(threshold, 'pound') + ' combined each month. So, if they lost a total of more than ' + unit(threshold, 'pound') + ' that month, Francine will throw them a party.' +
-        '<br><br>We will show you how much weight Olivia and Mimi lost on ' + n_learning +
-        ' separate months. For each month, you will be asked whether Francine threw them a party.' +
-        '<br><br><strong>Please try to pay attention to how much weight Olivia and Mimi lose on average.</strong>',
+    name: 'running', units: 'mile', interval: 'month', valence: 'positive',
+    instructions: 'Francine wants to help her friends Olivia and Mimi run more. To help achieve their goal, they agreed to a deal. ' +
+        'At the start of each month, they will measure how many miles Olivia and Mimi each ran since the previous month. Their goal is to run ' +
+        unit(threshold, 'mile') + ' combined each month. So, if they run a total of more than ' + unit(threshold, 'mile') + 
+        ' that month, Francine will bake them a cake. Francine will not bake a cake if they run less than ' + unit(threshold, 'mile') + ' that month.' +
+        '<br><br>We will show you how many miles Olivia and Mimi ran on ' + n_learning +
+        ' separate months. For each month, you will be asked whether Francine baked them a cake.' +
+        '<br><br><strong>Please try to pay attention to how many miles Olivia and Mimi run on average.</strong>',
     learning: {
-        stim1: 'Olivia lost ',
+        stim1: 'Olivia ran ',
         stim2: '.',
-        stim3: 'Mimi lost ',
-        stim4: '. <p><strong>Did Francine throw them a party this month?</strong></p>',
-        alert: 'Remember that Francine throws Olivia and Mimi a party whenever they lose over ' + unit(threshold, 'pound') + ' of weight in total.',
+        stim3: 'Mimi ran ',
+        stim4: '. <p><strong>Did Francine bake them a cake this month?</strong></p>',
+        alert: 'Remember that Francine bakes Olivia and Mimi a cake whenever they run more than ' + unit(threshold, 'mile') + ' in total.',
     },
     man_check: {
-        c: 'How many pounds of weight does Olivia lose on an average month?',
-        a: 'How many pounds of weight does Mimi lose on an average month?',
+        c: 'How many miles does Olivia run on an average month?',
+        a: 'How many miles does Mimi run on an average month?',
     },
     judgment: {
-        reminder: 'As a reminder, Olivia and Mimi set a goal to lose a total of ' + unit(threshold, 'pound') + 
-            ' each month. So, if Olivia and Francine together lose over ' + unit(threshold, 'pound') + ', then Francine will throw them a party.',
-        vignette: 'This month, Olivia lost ' + unit(c, 'pound') + ' and Mimi lost ' + unit(a, 'pound') + '.',
-        statement: 'Olivia losing ' + unit(c, 'pound') + ' caused Francine to throw a party this month.'
+        reminder: 'As a reminder, Olivia and Mimi set a goal to run a total of ' + unit(threshold, 'mile') + 
+            ' each month. So, if Olivia and Francine together run over ' + unit(threshold, 'mile') + ', then Francine will bake them a cake.',
+        vignette: 'This month, Olivia ran ' + unit(c, 'mile') + ' and Mimi ran ' + unit(a, 'mile') + '.',
+        statement: 'Olivia running ' + unit(c, 'mile') + ' caused Francine to bake a cake this month.'
     }
 }, {
     name: 'cellular', units: 'gigabyte', interval: 'month', valence: 'negative',
@@ -357,6 +359,18 @@ var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
 
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
+console.log('sd_c: ' + sd_c);
+console.log('threshold: ' + threshold);
+
+/* Capture info from Prolific */
+jsPsych.data.addProperties({
+    id: id, mu_c: mu_c, mu_a: mu_a, sd_c: sd_c, sd_a: sd_a, 
+    threshold: threshold, c: c, a: a, n_learning: n_learning,
+    prolific_id: jsPsych.data.getURLVariable('PROLIFIC_PID'),
+    study_id: jsPsych.data.getURLVariable('STUDY_ID'),
+    session_id: jsPsych.data.getURLVariable('SESSION_ID')
+});
+jsPsych.data.addProperties(vignette);
 
 // convert a number to a string in the correct units
 function unit(n, unit = 'gallon') {
@@ -452,7 +466,7 @@ var instructions = {
     type: jsPsychInstructions,
     show_clickable_nav: true,
     pages: ['<p>In this study, you will be asked to read some scenarios and to answer questions about these scenarios.</p>',
-        (vignette.instructions + '<strong>You can receive a bonus payment of up to $4 if you answer the following questions more accurately than other participants.</strong>')]
+        (vignette.instructions + ' <strong>If you answer the following questions more accurately than other participants, you will have a chance to receive a bonus payment of up to $4.</strong>')]
 }
 
 function sampleNormal(mean, sd, min = 0, max = Infinity) {
@@ -482,7 +496,7 @@ var learning = {
             }
         }, {
             type: jsPsychInstructions,
-            show_clickable_nav: true,
+            show_clickable_nav: true, allow_backward: false,
             pages: function () {
                 let d = jsPsych.data.getLastTrialData().values()[0];
                 let header = '<p align="left">' + capitalize(vignette.interval) + ' ' + d.trial + ' of ' + n_learning + ':</p>';
