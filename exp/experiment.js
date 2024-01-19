@@ -594,5 +594,14 @@ var confidence = {
     }
 }
 
+var justification = {
+    type: jsPsychSurveyText,
+    questions: [{ name: 'justification', type: 'text', prompt: "Why did you respond the way you did?", rows: 10 }],
+    on_finish: function (data) {
+        data.measure = "justification";
+        data.response = data.response.justification;
+    }
+}
+
 /* start the experiment */
-jsPsych.run([consent, instructions, learning, man_check, judgment, confidence, age, gender, attn_check, comments]);
+jsPsych.run([consent, instructions, learning, man_check, judgment, confidence, justification, age, gender, attn_check, comments]);
