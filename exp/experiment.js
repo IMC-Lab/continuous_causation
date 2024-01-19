@@ -55,7 +55,7 @@ var vignettes = [{
         ' of sewage on a given day, then the river will get polluted that day.' +
         '<br><br>We will show you how much sewage each of the two plants produced on ' + n_learning +
         ' separate days. For each day, you will be asked whether the river was polluted.' +
-        '<br><br><strong>Please try to pay attention to how much sewage each plant produces on average.</strong>',
+        '<br><br><strong>Please try to pay attention to how much sewage each plant produces on average. </strong>',
     learning: {
         stim1: 'Huxley Steel produced ',
         stim2: ' of sewage. ',
@@ -81,7 +81,7 @@ var vignettes = [{
         'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. So, if Susan and Mike together sell more than ' +
         unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day.<br><br>We will show you how many reams of paper each of the two employees sold on ' + n_learning +
         ' separate days. For each day, you will be asked whether the branch made a profit.' +
-        '<br><br><strong>Please try to pay attention to how many reams of paper each employee sells on average.</strong>',
+        '<br><br><strong>Please try to pay attention to how many reams of paper each employee sells on average. </strong>',
     learning: {
         stim1: 'Susan sold ',
         stim2: ' of paper for the branch.',
@@ -150,27 +150,27 @@ var vignettes = [{
     }
 }, {
     name: 'food', units: 'canned good', interval: 'day', valence: 'positive',
-    instructions: 'Fairfield Middle School, which teaches 7th grade and 8th grade students, is hosting a food drive for their community. To encourage their students to donate to the food drive, the principal told the school that everyone can leave 15 minutes early whenever the school collects over ' +
+    instructions: 'Fairfield Middle School, which teaches 7th grade and 8th grade students, is hosting a food drive for their community. To encourage their students to donate to the food drive, the principal told the school that everyone can receive 15 extra minutes of lunch time whenever the school collects over ' +
         unit(threshold, 'canned good') + '. So, if the 7th grade students and the 8th grade students bring in over ' + unit(threshold, 'canned good') +
-        ' in total, school will end early that day.<br><br>We will show you how many canned goods brought in by the 7th grade class and the 8th grade class on ' +
-        n_learning + ' separate days. For each day, you will be asked whether the school ended 15 minutes early.' +
+        ' in total, the school will receive 15 minutes of lunch for that day.<br><br>We will show you how many canned goods brought in by the 7th grade class and the 8th grade class on ' +
+        n_learning + ' separate days. For each day, you will be asked whether the school received 15 extra minutes of lunch time.' +
         '<br><br><strong>Please try to pay attention to how many canned goods each class brings in on average.</strong>',
     learning: {
         stim1: 'The 7th grade class brought in ',
         stim2: ' for the food drive. ',
         stim3: 'The 8th grade class brought in ',
-        stim4: ' for the food drive.<p><strong>Did Fairfield Middle School end their classes 15 minutes early today?</strong></p>',
-        alert: 'Remember that Fairfield Middle School ends their classes 15 minutes early whenever they bring over ' + unit(threshold, ' canned good') + ' in total.',
+        stim4: ' for the food drive.<p><strong>Did Fairfield Middle School receive 15 extra minutes of lunch time today?</strong></p>',
+        alert: 'Remember that Fairfield Middle School receives 15 extra minutes during lunch whenever they bring over ' + unit(threshold, ' canned good') + ' in total.',
     },
     man_check: {
         c: 'How many canned goods does the 7th grade class bring in on an average day?',
         a: 'How many canned goods does the 8th grade class bring in on an average day?',
     },
     judgment: {
-        reminder: 'As a reminder, the Fairfield Middle School will end their classes 15 minutes early if the 7th grade class and the 8th grade class bring in over ' + unit(threshold, 'canned good') + ' that day.',
+        reminder: 'As a reminder, the Fairfield Middle School will receive 15 extra minutes of lunch if the 7th grade class and the 8th grade class bring in over ' + unit(threshold, 'canned good') + ' that day.',
         vignette: 'Today, the 7th grade class brought in ' + unit(c, 'canned good') + ' and the 8th grade class brought in ' +
-            unit(a, 'canned good') + '. So, Fairfield Middle School ended their classes 15 minutes early.',
-        statement: 'The 7th grade class bringing in ' + unit(c, 'canned good') + ' caused Fairfield Middle School to end their classes 15 minutes early today.'
+            unit(a, 'canned good') + '. So, Fairfield Middle School received 15 extra minutes of lunch.',
+        statement: 'The 7th grade class bringing in ' + unit(c, 'canned good') + ' caused Fairfield Middle School to receive 15 extra minutes of lunch time today.'
     }
 }, {
     name: 'bus', units: 'minute', interval: 'day', valence: 'negative',
@@ -202,7 +202,7 @@ var vignettes = [{
         ' of electricity on a given day, the power grid will resort to using non-renewable energy for that day.' +
         ' <br><br>We will show you how much electricity each of the two towns used on ' + n_learning +
         ' separate days. For each day, you will be asked whether the power grid used non-renewable energy.' +
-        '<br><br><strong>Please try to pay attention to how much electricity each town uses on average.</strong>',
+        '<br><br><strong>Please try to pay attention to how much electricity each town uses on average. </strong>',
     learning: {
         stim1: 'Chester used ',
         stim2: ' of electricity. ',
@@ -451,9 +451,8 @@ var comments = {
 var instructions = {
     type: jsPsychInstructions,
     show_clickable_nav: true,
-    pages: [`<p>In this study, you will be asked to read some scenarios and to answer questions about those scenarios.</p> 
-        Pay attention, because you will receive a bonus payment of up to $4 if you answer these questions more accurately than other participants.`,
-        vignette.instructions]
+    pages: ['<p>In this study, you will be asked to read some scenarios and to answer questions about these scenarios.</p>',
+        (vignette.instructions + '<strong>You can receive a bonus payment of up to $4 if you answer the following questions more accurately than other participants.</strong>')]
 }
 
 function sampleNormal(mean, sd, min = 0, max = Infinity) {
