@@ -154,7 +154,7 @@ var vignettes = [{
     name: 'food', units: 'canned good', interval: 'day', valence: 'positive',
     instructions: 'Fairfield Middle School, which teaches 7th grade and 8th grade students, is hosting a food drive for their community. To encourage their students to donate to the food drive, the principal told the school that everyone can receive 15 extra minutes of lunch time whenever the school collects over ' +
         unit(threshold, 'canned good') + '. So, if the 7th grade students and the 8th grade students bring in over ' + unit(threshold, 'canned good') +
-        ' in total, the school will receive 15 extra minutes of lunch for that day.<br><br>We will show you how many canned goods brought in by the 7th grade class and the 8th grade class on ' +
+        ' in total, the school will receive 15 extra minutes of lunch for that day.<br><br>We will show you how many canned goods were brought in by the 7th grade class and the 8th grade class on ' +
         n_learning + ' separate days. For each day, you will be asked whether the school received 15 extra minutes of lunch time.' +
         '<br><br><strong>Please try to pay attention to how many canned goods each class brings in on average.</strong>',
     learning: {
