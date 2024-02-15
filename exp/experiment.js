@@ -13,7 +13,7 @@ var jsPsych = initJsPsych({
             'id': jsPsych.randomization.randomID(),
             'extension': 'csv',
             'directory': 'data',
-            'experimentName': 'experiment1',
+            'experimentName': 'lab_meeting',
             'curData': data.csv()
         };
         await $.post("https://dibs-web01.vm.duke.edu/debrigard/continuous_causation/exp/save.php",
@@ -32,13 +32,14 @@ var jsPsych = initJsPsych({
 
 var mu_c = 10;
 var mu_a = 10;
-var sd_c = jsPsych.randomization.sampleWithoutReplacement([5, .1], 1)[0];
+//var sd_c = jsPsych.randomization.sampleWithoutReplacement([5, .1], 1)[0];
+var sd_c= .1
 var sd_a = 5;
 var c = 15;
 var a = c;
-var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
-
-var n_learning = 20;
+//var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
+var threshold = 29
+var n_learning = 10;
 
 var learning_params = new Array(n_learning);
 for (let i = 0; i < n_learning; i++) {
@@ -355,8 +356,8 @@ var vignettes = [{
 
 /* Randomly assign a condition */
 var id = jsPsych.randomization.randomID();
-var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
-//var vignette = vignettes[0];  // use to pre-select a specific vignette
+//var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
+var vignette = vignettes[0];  // use to pre-select a specific vignette
 
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
