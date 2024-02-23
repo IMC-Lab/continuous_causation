@@ -490,6 +490,17 @@ var learning = {
                     vignette.learning.stim2 + '<br>' + vignette.learning.stim3 +
                     unit(jsPsych.timelineVariable('a'), vignette.units) + vignette.learning.stim4;
             },
+            on_load: function () {
+                // hide buttons initially
+                document.querySelectorAll('.jsPsychHtmlButtonResponse').forEach(function(button) {
+                    button.style.visibility = 'hidden';
+                });
+                setTimeout(function() {
+                    document.querySelectorAll('.jsPsychHtmlButtonResponse').forEach(function(button) {
+                        button.style.visibility = 'visible';
+                    });
+                }, 1000); // 1000ms delay before showing buttons
+            },
             data: {
                 trial: jsPsych.timelineVariable('trial'),
                 c: jsPsych.timelineVariable('c'),
@@ -515,6 +526,18 @@ var learning = {
     }],
     timeline_variables: learning_params
 }
+
+
+/*
+on_load: function () {
+    document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
+    document.getElementById('jspsych-html-slider-response-response').addEventListener('click', function (e) {
+        e.target.classList.remove('hidden');
+    });
+},
+on_finish: function (data) {
+    data.measure = "judgment";
+    */
 
 /*display manipulation check */
 var man_check = {
