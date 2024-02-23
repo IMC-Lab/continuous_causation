@@ -66,8 +66,8 @@ var vignettes = [{
         alert: 'Remember that the river gets polluted whenever Huxley Steel and Huxley Lumber produce more than ' + unit(threshold, 'gallon') + ' of sewage in total.',
     },
     man_check: {
-        c: "How many gallons of sewage does Huxley Steel produce on an average day?",
-        a: "How many gallons of sewage does Huxley Lumber produce on an average day?",
+        c: "How much does the sewage production of Huxley Steel vary from day to day? ",
+        a: "How much does the sewage production of Huxley Lumber vary from day to day? ",
     },
     judgment: {
         reminder: 'As a reminder, the water facility is capable of filtering ' + unit(threshold, 'gallon') +
@@ -92,8 +92,8 @@ var vignettes = [{
         alert: 'Remember that the local branch makes a profit whenever Susan and Mike sell over ' + unit(threshold, 'ream') + ' of paper in total.',
     },
     man_check: {
-        c: 'How many reams of paper does Susan sell on an average day?',
-        a: 'How many reams of paper does Mike sell on an average day?',
+        c: 'How much does the number of reams of paper sold by Susan vary from day to day?',
+        a: 'How much does the number of reams of paper sold by Mike vary from day to day?',
     },
     judgment: {
         reminder: 'As a reminder, each day the local branch of the company will make a profit if Susan and Mike together sell over ' +
@@ -116,8 +116,8 @@ var vignettes = [{
         alert: 'Remember that the bank deposits a bonus into their savings account whenever Luke and Lisa save over ' + unit(threshold, 'dollar') + ' in total.',
     },
     man_check: {
-        c: 'How many dollars does Luke save on an average month?',
-        a: 'How many dollars does Lisa save on an average month?',
+        c: 'How much does the number of dollars saved by Luke vary from month to month?',
+        a: 'How much does the number of dollars saved by Lisa vary from month to month?',
     },
     judgment: {
         reminder: 'As a reminder, the bank deposits a bonus into their savings account if they save over ' +
@@ -143,8 +143,8 @@ var vignettes = [{
         alert: 'Remember that the team goes out for ice cream whenever the varsity and junior varsity teams score over ' + unit(threshold, 'point') + ' in total.',
     },
     man_check: {
-        c: 'How many points does the varsity team score during an average match?',
-        a: 'How many points does the junior varsity team score during an average match?',
+        c: 'How much does the number of points scored by the varsity team vary from match to match?',
+        a: 'How much does the number of points scored by the junior varsity team vary from match to match?',
     },
     judgment: {
         reminder: 'As a reminder, the coach will take the team out for ice cream if the varsity and junior varsity teams score over ' + unit(threshold, 'point') + ' in total.',
@@ -166,8 +166,8 @@ var vignettes = [{
         alert: 'Remember that Fairfield Middle School receives 15 extra minutes during lunch whenever they bring over ' + unit(threshold, ' canned good') + ' in total.',
     },
     man_check: {
-        c: 'How many canned goods does the 7th grade class bring in on an average day?',
-        a: 'How many canned goods does the 8th grade class bring in on an average day?',
+        c: 'How much does the number of canned goods brought in by the 7th grade class vary from day to day?',
+        a: 'How much does the number of canned goods brought in by the 8th grade class vary from day to day?',
     },
     judgment: {
         reminder: 'As a reminder, the Fairfield Middle School will receive 15 extra minutes of lunch if the 7th grade class and the 8th grade class bring in over ' + unit(threshold, 'canned good') + ' that day.',
@@ -177,7 +177,7 @@ var vignettes = [{
     }
 }, {
     name: 'bus', units: 'minute', interval: 'day', valence: 'negative',
-    instructions: 'Sam and Jeffrey are siblings that share a bathroom. Every morning, they catch the bus to their school together. After their mom wakes them up at 6am, they take turns getting ready in the bathroom. If Sam and Jeffrey together take longer than ' +
+    instructions: 'Sam and Jeffrey are siblings who share a bathroom. Every morning, they catch the bus to their school together. After their mom wakes them up at 6am, they take turns getting ready in the bathroom. If Sam and Jeffrey together take longer than ' +
         unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school. If they miss their bus, they will have to walk instead, and they will be late to school.' +
         '<br><br>We will show you how many minutes each sibling took to get ready on ' +
         n_learning + ' separate days. For each day, you will be asked whether they were late to school.' +
@@ -190,8 +190,8 @@ var vignettes = [{
         alert: 'Remember that Sam and Jeffrey will be late to school whenever they take over ' + unit(threshold, 'minute') + ' to get ready in total.',
     },
     man_check: {
-        c: 'How many minutes does Sam take to get ready on an average day?',
-        a: 'How many minutes does Jeffrey take to get ready on an average day?',
+        c: 'How much does the number of minutes (or quite simply: the amount of time) that Sam takes to get ready vary from day to day?',
+        a: 'How much does the number of minutes that Jeffrey takes to get ready vary from day to day?',
     },
     judgment: {
         reminder: 'As a reminder, Sam and Jeffrey will miss their bus and be late to school if they take over ' + unit(threshold, 'minute') + ' to get ready in total.',
@@ -214,8 +214,8 @@ var vignettes = [{
         alert: 'Remember that the power grid will use non-renewable energy whenever Chester and Franklin use over ' + unit(threshold, 'megawatt') + ' in total.',
     },
     man_check: {
-        c: 'How many megawatts of electricity does Chester use on an average day?',
-        a: 'How many megawatts of electricity does Franklin use on an average day?',
+        c: 'How much does the amount of electricity used by Chester vary from day to day?',
+        a: 'How much does the amount of electricity used by Franklin vary from day to day?',
     },
     judgment: {
         reminder: 'As a reminder, the power grid is able to supply up to ' + unit(threshold, 'megawatt') +
@@ -238,8 +238,8 @@ var vignettes = [{
         alert: 'Remember that their landlord will send them a bill whenever Alison and Tony use over ' + unit(threshold, 'gallon') + ' of water in total.',
     },
     man_check: {
-        c: 'How many gallons of water does Alison use on an average month?',
-        a: 'How many gallons of water does Tony use on an average month?',
+        c: 'How much does the amount of water used by Alison vary from month to month?',
+        a: 'How much does the amount of water used by Tony vary from month to month?',
     },
     judgment: {
         reminder: 'As a reminder, their landlord will pay for Alison and Tony to use ' + unit(threshold, 'gallon') +
@@ -267,8 +267,8 @@ var vignettes = [{
         alert: 'Remember that the district will receive more funding whenever Williamsburg North and Williamsburg South send over ' + unit(threshold, 'student') + ' to a university in total.',
     },
     man_check: {
-        c: 'How many students does Williamsburg North send to a university on an average year?',
-        a: 'How many students does Williamsburg South send to a university on an average year?',
+        c: 'How much does the number of students that Williamsburg North sends to a university vary from year to year?',
+        a: 'How much does the number of students that Williamsburg South sends to a university vary from year to year?',
     },
     judgment: {
         reminder: 'As a reminder, the district will receive more funding for education if Williamsburg North and Williamsburg South together send over ' + unit(threshold, 'student') + ' to a university.',
@@ -293,8 +293,8 @@ var vignettes = [{
         alert: 'Remember that Ned takes two trips across the river whenever Hammerco and Brick Works order over ' + unit(threshold, 'ton') + ' of bricks in total.',
     },
     man_check: {
-        c: 'How many tons of bricks does Hammerco order on an average day?',
-        a: 'How many tons of bricks does Brick Works order on an average day?',
+        c: 'How much does the number of tons of bricks ordered by Hammerco vary from day to day?',
+        a: 'How much does the number of tons of bricks ordered by Brick Works vary from day to day?',
     },
     judgment: {
         reminder: 'As a reminder, the Middleview bridge can support a maximum of ' + unit(threshold, 'ton') + 
@@ -319,8 +319,8 @@ var vignettes = [{
         alert: 'Remember that Francine bakes Olivia and Mimi a cake whenever they run more than ' + unit(threshold, 'mile') + ' in total.',
     },
     man_check: {
-        c: 'How many miles does Olivia run on an average month?',
-        a: 'How many miles does Mimi run on an average month?',
+        c: 'How much does the number of miles that Olivia runs vary from month to month?',
+        a: 'How much does the number of miles that Mimi runs vary from month to month?',
     },
     judgment: {
         reminder: 'As a reminder, Olivia and Mimi set a goal to run a total of ' + unit(threshold, 'mile') + 
@@ -344,8 +344,8 @@ var vignettes = [{
         alert: 'Remember that the cell company charges a data overage fee whenever Ricardo and Pierre use over ' + unit(threshold, 'gigabyte') + ' of data in total.',
     },
     man_check: {
-        c: 'How many gigabytes of data does Ricardo use on an average month?',
-        a: 'How many gigabytes of data does Pierre use on an average month?',
+        c: 'How much does the number of gigabytes of data that Ricardo uses vary from month to month?',
+        a: 'How much does the number of gigabytes of data that Pierre uses vary from month to month?',
     },
     judgment: {
         reminder: 'As a reminder, the cell company will charge Ricardo and Pierre a data overage fee whenever they use over ' + unit(threshold, 'gigabyte') + ' of data in a month.',
@@ -521,12 +521,12 @@ var man_check = {
     timeline: [{
         type: jsPsychSurveyText,
         questions: [
-            { name: 'average_c', prompt: vignette.man_check.c, required: true },
-            { name: 'average_a', prompt: vignette.man_check.a, required: true }],
+            { name: 'variance_c', prompt: vignette.man_check.c, required: true },
+            { name: 'variance_a', prompt: vignette.man_check.a, required: true }],
         on_finish: function (data) {
             data.measure = 'manipulation_check';
-            data.response_c = parseFloat(data.response.average_c);
-            data.response_a = parseFloat(data.response.average_a);
+            data.response_c = parseFloat(data.response.variance_c);
+            data.response_a = parseFloat(data.response.variance_a);
         }
     }],
     loop_function: function (data) {
