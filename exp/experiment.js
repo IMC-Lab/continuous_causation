@@ -57,7 +57,7 @@ var vignettes = [{
         ' of sewage on a given day, then the river will get polluted that day.' +
         '<br><br>We will show you how much sewage each of the two plants produced on ' + n_learning +
         ' separate days. For each day, you will be asked whether the river was polluted.' +
-        '<br><br><strong>Huxley Steel and Huxley Lumber each produce ' + unit(mu_c, 'gallon') + ' of sewage on average. </strong>',
+        '<br><br><strong>Huxley Steel and Huxley Lumber each produce ' + unit(mu_c, 'gallon') + ' of sewage on average. Please try to pay attention to how much sewage the plants produce each day. </strong>',
     learning: {
         stim1: 'Huxley Steel produced ',
         stim2: ' of sewage. ',
@@ -66,8 +66,8 @@ var vignettes = [{
         alert: 'Remember that the river gets polluted whenever Huxley Steel and Huxley Lumber produce more than ' + unit(threshold, 'gallon') + ' of sewage in total.',
     },
     man_check: {
-        c: "How much does the sewage production of Huxley Steel vary from day to day? ",
-        a: "How much does the sewage production of Huxley Lumber vary from day to day? ",
+        c: "How much does the amount of sewage produced by Huxley Steel vary from day to day?",
+        a: "How much does the amount of sewage produced by Huxley Lumber vary from day to day?",
     },
     judgment: {
         reminder: 'As a reminder, the water facility is capable of filtering ' + unit(threshold, 'gallon') +
@@ -85,9 +85,9 @@ var vignettes = [{
     name: 'sales', units: 'ream', interval: 'day', valence: 'positive',
     instructions: "There are two employees, Susan and Mike, in the sales department of a paper company’s local branch. Every day, both employees try to sell as many reams of paper as possible. " +
         'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. So, if Susan and Mike together sell more than ' +
-        unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day.<br><br>We will show you how many reams of paper each of the two employees sold on ' + n_learning +
+        unit(threshold, 'ream') + ' of paper in a day, then their branch will make a profit for that day.<br><br>We will show you how many reams of paper each of the two employees sold on ' + n_learning +
         ' separate days. For each day, you will be asked whether the branch made a profit.' +
-        '<br><br><strong>Susan and Mike each sell ' + unit(mu_c, 'ream') + ' of paper on average. </strong>',
+        '<br><br><strong>Susan and Mike each sell ' + unit(mu_c, 'ream') + ' of paper on average. Please try to pay attention to how much paper Susan and Mike sell each day. </strong>',
     learning: {
         stim1: 'Susan sold ',
         stim2: ' of paper for the branch.',
@@ -96,8 +96,8 @@ var vignettes = [{
         alert: 'Remember that the local branch makes a profit whenever Susan and Mike sell over ' + unit(threshold, 'ream') + ' of paper in total.',
     },
     man_check: {
-        c: 'How much does the number of reams of paper sold by Susan vary from day to day?',
-        a: 'How much does the number of reams of paper sold by Mike vary from day to day?',
+        c: 'How much does the amount of paper sold by Susan vary from day to day?',
+        a: 'How much does the amount of paper sold by Mike vary from day to day?',
     },
     judgment: {
         reminder: 'As a reminder, each day the local branch of the company will make a profit if Susan and Mike together sell over ' +
@@ -115,7 +115,7 @@ var vignettes = [{
     instructions: 'Luke and Lisa have a special joint savings account together. Every month, they each add money to their account. If Luke and Lisa save over ' +
         unit(threshold, 'dollar') + ' by the end of the month, their bank deposits a bonus into their account. <br><br>We will show you how much money each person saved for ' +
         n_learning + ' separate months. For each month, you will be asked whether their bank deposited a bonus into their account.' +
-        '<br><br><strong>Luke and Lisa each save ' + unit(mu_c, 'dollar') + ' on average.</strong>',
+        '<br><br><strong>Luke and Lisa each save ' + unit(mu_c, 'dollar') + ' a month on average. Please try to pay attention to how much money Luke and Lisa save each month. </strong>',
     learning: {
         stim1: 'Luke saved ',
         stim2: '. ',
@@ -124,8 +124,8 @@ var vignettes = [{
         alert: 'Remember that the bank deposits a bonus into their savings account whenever Luke and Lisa save over ' + unit(threshold, 'dollar') + ' in total.',
     },
     man_check: {
-        c: 'How much does the number of dollars saved by Luke vary from month to month?',
-        a: 'How much does the number of dollars saved by Lisa vary from month to month?',
+        c: 'How much does the amount of money saved by Luke vary from month to month?',
+        a: 'How much does the amount of money saved by Lisa vary from month to month?',
     },
     judgment: {
         reminder: 'As a reminder, the bank deposits a bonus into their savings account if they save over ' +
@@ -146,7 +146,7 @@ var vignettes = [{
         unit(threshold, 'point') + ' points during a match, the coach will take them out for ice cream.' +
         '<br><br>We will show you how many points each of the two basketball teams scored during ' + n_learning +
         ' separate matches. For each match, you will be asked whether they went out for ice cream after the match.</strong>' +
-        '<br><br><strong>The varsity and junior varsity teams each score ' + unit(mu_c, 'point') + ' on average.</strong>',
+        '<br><br><strong>The varsity and junior varsity teams each score ' + unit(mu_c, 'point') + ' on average. Please try to pay attention to how many points the teams score each day. </strong>',
     learning: {
         stim1: 'The varsity team scored ',
         stim2: '.',
@@ -173,7 +173,7 @@ var vignettes = [{
         unit(threshold, 'canned good') + '. So, if the 7th grade students and the 8th grade students bring in over ' + unit(threshold, 'canned good') +
         ' in total, the school will receive 15 extra minutes of lunch for that day.<br><br>We will show you how many canned goods were brought in by the 7th grade class and the 8th grade class on ' +
         n_learning + ' separate days. For each day, you will be asked whether the school received 15 extra minutes of lunch time.' +
-        '<br><br><strong>The 7th grade class and the 8th grade class each bring in ' + unit(mu_c, 'canned good') + ' on average.</strong>',
+        '<br><br><strong>The 7th grade class and the 8th grade class each bring in ' + unit(mu_c, 'canned good') + ' on average. Please try to pay attention to many canned goods the two classes bring in each day.</strong>',
     learning: {
         stim1: 'The 7th grade class brought in ',
         stim2: ' for the food drive. ',
@@ -201,7 +201,7 @@ var vignettes = [{
         unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school. If they miss their bus, they will have to walk instead, and they will be late to school.' +
         '<br><br>We will show you how many minutes each sibling took to get ready on ' +
         n_learning + ' separate days. For each day, you will be asked whether they were late to school.' +
-        '<br><br><strong>Sam and Jeffrey each take ' + unit(mu_c, 'minute') + ' to get ready on average.</strong>',
+        '<br><br><strong>Sam and Jeffrey each take ' + unit(mu_c, 'minute') + ' to get ready on average. Please try to pay attention to how long Sam and Jeffrey take to get ready each day. </strong>',
     learning: {
         stim1: 'Sam took ',
         stim2: ' to get ready. ',
@@ -210,8 +210,8 @@ var vignettes = [{
         alert: 'Remember that Sam and Jeffrey will be late to school whenever they take over ' + unit(threshold, 'minute') + ' to get ready in total.',
     },
     man_check: {
-        c: 'How much does the number of minutes (or quite simply: the amount of time) that Sam takes to get ready vary from day to day?',
-        a: 'How much does the number of minutes that Jeffrey takes to get ready vary from day to day?',
+        c: 'How much does the amount of time that Sam takes to get ready vary from day to day?',
+        a: 'How much does the amount of time that Jeffrey takes to get ready vary from day to day?',
     },
     judgment: {
         reminder: 'As a reminder, Sam and Jeffrey will miss their bus and be late to school if they take over ' + unit(threshold, 'minute') + ' to get ready in total.',
@@ -229,7 +229,7 @@ var vignettes = [{
         ' of electricity on a given day, the power grid will resort to using non-renewable energy for that day.' +
         ' <br><br>We will show you how much electricity each of the two towns used on ' + n_learning +
         ' separate days. For each day, you will be asked whether the power grid used non-renewable energy.' +
-        '<br><br><strong>Chester and Franklin each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. </strong>',
+        '<br><br><strong>Chester and Franklin each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. Please try to pay attention to  how much electicity Chester and Franklin use each day. </strong>',
     learning: {
         stim1: 'Chester used ',
         stim2: ' of electricity. ',
@@ -257,7 +257,7 @@ var vignettes = [{
     instructions: 'Alison and Tony live together in an apartment in town. To help with utilities, their landlord agreed to pay for them to use up to ' + unit(threshold, 'gallon') + '. So, if Alison and Tony together use more than ' +
         unit(threshold, 'gallon') + ' of water in a month, their landlord will send them a bill to pay for the remainder.' +
         '<br><br>We will show you how much water Tony and Alison used on ' + n_learning + ' separate months. For each month, you will be asked whether their landlord sent them a bill.' +
-        '<br><br><strong>Alison and Tony each use ' + unit(mu_c, 'gallon') + ' of water on average.</strong>',
+        '<br><br><strong>Alison and Tony each use ' + unit(mu_c, 'gallon') + ' of water on average. Please try to pay attention to how much water Alison and Tony use each month. </strong>',
     learning: {
         stim1: 'Alison used ',
         stim2: ' of water.',
@@ -290,7 +290,7 @@ var vignettes = [{
         ' to a university, their district will receive more education funding.' +
         '<br><br>We will show you how many students the two schools sent to a university for ' + n_learning +
         ' separate years. For each year, you will be asked whether the district received more funding.' +
-        '<br><br><strong>Williamsburg North and Williamsburg South each send ' + unit(mu_c, 'student') + ' to a university on average.</strong>',
+        '<br><br><strong>Williamsburg North and Williamsburg South each send ' + unit(mu_c, 'student') + ' to a university on average. Please try to pay attention to how many students the schools send to a university each year.</strong>',
     learning: {
         stim1: 'Williamsburg North sent ',
         stim2: ' to a university.',
@@ -320,7 +320,7 @@ var vignettes = [{
         ' of bricks, Ned has to take two trips across the river that day.' +
         '<br><br>We will show you how much brick Hammerco and Brick Works ordered on ' + n_learning +
         ' separate days. For each day, you will be asked whether Ned took two trips across the river.' +
-        '<br><br><strong>Hammerco and Brick Works each order ' + unit(mu_c, 'ton') + ' of bricks on average.</strong>',
+        '<br><br><strong>Hammerco and Brick Works each order ' + unit(mu_c, 'ton') + ' of bricks on average. Please try to pay attention to how many bricks Hammerco and Brick Works order each day.</strong>',
     learning: {
         stim1: 'Hammerco ordered ',
         stim2: ' of bricks.',
@@ -329,8 +329,8 @@ var vignettes = [{
         alert: 'Remember that Ned takes two trips across the river whenever Hammerco and Brick Works order over ' + unit(threshold, 'ton') + ' of bricks in total.',
     },
     man_check: {
-        c: 'How much does the number of tons of bricks ordered by Hammerco vary from day to day?',
-        a: 'How much does the number of tons of bricks ordered by Brick Works vary from day to day?',
+        c: 'How much does the amount of brick ordered by Hammerco vary from day to day?',
+        a: 'How much does the amount of brick ordered by Brick Works vary from day to day?',
     },
     judgment: {
         reminder: 'As a reminder, the Middleview bridge can support a maximum of ' + unit(threshold, 'ton') + 
@@ -350,7 +350,7 @@ var vignettes = [{
         ' that month, Francine will bake them a cake. Francine will not bake a cake if they run less than ' + unit(threshold, 'mile') + ' that month.' +
         '<br><br>We will show you how many miles Olivia and Mimi ran on ' + n_learning +
         ' separate months. For each month, you will be asked whether Francine baked them a cake.' +
-        '<br><br><strong>Olivia and Mimi each run ' + unit(mu_c, 'mile') + ' on average.</strong>',
+        '<br><br><strong>Olivia and Mimi each run ' + unit(mu_c, 'mile') + ' on average. Please try to pay attention to how many miles Olivia and Mimi run each day. </strong>',
     learning: {
         stim1: 'Olivia ran ',
         stim2: '.',
@@ -379,7 +379,7 @@ var vignettes = [{
         unit(threshold, 'gigabyte') + ' of data in a given month, then the cell company will charge them a data overage fee.' +
         '<br><br>We will show you how much data Ricardo and Pierre used on ' + n_learning +
         ' separate months. For each month, you will be asked whether the company charged them a fee.' +
-        '<br><br><strong>Ricardo and Pierre each use ' + unit(mu_c, 'gallon') + ' on average.</strong>',
+        '<br><br><strong>Ricardo and Pierre each use ' + unit(mu_c, 'gigabytes') + ' of data on average. Please try to pay attention to how much data Ricardo and Pierre use on average. </strong>',
     learning: {
         stim1: 'Ricardo used ',
         stim2: ' of data.',
@@ -388,8 +388,8 @@ var vignettes = [{
         alert: 'Remember that the cell company charges a data overage fee whenever Ricardo and Pierre use over ' + unit(threshold, 'gigabyte') + ' of data in total.',
     },
     man_check: {
-        c: 'How much does the number of gigabytes of data that Ricardo uses vary from month to month?',
-        a: 'How much does the number of gigabytes of data that Pierre uses vary from month to month?',
+        c: 'How much does the amount of data that Ricardo uses vary from month to month?',
+        a: 'How much does the amount of data that Pierre uses vary from month to month?',
     },
     judgment: {
         reminder: 'As a reminder, the cell company will charge Ricardo and Pierre a data overage fee whenever they use over ' + unit(threshold, 'gigabyte') + ' of data in a month.',
@@ -589,27 +589,15 @@ on_finish: function (data) {
 
 /*display manipulation check */
 var man_check = {
-    timeline: [{
-        type: jsPsychSurveyText,
+    timeline: {
+        type: jsPsychHtmlSliderResponse,
         questions: [
             { name: 'variance_c', prompt: vignette.man_check.c, required: true },
             { name: 'variance_a', prompt: vignette.man_check.a, required: true }],
-        on_finish: function (data) {
-            data.measure = 'manipulation_check';
-            data.response_c = parseFloat(data.response.variance_c);
-            data.response_a = parseFloat(data.response.variance_a);
+            ,
+            min: 0, max: 1, step: 'any', require_movement: true, labels: ['not at all', 'totally random'],
         }
-    }],
-    loop_function: function (data) {
-        let response_c = parseFloat(data.values()[0].response_c);
-        if (isNaN(response_c)) alert("Please enter your response for the first question as a number.");
-        if (!isNaN(response_c) & (response_c <= 0 || response_c > 150)) alert("Please enter a valid number of " + vignette.units + "s for the first question.");
-        let response_a = parseFloat(data.values()[0].response_a);
-        if (isNaN(response_a)) alert("Please enter your response for the second question as a number.");
-        if (!isNaN(response_a) & (response_a <= 0 || response_a > 150)) alert("Please enter a valid number of " + vignette.units + "s for the second question.");
-        return isNaN(response_c) || response_c <= 0 || response_c > 150 || isNaN(response_a) || response_a <= 0 || response_a > 150;
-    }
-}
+        }
 
 /*display judgment */
 var judgment = {
