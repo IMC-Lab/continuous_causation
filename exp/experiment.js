@@ -53,11 +53,10 @@ for (let i = 0; i < n_learning; i++) {
 var vignettes = [{
     name: 'sewage', units: 'gallon', interval: 'day', valence: 'negative',
     instructions: "There are two plants, Huxley Steel and Huxley Lumber, in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants, and it is only capable of filtering " +
-        unit(threshold, 'gallon') + ' of sewage per day. So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') +
-        ' of sewage on a given day, then the river will get polluted that day.' +
-        '<br><br>We will show you how much sewage each of the two plants produced on ' + n_learning +
-        ' separate days. For each day, you will be asked whether the river was polluted.' +
-        '<br><br><strong>Huxley Steel and Huxley Lumber each produce ' + unit(mu_c, 'gallon') + ' of sewage on average. Please try to pay attention to how much sewage the plants produce each day. </strong>',
+        unit(threshold, 'gallon') + ' of sewage per day.' + 
+        '<br><br>So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + '<strong> Huxley Steel and Huxley Lumber each produce ' + unit(mu_c, 'gallon') + 
+        ' of sewage on average. </strong> So, the water treatment plant' + normality(threshold) + 'pollutes the town\s river.' +  '<br><br>We will show you how much sewage each of the two plants produced on ' + n_learning +
+        ' separate days. For each day, you will be asked whether the river was polluted.',
     learning: {
         stim1: 'Huxley Steel produced ',
         stim2: ' of sewage. ',
@@ -78,16 +77,16 @@ var vignettes = [{
         statement: 'Huxley Steel producing ' + unit(c, 'gallon') + ' of sewage caused the river to get polluted today.'
     },
     vibe_check: {
-        c: '<p><strong>How unexpected did Huxley Steel producing ' + unit(c, 'gallon') + ' of sewage feel?</strong></p>',
-        a: '<br><p><strong>How unexpected did Huxley Lumber producing ' + unit(a, 'gallon') + ' of sewage feel?</strong></p>',  
+        c: '<p><strong>To what extent did you expect Huxley Steel to produce ' + unit(c, 'gallon') + ' of sewage?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect Huxley Lumber to produce ' + unit(a, 'gallon') + ' of sewage?</strong></p>',  
     }
 }, {
     name: 'sales', units: 'ream', interval: 'day', valence: 'positive',
     instructions: "There are two employees, Susan and Mike, in the sales department of a paper company’s local branch. Every day, both employees try to sell as many reams of paper as possible. " +
-        'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. So, if Susan and Mike together sell more than ' +
-        unit(threshold, 'ream') + ' of paper in a day, then their branch will make a profit for that day.<br><br>We will show you how many reams of paper each of the two employees sold on ' + n_learning +
-        ' separate days. For each day, you will be asked whether the branch made a profit.' +
-        '<br><br><strong>Susan and Mike each sell ' + unit(mu_c, 'ream') + ' of paper on average. Please try to pay attention to how much paper Susan and Mike sell each day. </strong>',
+        'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. <br><br>So, if Susan and Mike together sell more than ' +
+        unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day.' + '<br><br><strong>Susan and Mike each sell ' + unit(mu_c, 'ream') + ' of paper on average. </strong> So, the branch' + normality(threshold) + 'makes a proft.' +
+        '<br><br>We will show you how many reams of paper each of the two employees sold on ' + n_learning +
+        ' separate days. For each day, you will be asked whether the branch made a profit.',
     learning: {
         stim1: 'Susan sold ',
         stim2: ' of paper for the branch.',
@@ -107,15 +106,15 @@ var vignettes = [{
         statement: 'Susan selling ' + unit(c, 'ream') + ' of paper caused the branch to make a profit today.'
     },
     vibe_check: {
-        c: '<p><strong>How unexpected did Susan selling ' + unit(c, 'ream') + ' of paper feel?</strong></p>',
-        a: '<br><p><strong>How unexpected did Mike selling ' + unit(a, 'ream') + ' of paper feel?</strong></p>',  
+        c: '<p><strong>To what extent did you expect Susan to sell ' + unit(c, 'ream') + ' of paper?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect Mike to sell ' + unit(a, 'ream') + ' of paper?</strong></p>',  
     }
 }, {
     name: 'savings', units: 'dollar', interval: 'month', valence: 'positive',
     instructions: 'Luke and Lisa have a special joint savings account together. Every month, they each add money to their account. If Luke and Lisa save over ' +
-        unit(threshold, 'dollar') + ' by the end of the month, their bank deposits a bonus into their account. <br><br>We will show you how much money each person saved for ' +
-        n_learning + ' separate months. For each month, you will be asked whether their bank deposited a bonus into their account.' +
-        '<br><br><strong>Luke and Lisa each save ' + unit(mu_c, 'dollar') + ' a month on average. Please try to pay attention to how much money Luke and Lisa save each month. </strong>',
+        unit(threshold, 'dollar') + ' by the end of the month, their bank deposits a bonus into their account.' +
+        '<br><br><strong>Luke and Lisa each save ' + unit(mu_c, 'dollar') + ' on average.</strong> So, their bank' + normality(threshold) + 'deposits a bonus into their account.' + '<br><br>We will show you how much money each person saved for ' +
+        n_learning + ' separate months. For each month, you will be asked whether their bank deposited a bonus into their account.',
     learning: {
         stim1: 'Luke saved ',
         stim2: '. ',
@@ -135,18 +134,18 @@ var vignettes = [{
         statement: 'Luke saving ' + unit(c, 'dollar') + ' caused the bank to deposit a bonus into their savings account this month.'
     },
     vibe_check: {
-        c: '<p><strong>How unexpected did Luke saving ' + unit(c, 'dollar') + ' feel?</strong></p>',
-        a: '<br><p><strong>How unexpected did Lisa saving ' + unit(a, 'gallon') + ' feel?</strong></p>',  
+        c: '<p><strong>To what extent did you expect Luke to save ' + unit(c, 'dollar') + '?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect Lisa to save ' + unit(a, 'gallon') + '?</strong></p>',  
     }
 },{
     name: 'basketball', units: 'point', interval: 'match', valence: 'positive',
     instructions: 'The local high school has a varsity basketball team and a junior varsity basketball team. Every match, both teams play a separate game against teams from other nearby schools. ' +
         'To motivate everyone, the coach has promised to take both teams out for ice cream after any match in which they score over ' + unit(threshold, 'point') +
-        ' total. So, if the varsity and junior varsity teams together score over ' +
+        ' total. <br><br> So, if the varsity and junior varsity teams together score over ' +
         unit(threshold, 'point') + ' points during a match, the coach will take them out for ice cream.' +
+        '<br><br><strong>The varsity and junior varsity teams each score ' + unit(mu_c, 'point') + ' on average.</strong> So, the coach' + normality(threshold) + 'takes the team out for ice cream.' +
         '<br><br>We will show you how many points each of the two basketball teams scored during ' + n_learning +
-        ' separate matches. For each match, you will be asked whether they went out for ice cream after the match.</strong>' +
-        '<br><br><strong>The varsity and junior varsity teams each score ' + unit(mu_c, 'point') + ' on average. Please try to pay attention to how many points the teams score each day. </strong>',
+        ' separate matches. For each match, you will be asked whether they went out for ice cream after the match.</strong>',
     learning: {
         stim1: 'The varsity team scored ',
         stim2: '.',
@@ -164,16 +163,17 @@ var vignettes = [{
         statement: 'The varsity team scoring ' + unit(c, 'point') + ' caused the team to go out for ice cream today.'
     },
     vibe_check: {
-        c: '<p><strong>How unexpected did the varsity team scoring ' + unit(c, 'point') + ' feel?</strong></p>',
-        a: '<br><p><strong>How unexpected did the junior varsity team scoring ' + unit(a, 'point') + ' feel?</strong></p>',  
+        c: '<p><strong>To what extent did you expect the varsity team to score ' + unit(c, 'point') + '?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect the junior varsity team to score ' + unit(a, 'point') + '?</strong></p>',  
     }
 }, {
     name: 'food', units: 'canned good', interval: 'day', valence: 'positive',
     instructions: 'Fairfield Middle School, which teaches 7th grade and 8th grade students, is hosting a food drive for their community. To encourage their students to donate to the food drive, the principal told the school that everyone can receive 15 extra minutes of lunch time whenever the school collects over ' +
-        unit(threshold, 'canned good') + '. So, if the 7th grade students and the 8th grade students bring in over ' + unit(threshold, 'canned good') +
-        ' in total, the school will receive 15 extra minutes of lunch for that day.<br><br>We will show you how many canned goods were brought in by the 7th grade class and the 8th grade class on ' +
-        n_learning + ' separate days. For each day, you will be asked whether the school received 15 extra minutes of lunch time.' +
-        '<br><br><strong>The 7th grade class and the 8th grade class each bring in ' + unit(mu_c, 'canned good') + ' on average. Please try to pay attention to many canned goods the two classes bring in each day.</strong>',
+        unit(threshold, 'canned good') + '. <br><br> So, if the 7th grade students and the 8th grade students bring in over ' + unit(threshold, 'canned good') +
+        ' in total, the school will receive 15 extra minutes of lunch for that day.' +
+        '<strong> The 7th grade class and the 8th grade class each bring in ' + unit(mu_c, 'canned good') + ' on average.</strong><br> So, the school' + normality(threshold) + 'receives 15 extra minutes of lunch time.' +
+        ' <br>We will show you how many canned goods were brought in by the 7th grade class and the 8th grade class on ' +
+        n_learning + ' separate days. For each day, you will be asked whether the school received 15 extra minutes of lunch time.' ,
     learning: {
         stim1: 'The 7th grade class brought in ',
         stim2: ' for the food drive. ',
@@ -192,16 +192,16 @@ var vignettes = [{
         statement: 'The 7th grade class bringing in ' + unit(c, 'canned good') + ' caused Fairfield Middle School to receive 15 extra minutes of lunch time today.'
     },
     vibe_check: {
-        c: '<p><strong>How unexpected did the 7th grade class bringing in ' + unit(c, 'canned good') + ' feel?</strong></p>',
-        a: '<br><p><strong>How unexpected did the 8th grade class bringing in ' + unit(a, 'canned good') + ' feel?</strong></p>',  
+        c: '<p><strong>To what extent did you expect the 7th grade class to bring in ' + unit(c, 'canned good') + '?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect the 8th grade class to bring in ' + unit(a, 'canned good') + '?</strong></p>',  
     }
 }, {
     name: 'bus', units: 'minute', interval: 'day', valence: 'negative',
-    instructions: 'Sam and Jeffrey are siblings who share a bathroom. Every morning, they catch the bus to their school together. After their mom wakes them up at 6am, they take turns getting ready in the bathroom. If Sam and Jeffrey together take longer than ' +
+    instructions: 'Sam and Jeffrey are siblings who share a bathroom. Every morning, they catch the bus to their school together. After their mom wakes them up at 6am, they take turns getting ready in the bathroom. <br><br>If Sam and Jeffrey together take longer than ' +
         unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school. If they miss their bus, they will have to walk instead, and they will be late to school.' +
+        + '<strong>Sam and Jeffrey each take ' + unit(mu_c, 'minute') + ' to get ready on average.</strong> So, they' + normality(threshold) + 'miss their bus to school.' +
         '<br><br>We will show you how many minutes each sibling took to get ready on ' +
-        n_learning + ' separate days. For each day, you will be asked whether they were late to school.' +
-        '<br><br><strong>Sam and Jeffrey each take ' + unit(mu_c, 'minute') + ' to get ready on average. Please try to pay attention to how long Sam and Jeffrey take to get ready each day. </strong>',
+        n_learning + ' separate days. For each day, you will be asked whether they were late to school.',
     learning: {
         stim1: 'Sam took ',
         stim2: ' to get ready. ',
@@ -219,17 +219,17 @@ var vignettes = [{
         statement: 'Sam taking ' + unit(c, 'minute') + ' to get ready caused him and Jeffrey to be late to school.'
     },
     vibe_check: {
-        c: '<p><strong>How unexpected did Sam taking ' + unit(c, 'minute') + ' to get ready feel?</strong></p>',
-        a: '<br><p><strong>How unexpected did Jeffrey taking ' + unit(a, 'minute') + ' to get ready feel?</strong></p>',  
+        c: '<p><strong>To what extent did you expect Sam to take ' + unit(c, 'minute') + ' to get ready?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect Jeffrey to take ' + unit(a, 'minute') + ' to get ready?</strong></p>',  
     }
 }, {
     name: 'electricity', units: 'megawatt', interval: 'day', valence: 'negative',
     instructions: 'Chester and Franklin are the only two towns supplied by their local power grid. The power grid is able to supply up to ' +
-        unit(threshold, 'megawatt') + ' of renewable electricity per day. So, if the two towns together use more than ' + unit(threshold, 'megawatt') +
+        unit(threshold, 'megawatt') + ' of renewable electricity per day. <br><br>So, if the two towns together use more than ' + unit(threshold, 'megawatt') +
         ' of electricity on a given day, the power grid will resort to using non-renewable energy for that day.' +
+        '<strong>Chester and Franklin each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. </strong> So, the power grid' + normality(threshold) + 'often uses non-renewable energy.' +
         ' <br><br>We will show you how much electricity each of the two towns used on ' + n_learning +
-        ' separate days. For each day, you will be asked whether the power grid used non-renewable energy.' +
-        '<br><br><strong>Chester and Franklin each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. Please try to pay attention to  how much electicity Chester and Franklin use each day. </strong>',
+        ' separate days. For each day, you will be asked whether the power grid used non-renewable energy.',
     learning: {
         stim1: 'Chester used ',
         stim2: ' of electricity. ',
@@ -249,15 +249,15 @@ var vignettes = [{
         statement: 'Chester using ' + unit(c, 'megawatt') + ' of electricity caused the power grid to use non-renewable energy today.'
     },
     vibe_check: {
-        c: '<p><strong>How unexpected did Chester using ' + unit(c, 'megawatt') + ' of electricity feel?</strong></p>',
-        a: '<br><p><strong>How unexpected did Franklin using ' + unit(a, 'megawatt') + ' of electricity feel?</strong></p>',  
+        c: '<p><strong>To what extent did you expect Chester to use ' + unit(c, 'megawatt') + ' of electricity?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect Franklin to use ' + unit(a, 'megawatt') + ' of electricity?</strong></p>',  
     }
 }, {
     name: 'water', units: 'gallon', interval: 'day', valence: 'negative',
-    instructions: 'Alison and Tony live together in an apartment in town. To help with utilities, their landlord agreed to pay for them to use up to ' + unit(threshold, 'gallon') + '. So, if Alison and Tony together use more than ' +
+    instructions: 'Alison and Tony live together in an apartment in town. To help with utilities, their landlord agreed to pay for them to use up to ' + unit(threshold, 'gallon') + '. <br><br>So, if Alison and Tony together use more than ' +
         unit(threshold, 'gallon') + ' of water in a month, their landlord will send them a bill to pay for the remainder.' +
-        '<br><br>We will show you how much water Tony and Alison used on ' + n_learning + ' separate months. For each month, you will be asked whether their landlord sent them a bill.' +
-        '<br><br><strong>Alison and Tony each use ' + unit(mu_c, 'gallon') + ' of water on average. Please try to pay attention to how much water Alison and Tony use each month. </strong>',
+        '<strong>Alison and Tony each use ' + unit(mu_c, 'gallon') + ' of water on average.</strong> So, their landlord' + normality(threshold) + 'sends them a bill.' + 
+        '<br><br>We will show you how much water Tony and Alison used on ' + n_learning + ' separate months. For each month, you will be asked whether their landlord sent them a bill.' ,
     learning: {
         stim1: 'Alison used ',
         stim2: ' of water.',
@@ -278,19 +278,19 @@ var vignettes = [{
         statement: 'Alison using ' + unit(c, 'gallon') + ' of water caused their landlord to send them a bill this month.'
     },
     vibe_check: {
-        c: '<p><strong>How unexpected did Alison using ' + unit(c, 'gallon') + ' of water feel?</strong></p>',
-        a: '<br><p><strong>How unexpected did Tony using ' + unit(a, 'gallon') + ' of water feel?</strong></p>',  
+        c: '<p><strong>To what extent did you expect Alison to use ' + unit(c, 'gallon') + ' of water?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect Tony to use ' + unit(a, 'gallon') + ' of water?</strong></p>',  
     }
 }, {
     name: 'funding', units: 'student', interval: 'year', valence: 'positive',
     instructions: 'Williamsburg North and Williamsburg South are the two high schools in their district. ' +
         'Every year, each school sends some of their graduating students to different universities. ' +
         'To encourage college admissions, the state uses the number of students sent to a university to determine how much funding their district’s education program will get for the year. ' +
-        'So, if Williamsburg North and Williamsburg South together send over ' + unit(threshold, 'student') +
+        '<br><br>So, if Williamsburg North and Williamsburg South together send over ' + unit(threshold, 'student') +
         ' to a university, their district will receive more education funding.' +
+        '<strong>Williamsburg North and Williamsburg South each send ' + unit(mu_c, 'student') + ' to a university on average.</strong> So, their district' + normality(threshold) + 'receives more education funding.' +
         '<br><br>We will show you how many students the two schools sent to a university for ' + n_learning +
-        ' separate years. For each year, you will be asked whether the district received more funding.' +
-        '<br><br><strong>Williamsburg North and Williamsburg South each send ' + unit(mu_c, 'student') + ' to a university on average. Please try to pay attention to how many students the schools send to a university each year.</strong>',
+        ' separate years. For each year, you will be asked whether the district received more funding.',
     learning: {
         stim1: 'Williamsburg North sent ',
         stim2: ' to a university.',
@@ -308,19 +308,18 @@ var vignettes = [{
         statement: 'Williamsburg North sending ' + unit(c, 'student') + ' to a university caused the district to receive more funding this year.'
     },
     vibe_check: {
-        c: '<p><strong>How unexpected did Williamsburg North sending ' + unit(c, 'student') + ' to a university feel?</strong></p>',
-        a: '<br><p><strong>How unexpected did Williamsburg South sending ' + unit(a, 'student') + ' to a university feel?</strong></p>',  
+        c: '<p><strong>To what extent did you expect Williamsburg North to send ' + unit(c, 'student') + ' to a university?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect Williamsburg South to send ' + unit(a, 'student') + ' to a university?</strong></p>',  
     }
 }, {
     name: 'trucking', units: 'ton', interval: 'day', valence: 'negative',
     instructions: 'Ned is a trucker that delivers construction supplies for two clients, Hammerco and Brick Works. ' +
         'Every day, he receives an order from both companies to pick up bricks on the other side of Middleview river. ' +
         'To get there, he must cross the Middleview bridge which has a maximum weight capacity of ' + unit(threshold, 'ton') + 
-        '. So, if Hammerco and Brick Works need more than ' + unit(threshold, 'ton') + 
-        ' of bricks, Ned has to take two trips across the river that day.' +
+        '. <br><br>So, if Hammerco and Brick Works need more than ' + unit(threshold, 'ton') + 
+        ' of bricks, Ned has to take two trips across the river that day.' + '<strong>Hammerco and Brick Works each order ' + unit(mu_c, 'ton') + ' of bricks on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.' +
         '<br><br>We will show you how much brick Hammerco and Brick Works ordered on ' + n_learning +
-        ' separate days. For each day, you will be asked whether Ned took two trips across the river.' +
-        '<br><br><strong>Hammerco and Brick Works each order ' + unit(mu_c, 'ton') + ' of bricks on average. Please try to pay attention to how many bricks Hammerco and Brick Works order each day.</strong>',
+        ' separate days. For each day, you will be asked whether Ned took two trips across the river.',
     learning: {
         stim1: 'Hammerco ordered ',
         stim2: ' of bricks.',
@@ -339,18 +338,18 @@ var vignettes = [{
         statement: 'Hammerco ordering ' + unit(c, 'ton') + ' of brick caused Ned to take two trips across the river today.'
     },
     vibe_check: {
-        c: 'How unexpected did Hammerco ordering ' + unit(c, 'ton') + ' of bricks feel?',
-        a: 'How unexpected did Brick Works ordering ' + unit(a, 'ton') + ' of bricks feel?',
+        c: 'To what extent did you expect Hammerco to order ' + unit(c, 'ton') + ' of bricks?',
+        a: 'To what extent did you expect Brick Works to order ' + unit(a, 'ton') + ' of bricks?',
     } 
 }, {
     name: 'running', units: 'mile', interval: 'month', valence: 'positive',
     instructions: 'Francine wants to help her friends Olivia and Mimi run more. To help achieve their goal, they agreed to a deal. ' +
         'At the start of each month, they will measure how many miles Olivia and Mimi each ran since the previous month. Their goal is to run ' +
-        unit(threshold, 'mile') + ' combined each month. So, if they run a total of more than ' + unit(threshold, 'mile') + 
+        unit(threshold, 'mile') + ' combined each month. <br><br>So, if they run a total of more than ' + unit(threshold, 'mile') + 
         ' that month, Francine will bake them a cake. Francine will not bake a cake if they run less than ' + unit(threshold, 'mile') + ' that month.' +
+        '<strong>Olivia and Mimi each run ' + unit(mu_c, 'mile') + ' on average.</strong> So, Francine' + normality(threshold) + 'bakes them a cake.' +
         '<br><br>We will show you how many miles Olivia and Mimi ran on ' + n_learning +
-        ' separate months. For each month, you will be asked whether Francine baked them a cake.' +
-        '<br><br><strong>Olivia and Mimi each run ' + unit(mu_c, 'mile') + ' on average. Please try to pay attention to how many miles Olivia and Mimi run each day. </strong>',
+        ' separate months. For each month, you will be asked whether Francine baked them a cake.',
     learning: {
         stim1: 'Olivia ran ',
         stim2: '.',
@@ -369,17 +368,17 @@ var vignettes = [{
         statement: 'Olivia running ' + unit(c, 'mile') + ' caused Francine to bake a cake this month.'
     },
     vibe_check: {
-        c: '<p><strong>How unexpected did Olivia running ' + unit(c, 'mile') + ' feel?</strong></p>',
-        a: '<br><p><strong>How unexpected did Mimi running ' + unit(a, 'mile') + ' feel?</strong></p>',  
+        c: '<p><strong>To what extent did you expect Olivia to run ' + unit(c, 'mile') + '?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect Mimi to run ' + unit(a, 'mile') + '?</strong></p>',  
     }
 }, {
     name: 'cellular', units: 'gigabyte', interval: 'month', valence: 'negative',
     instructions: 'To save money, Ricardo and Pierre are on a family cell phone plan. The plan has a cellular data limit of ' + 
-        unit(threshold, 'gigabyte') + ' per month. So, if Ricardo and Pierre together use more than ' +
+        unit(threshold, 'gigabyte') + ' per month. <br><br> So, if Ricardo and Pierre together use more than ' +
         unit(threshold, 'gigabyte') + ' of data in a given month, then the cell company will charge them a data overage fee.' +
+        '<strong>Ricardo and Pierre each use ' + unit(mu_c, 'gallon') + ' on average.</strong> So, the cell company' + normality(threshold) + 'charges them a fee.' +
         '<br><br>We will show you how much data Ricardo and Pierre used on ' + n_learning +
-        ' separate months. For each month, you will be asked whether the company charged them a fee.' +
-        '<br><br><strong>Ricardo and Pierre each use ' + unit(mu_c, 'gigabytes') + ' of data on average. Please try to pay attention to how much data Ricardo and Pierre use on average. </strong>',
+        ' separate months. For each month, you will be asked whether the company charged them a fee.',
     learning: {
         stim1: 'Ricardo used ',
         stim2: ' of data.',
@@ -397,8 +396,8 @@ var vignettes = [{
         statement: 'Ricardo using ' + unit(c, 'gigabyte') + ' of data caused the cell company to charge them a fee this month.'
     },
     vibe_check: {
-        c: '<p><strong>How unexpected did Ricardo using ' + unit(c, 'gigabyte') + ' feel?</strong></p>',
-        a: '<br><p><strong>How unexpected did Pierre using ' + unit(a, 'gigabyte') + ' feel?</strong></p>',  
+        c: '<p><strong>To what extent did you expect Ricardo to use ' + unit(c, 'gigabyte') + ' of data?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect Pierre to use ' + unit(a, 'gigabyte') + ' of data?</strong></p>',  
     }
 }]
 
@@ -421,6 +420,14 @@ jsPsych.data.addProperties({
     session_id: jsPsych.data.getURLVariable('SESSION_ID')
 });
 jsPsych.data.addProperties(vignette);
+
+// state whether outcome is often or rare
+function normality(threshold){
+    if (threshold < (mu_a + mu_c))
+        return ' often '
+    return ' rarely '
+
+}
 
 // convert a number to a string in the correct units
 function unit(n, unit = 'gallon') {
