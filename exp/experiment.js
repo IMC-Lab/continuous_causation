@@ -40,13 +40,21 @@ var a = c;
 //var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
 var threshold = 29
 var n_learning = 4;
+var n_blocks = 4;
 
-var learning_params = new Array(n_learning);
-for (let i = 0; i < n_learning; i++) {
-    let c = sampleNormal(mu_c, sd_c);
-    let a = sampleNormal(mu_a, sd_a);
-    let e = c + a > threshold;
-    learning_params[i] = { trial: i + 1, c: c, a: a, e: e }
+var learning_params = new Array(n_blocks);
+for (let i = 0; i < n_blocks; i++) {
+    for (let j = 0; j < n_learning; j++) {
+        let c = sampleNormal(mu_c, sd_c);
+        let a = sampleNormal(mu_a, sd_a);
+        let e = Number(c + a > threshold);
+        learning_params[i * n_learning + j] = { 
+            block: i,
+            trial: i * n_learning + j,
+            last_trial_in_block: j == n_learning-1,
+            c: c, a: a, e: e
+        }
+    }
 }
 
 /* A complete list of all vignettes */
@@ -534,40 +542,41 @@ function sampleNormal(mean, sd, min = 0, max = Infinity) {
 }
 
 /* run learning trials */
-var learning = {
+var current_trial = 0;  // counter for current trial in block
+var learning_block = {
     timeline: [{
         timeline: [{
             type: jsPsychHtmlButtonResponse,
             choices: ['No', 'Yes'],
+            button_html: '<button class="jspsych-btn" disabled>%choice%</button>',
             stimulus: function () {
-                return '<p align="left">' + capitalize(vignette.interval) + ' ' + jsPsych.timelineVariable('trial') + ' of ' + n_learning + ':</p>' +
-                    vignette.learning.stim1 + unit(jsPsych.timelineVariable('c'), vignette.units) +
+                return '<p align="left">' + capitalize(vignette.interval) + ' ' + (current_trial+1) + ' of ' + n_blocks*n_learning + ':</p>' +
+                    vignette.learning.stim1 + unit(learning_params[current_trial].c, vignette.units) +
                     vignette.learning.stim2 + '<br>' + vignette.learning.stim3 +
-                    unit(jsPsych.timelineVariable('a'), vignette.units) + vignette.learning.stim4;
+                    unit(learning_params[current_trial].a, vignette.units) + vignette.learning.stim4;
             },
             on_load: function () {
-                // hide buttons initially
-                document.querySelectorAll('.jsPsychHtmlButtonResponse').forEach(function(button) {
-                    button.style.visibility = 'hidden';
-                });
                 setTimeout(function() {
-                    document.querySelectorAll('.jsPsychHtmlButtonResponse').forEach(function(button) {
-                        button.style.visibility = 'visible';
+                    document.querySelectorAll('.jspsych-btn').forEach(function(button) {
+                        button.disabled = false;
                     });
                 }, 1000); // 1000ms delay before showing buttons
             },
-            data: {
-                trial: jsPsych.timelineVariable('trial'),
-                c: jsPsych.timelineVariable('c'),
-                a: jsPsych.timelineVariable('a'),
-                e: jsPsych.timelineVariable('e'),
+            data: function () {
+                return {
+                    block: learning_params[current_trial].block+1,
+                    trial: current_trial+1,
+                    c: learning_params[current_trial].c,
+                    a: learning_params[current_trial].a,
+                    e: learning_params[current_trial].e,
+                }
             }
         }, {
             type: jsPsychInstructions,
             show_clickable_nav: true, allow_backward: false,
             pages: function () {
                 let d = jsPsych.data.getLastTrialData().values()[0];
-                let header = '<p align="left">' + capitalize(vignette.interval) + ' ' + d.trial + ' of ' + n_learning + ':</p>';
+                let header = '<p align="left">' + capitalize(vignette.interval) + ' ' + d.trial + ' of ' + n_blocks*n_learning + ':</p>';
                 if (d.response == d.e)
                     return [header + '<p style="font-weight: bold; color: green;">Correct!</p>'];
 
@@ -579,32 +588,74 @@ var learning = {
             return data.values()[0].response != data.values()[0].e;
         }
     }],
-    timeline_variables: learning_params
+    loop_function: function() {
+        current_trial += 1;
+        return !learning_params[current_trial-1].last_trial_in_block;
+    }
 }
 
-
-/*
-on_load: function () {
-    document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
-    document.getElementById('jspsych-html-slider-response-response').addEventListener('click', function (e) {
-        e.target.classList.remove('hidden');
-    });
-},
-on_finish: function (data) {
-    data.measure = "judgment";
-    */
-
-/*display manipulation check */
-var man_check = {
-    timeline: {
-        type: jsPsychHtmlSliderResponse,
-        questions: [
-            { name: 'variance_c', prompt: vignette.man_check.c, required: true },
-            { name: 'variance_a', prompt: vignette.man_check.a, required: true }],
-            ,
-            min: 0, max: 1, step: 'any', require_movement: true, labels: ['not at all', 'totally random'],
+/* display manipulation check */
+var man_check_c = {
+    type: jsPsychHtmlSliderResponse,
+    stimulus: '<strong>' + vignette.man_check.c + '</strong>',
+    min: 0, max: 1, step: 'any', require_movement: true, labels: ['not at all', 'totally random'],
+    // Hide the slider thumb until response
+    on_load: function () {
+        document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
+        document.getElementById('jspsych-html-slider-response-response').addEventListener('click', function (e) {
+            e.target.classList.remove('hidden');
+        });
+    },
+    data: function () {
+        return {
+            measure: 'manipulation_check',
+            variable: 'c', 
+            block: learning_params[current_trial].block + 1,
+            trial: current_trial + 1
         }
+    }
+}
+
+var man_check_a = {
+    type: jsPsychHtmlSliderResponse,
+    stimulus: function () {
+        let data = jsPsych.data.getLastTrialData().values()[0];
+        return '<div style="opacity: .5;">' + data.stimulus +
+            `<div class="jspsych-html-slider-response-container" style="position:relative; margin: 0 auto 3em auto; width:auto;">
+            <input type="range" disabled="true" class="jspsych-slider" value="` + data.response + `" min="0" max="1" step="any">
+            <div>
+                <div style="border: 1px solid transparent; display: inline-block; position: absolute; left:calc(0% - (100% / 2) - -7.5px); text-align: center; width: 100%;">
+                    <span style="text-align: center; font-size: 80%;">not at all</span>
+                </div>
+                <div style="border: 1px solid transparent; display: inline-block; position: absolute; left:calc(100% - (100% / 2) - 7.5px); text-align: center; width: 100%;">
+                    <span style="text-align: center; font-size: 80%;">totally random</span>
+                </div>
+            </div>
+            </div></div>` +
+            '<strong>' + vignette.man_check.a + '</strong>';
+    },
+    min: 0, max: 1, step: 'any', require_movement: true, labels: ['not at all', 'totally random'],
+    // Hide the slider thumb until response
+    on_load: function () {
+        document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
+        document.getElementById('jspsych-html-slider-response-response').addEventListener('click', function (e) {
+            e.target.classList.remove('hidden');
+        });
+    },
+    data: function () {
+        return {
+            measure: 'manipulation_check',
+            variable: 'a',
+            block: learning_params[current_trial].block + 1,
+            trial: current_trial + 1
         }
+    }
+}
+
+var learning_stage = {
+    timeline: [learning_block, man_check_c, man_check_a],
+    repetitions: n_blocks
+}
 
 /*display judgment */
 var judgment = {
@@ -715,4 +766,4 @@ var justification = {
 }
 
 /* start the experiment */
-jsPsych.run([consent, instructions, learning, man_check, judgment, confidence, justification, vibes_c, vibes_a, age, gender, attn_check, comments]);
+jsPsych.run([consent, instructions, learning_stage, judgment, confidence, justification, vibes_c, vibes_a, age, gender, attn_check, comments]);
