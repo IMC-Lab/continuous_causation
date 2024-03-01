@@ -63,8 +63,8 @@ var vignettes = [{
     instructions: "There are two plants, Huxley Steel and Huxley Lumber, in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants, and it is only capable of filtering " +
         unit(threshold, 'gallon') + ' of sewage per day.' + 
         '<br><br>So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + '<strong> Huxley Steel and Huxley Lumber each produce ' + unit(mu_c, 'gallon') + 
-        ' of sewage on average. </strong> So, the water treatment plant' + normality(threshold) + 'pollutes the town\s river.' +  '<br><br>We will show you how much sewage each of the two plants produced on ' + n_learning +
-        ' separate days. For each day, you will be asked whether the river was polluted. <br><br> Please try to pay attention to how much sewage Huxley Steel and Huxley Lumber produce each day.',
+        ' of sewage on average. </strong> So, the town\'s river' + normality(threshold) + 'gets polluted with sewage.' +  '<br><br>We will show you how much sewage each of the two plants produced on ' + (n_learning*n_blocks) +
+        ' separate days. For each day, you will be asked whether the river was polluted. For every ' + n_learning + ' days, you will be asked some general questions about the two plants\' sewage production. <br><br> Please try to pay attention to how much sewage Huxley Steel and Huxley Lumber produce each day.',
     learning: {
         stim1: 'Huxley Steel produced ',
         stim2: ' of sewage. ',
@@ -121,7 +121,7 @@ var vignettes = [{
     name: 'savings', units: 'dollar', interval: 'month', valence: 'positive',
     instructions: 'Luke and Lisa have a special joint savings account together. Every month, they each add money to their account. If Luke and Lisa save over ' +
         unit(threshold, 'dollar') + ' by the end of the month, their bank deposits a bonus into their account.' +
-        '<br><br><strong>Luke and Lisa each save ' + unit(mu_c, 'dollar') + ' on average.</strong> So, their bank' + normality(threshold) + 'deposits a bonus into their account.' + '<br><br>We will show you how much money each person saved for ' +
+        '<br><br><strong>Luke and Lisa each save ' + unit(mu_c, 'dollar') + ' on average.</strong> So, their account' + normality(threshold) + 'receives a bonus.' + '<br><br>We will show you how much money each person saved for ' +
         n_learning + ' separate months. For each month, you will be asked whether their bank deposited a bonus into their account. <br><br> Please try to pay attention to how much money Luke and Lisa save each month.',
     learning: {
         stim1: 'Luke saved ',
@@ -151,7 +151,7 @@ var vignettes = [{
         'To motivate everyone, the coach has promised to take both teams out for ice cream after any match in which they score over ' + unit(threshold, 'point') +
         ' total. <br><br> So, if the varsity and junior varsity teams together score over ' +
         unit(threshold, 'point') + ' points during a match, the coach will take them out for ice cream.' +
-        '<br><br><strong>The varsity and junior varsity teams each score ' + unit(mu_c, 'point') + ' on average.</strong> So, the coach' + normality(threshold) + 'takes the team out for ice cream.' +
+        '<br><br><strong>The varsity and junior varsity teams each score ' + unit(mu_c, 'point') + ' on average.</strong> So, the teams' + normality(threshold) + 'go out for ice cream.' +
         '<br><br>We will show you how many points each of the two basketball teams scored during ' + n_learning +
         ' separate matches. For each match, you will be asked whether they went out for ice cream after the match. <br><br> Please try to pay attention to how many points the varsity and junior varsity team score each match.',
     learning: {
@@ -207,7 +207,7 @@ var vignettes = [{
     name: 'bus', units: 'minute', interval: 'day', valence: 'negative',
     instructions: 'Sam and Jeffrey are siblings who share a bathroom. Every morning, they catch the bus to their school together. After their mom wakes them up at 6am, they take turns getting ready in the bathroom. <br><br>If Sam and Jeffrey together take longer than ' +
         unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school. If they miss their bus, they will have to walk instead, and they will be late to school.' +
-        + '<strong>Sam and Jeffrey each take ' + unit(mu_c, 'minute') + ' to get ready on average.</strong> So, they' + normality(threshold) + 'miss their bus to school.' +
+        + '<strong>Sam and Jeffrey each take ' + unit(mu_c, 'minute') + ' to get ready on average.</strong> So, Sam and Jeffrey' + normality(threshold) + 'miss their bus to school.' +
         '<br><br>We will show you how many minutes each sibling took to get ready on ' +
         n_learning + ' separate days. For each day, you will be asked whether they were late to school. <br><br> Please try to pay attention to how much time Sam and Jeffrey take to get ready each day.',
     learning: {
@@ -235,7 +235,7 @@ var vignettes = [{
     instructions: 'Chester and Franklin are the only two towns supplied by their local power grid. The power grid is able to supply up to ' +
         unit(threshold, 'megawatt') + ' of renewable electricity per day. <br><br>So, if the two towns together use more than ' + unit(threshold, 'megawatt') +
         ' of electricity on a given day, the power grid will resort to using non-renewable energy for that day.' +
-        '<strong>Chester and Franklin each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. </strong> So, the power grid' + normality(threshold) + 'often uses non-renewable energy.' +
+        '<strong>Chester and Franklin each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. </strong> So, the power grid' + normality(threshold) + 'uses non-renewable energy.' +
         ' <br><br>We will show you how much electricity each of the two towns used on ' + n_learning +
         ' separate days. For each day, you will be asked whether the power grid used non-renewable energy. <br><br> Please try to pay attention to how much electricity Chester and Franklin use each day.',
     learning: {
@@ -264,7 +264,7 @@ var vignettes = [{
     name: 'water', units: 'gallon', interval: 'day', valence: 'negative',
     instructions: 'Alison and Tony live together in an apartment in town. To help with utilities, their landlord agreed to pay for them to use up to ' + unit(threshold, 'gallon') + '. <br><br>So, if Alison and Tony together use more than ' +
         unit(threshold, 'gallon') + ' of water in a month, their landlord will send them a bill to pay for the remainder.' +
-        '<strong>Alison and Tony each use ' + unit(mu_c, 'gallon') + ' of water on average.</strong> So, their landlord' + normality(threshold) + 'sends them a bill.' + 
+        '<strong>Alison and Tony each use ' + unit(mu_c, 'gallon') + ' of water on average.</strong> So, Alison and Tony' + normality(threshold) + 'receive a bill.' + 
         '<br><br>We will show you how much water Tony and Alison used on ' + n_learning + ' separate months. For each month, you will be asked whether their landlord sent them a bill. <br><br> Please try to pay attention to how much water Tony and Alison use each month.' ,
     learning: {
         stim1: 'Alison used ',
@@ -384,7 +384,7 @@ var vignettes = [{
     instructions: 'To save money, Ricardo and Pierre are on a family cell phone plan. The plan has a cellular data limit of ' + 
         unit(threshold, 'gigabyte') + ' per month. <br><br> So, if Ricardo and Pierre together use more than ' +
         unit(threshold, 'gigabyte') + ' of data in a given month, then the cell company will charge them a data overage fee.' +
-        '<strong>Ricardo and Pierre each use ' + unit(mu_c, 'gallon') + ' on average.</strong> So, the cell company' + normality(threshold) + 'charges them a fee.' +
+        '<strong>Ricardo and Pierre each use ' + unit(mu_c, 'gallon') + ' on average.</strong> So, Ricardo and Pierre are' + normality(threshold) + 'charged a fee.' +
         '<br><br>We will show you how much data Ricardo and Pierre used on ' + n_learning +
         ' separate months. For each month, you will be asked whether the company charged them a fee. <br><br> Please try to pay attention to how much data Ricardo and Pierre use each month.',
     learning: {
@@ -531,7 +531,7 @@ var instructions = {
     type: jsPsychInstructions,
     show_clickable_nav: true,
     pages: ['<p>In this study, you will be asked to read some scenarios and to answer questions about these scenarios.</p>',
-        (vignette.instructions + ' <strong>If you answer the following questions more accurately than other participants, you will have a chance to receive a bonus payment of up to $4.</strong>')]
+        vignette.instructions]
 }
 
 function sampleNormal(mean, sd, min = 0, max = Infinity) {
