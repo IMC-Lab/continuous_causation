@@ -60,11 +60,12 @@ for (let i = 0; i < n_blocks; i++) {
 /* A complete list of all vignettes */
 var vignettes = [{
     name: 'sewage', units: 'gallon', interval: 'day', valence: 'negative',
-    instructions: "There are two plants, Huxley Steel and Huxley Lumber, in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants, and it is only capable of filtering " +
-        unit(threshold, 'gallon') + ' of sewage per day.' + 
-        '<br><br>So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + '<strong> Huxley Steel and Huxley Lumber each produce ' + unit(mu_c, 'gallon') + 
-        ' of sewage on average. </strong> So, the town\'s river' + normality(threshold) + 'gets polluted with sewage.' +  '<br><br>We will show you how much sewage each of the two plants produced on ' + (n_learning*n_blocks) +
-        ' separate days. For each day, you will be asked whether the river was polluted. For every ' + n_learning + ' days, you will be asked some general questions about the two plants\' sewage production. <br><br> Please try to pay attention to how much sewage Huxley Steel and Huxley Lumber produce each day.',
+    instructions: ["There are two plants, Huxley Steel and Huxley Lumber, in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants, and it is only capable of filtering " +
+        unit(threshold, 'gallon') + ' of sewage per day. So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + 
+        '<br><br><strong> Huxley Steel and Huxley Lumber each produce ' + unit(mu_c, 'gallon') +
+        ' of sewage on average. </strong> So, the town\'s river' + normality(threshold) + 'gets polluted with sewage.',
+        '<br><br>We will show you how much sewage each of the two plants produced on ' + (n_learning*n_blocks) +
+        ' total days, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the river was polluted. <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of sewage produced by each plant varies from day to day.'],
     learning: {
         stim1: 'Huxley Steel produced ',
         stim2: ' of sewage. ',
@@ -531,7 +532,7 @@ var instructions = {
     type: jsPsychInstructions,
     show_clickable_nav: true,
     pages: ['<p>In this study, you will be asked to read some scenarios and to answer questions about these scenarios.</p>',
-        vignette.instructions]
+            ...vignette.instructions]
 }
 
 function sampleNormal(mean, sd, min = 0, max = Infinity) {
@@ -594,6 +595,13 @@ var learning_block = {
     }
 }
 
+var block_completion = {
+    type: jsPsychInstructions,
+    show_clickable_nav: true,
+    pages: ['Great work, you finished block ' + (learning_params[current_trial].block + 1) +
+            ' of ' + n_blocks + '!']
+}
+
 /* display manipulation check */
 var man_check_c = {
     type: jsPsychHtmlSliderResponse,
@@ -610,8 +618,8 @@ var man_check_c = {
         return {
             measure: 'manipulation_check',
             variable: 'c', 
-            block: learning_params[current_trial].block + 1,
-            trial: current_trial + 1
+            block: learning_params[current_trial-1].block + 1,
+            trial: current_trial
         }
     }
 }
@@ -646,14 +654,14 @@ var man_check_a = {
         return {
             measure: 'manipulation_check',
             variable: 'a',
-            block: learning_params[current_trial].block + 1,
-            trial: current_trial + 1
+            block: learning_params[current_trial-1].block + 1,
+            trial: current_trial
         }
     }
 }
 
 var learning_stage = {
-    timeline: [learning_block, man_check_c, man_check_a],
+    timeline: [learning_block, block_completion, man_check_c, man_check_a],
     repetitions: n_blocks
 }
 
