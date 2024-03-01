@@ -64,7 +64,7 @@ var vignettes = [{
         unit(threshold, 'gallon') + ' of sewage per day.' + 
         '<br><br>So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + '<strong> Huxley Steel and Huxley Lumber each produce ' + unit(mu_c, 'gallon') + 
         ' of sewage on average. </strong> So, the water treatment plant' + normality(threshold) + 'pollutes the town\s river.' +  '<br><br>We will show you how much sewage each of the two plants produced on ' + n_learning +
-        ' separate days. For each day, you will be asked whether the river was polluted.',
+        ' separate days. For each day, you will be asked whether the river was polluted. <br><br> Please try to pay attention to how much sewage Huxley Steel and Huxley Lumber produce each day.',
     learning: {
         stim1: 'Huxley Steel produced ',
         stim2: ' of sewage. ',
@@ -94,7 +94,7 @@ var vignettes = [{
         'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. <br><br>So, if Susan and Mike together sell more than ' +
         unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day.' + '<br><br><strong>Susan and Mike each sell ' + unit(mu_c, 'ream') + ' of paper on average. </strong> So, the branch' + normality(threshold) + 'makes a proft.' +
         '<br><br>We will show you how many reams of paper each of the two employees sold on ' + n_learning +
-        ' separate days. For each day, you will be asked whether the branch made a profit.',
+        ' separate days. For each day, you will be asked whether the branch made a profit. <br><br> Please try to pay attention to how much paper Susan and Mike sold each day.',
     learning: {
         stim1: 'Susan sold ',
         stim2: ' of paper for the branch.',
@@ -122,7 +122,7 @@ var vignettes = [{
     instructions: 'Luke and Lisa have a special joint savings account together. Every month, they each add money to their account. If Luke and Lisa save over ' +
         unit(threshold, 'dollar') + ' by the end of the month, their bank deposits a bonus into their account.' +
         '<br><br><strong>Luke and Lisa each save ' + unit(mu_c, 'dollar') + ' on average.</strong> So, their bank' + normality(threshold) + 'deposits a bonus into their account.' + '<br><br>We will show you how much money each person saved for ' +
-        n_learning + ' separate months. For each month, you will be asked whether their bank deposited a bonus into their account.',
+        n_learning + ' separate months. For each month, you will be asked whether their bank deposited a bonus into their account. <br><br> Please try to pay attention to how much money Luke and Lisa save each month.',
     learning: {
         stim1: 'Luke saved ',
         stim2: '. ',
@@ -153,7 +153,7 @@ var vignettes = [{
         unit(threshold, 'point') + ' points during a match, the coach will take them out for ice cream.' +
         '<br><br><strong>The varsity and junior varsity teams each score ' + unit(mu_c, 'point') + ' on average.</strong> So, the coach' + normality(threshold) + 'takes the team out for ice cream.' +
         '<br><br>We will show you how many points each of the two basketball teams scored during ' + n_learning +
-        ' separate matches. For each match, you will be asked whether they went out for ice cream after the match.</strong>',
+        ' separate matches. For each match, you will be asked whether they went out for ice cream after the match. <br><br> Please try to pay attention to how many points the varsity and junior varsity team score each match.',
     learning: {
         stim1: 'The varsity team scored ',
         stim2: '.',
@@ -181,7 +181,7 @@ var vignettes = [{
         ' in total, the school will receive 15 extra minutes of lunch for that day.' +
         '<strong> The 7th grade class and the 8th grade class each bring in ' + unit(mu_c, 'canned good') + ' on average.</strong><br> So, the school' + normality(threshold) + 'receives 15 extra minutes of lunch time.' +
         ' <br>We will show you how many canned goods were brought in by the 7th grade class and the 8th grade class on ' +
-        n_learning + ' separate days. For each day, you will be asked whether the school received 15 extra minutes of lunch time.' ,
+        n_learning + ' separate days. For each day, you will be asked whether the school received 15 extra minutes of lunch time. <br><br> Please try to pay attention to how many canned goods the 7th and 8th grade bring in each day.' ,
     learning: {
         stim1: 'The 7th grade class brought in ',
         stim2: ' for the food drive. ',
@@ -209,7 +209,7 @@ var vignettes = [{
         unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school. If they miss their bus, they will have to walk instead, and they will be late to school.' +
         + '<strong>Sam and Jeffrey each take ' + unit(mu_c, 'minute') + ' to get ready on average.</strong> So, they' + normality(threshold) + 'miss their bus to school.' +
         '<br><br>We will show you how many minutes each sibling took to get ready on ' +
-        n_learning + ' separate days. For each day, you will be asked whether they were late to school.',
+        n_learning + ' separate days. For each day, you will be asked whether they were late to school. <br><br> Please try to pay attention to how much time Sam and Jeffrey take to get ready each day.',
     learning: {
         stim1: 'Sam took ',
         stim2: ' to get ready. ',
@@ -237,7 +237,7 @@ var vignettes = [{
         ' of electricity on a given day, the power grid will resort to using non-renewable energy for that day.' +
         '<strong>Chester and Franklin each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. </strong> So, the power grid' + normality(threshold) + 'often uses non-renewable energy.' +
         ' <br><br>We will show you how much electricity each of the two towns used on ' + n_learning +
-        ' separate days. For each day, you will be asked whether the power grid used non-renewable energy.',
+        ' separate days. For each day, you will be asked whether the power grid used non-renewable energy. <br><br> Please try to pay attention to how much electricity Chester and Franklin use each day.',
     learning: {
         stim1: 'Chester used ',
         stim2: ' of electricity. ',
@@ -265,7 +265,7 @@ var vignettes = [{
     instructions: 'Alison and Tony live together in an apartment in town. To help with utilities, their landlord agreed to pay for them to use up to ' + unit(threshold, 'gallon') + '. <br><br>So, if Alison and Tony together use more than ' +
         unit(threshold, 'gallon') + ' of water in a month, their landlord will send them a bill to pay for the remainder.' +
         '<strong>Alison and Tony each use ' + unit(mu_c, 'gallon') + ' of water on average.</strong> So, their landlord' + normality(threshold) + 'sends them a bill.' + 
-        '<br><br>We will show you how much water Tony and Alison used on ' + n_learning + ' separate months. For each month, you will be asked whether their landlord sent them a bill.' ,
+        '<br><br>We will show you how much water Tony and Alison used on ' + n_learning + ' separate months. For each month, you will be asked whether their landlord sent them a bill. <br><br> Please try to pay attention to how much water Tony and Alison use each month.' ,
     learning: {
         stim1: 'Alison used ',
         stim2: ' of water.',
@@ -298,7 +298,7 @@ var vignettes = [{
         ' to a university, their district will receive more education funding.' +
         '<strong>Williamsburg North and Williamsburg South each send ' + unit(mu_c, 'student') + ' to a university on average.</strong> So, their district' + normality(threshold) + 'receives more education funding.' +
         '<br><br>We will show you how many students the two schools sent to a university for ' + n_learning +
-        ' separate years. For each year, you will be asked whether the district received more funding.',
+        ' separate years. For each year, you will be asked whether the district received more funding. <br><br> Please try to pay attention to how many students Williamsburg North and Williamsburg South send to a university each year.',
     learning: {
         stim1: 'Williamsburg North sent ',
         stim2: ' to a university.',
@@ -327,7 +327,7 @@ var vignettes = [{
         '. <br><br>So, if Hammerco and Brick Works need more than ' + unit(threshold, 'ton') + 
         ' of bricks, Ned has to take two trips across the river that day.' + '<strong>Hammerco and Brick Works each order ' + unit(mu_c, 'ton') + ' of bricks on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.' +
         '<br><br>We will show you how much brick Hammerco and Brick Works ordered on ' + n_learning +
-        ' separate days. For each day, you will be asked whether Ned took two trips across the river.',
+        ' separate days. For each day, you will be asked whether Ned took two trips across the river. <br><br> Please try to pay attention to how many bricks Hammerco and Brick Works order each day.',
     learning: {
         stim1: 'Hammerco ordered ',
         stim2: ' of bricks.',
@@ -357,7 +357,7 @@ var vignettes = [{
         ' that month, Francine will bake them a cake. Francine will not bake a cake if they run less than ' + unit(threshold, 'mile') + ' that month.' +
         '<strong>Olivia and Mimi each run ' + unit(mu_c, 'mile') + ' on average.</strong> So, Francine' + normality(threshold) + 'bakes them a cake.' +
         '<br><br>We will show you how many miles Olivia and Mimi ran on ' + n_learning +
-        ' separate months. For each month, you will be asked whether Francine baked them a cake.',
+        ' separate months. For each month, you will be asked whether Francine baked them a cake. <br><br> Please try to pay attention to how many miles Olivia and Mimi run each day.',
     learning: {
         stim1: 'Olivia ran ',
         stim2: '.',
@@ -386,7 +386,7 @@ var vignettes = [{
         unit(threshold, 'gigabyte') + ' of data in a given month, then the cell company will charge them a data overage fee.' +
         '<strong>Ricardo and Pierre each use ' + unit(mu_c, 'gallon') + ' on average.</strong> So, the cell company' + normality(threshold) + 'charges them a fee.' +
         '<br><br>We will show you how much data Ricardo and Pierre used on ' + n_learning +
-        ' separate months. For each month, you will be asked whether the company charged them a fee.',
+        ' separate months. For each month, you will be asked whether the company charged them a fee. <br><br> Please try to pay attention to how much data Ricardo and Pierre use each month.',
     learning: {
         stim1: 'Ricardo used ',
         stim2: ' of data.',
