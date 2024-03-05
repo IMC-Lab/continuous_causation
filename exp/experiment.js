@@ -38,9 +38,16 @@ var sd_a = 5;
 var c = 15;
 var a = c;
 //var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
-var threshold = 29
+var threshold = 14;
 var n_learning = 4;
 var n_blocks = 4;
+
+var c_color = 'rgb(255, 159, 64)';
+var a_color = 'rgb(153, 102, 255)';
+function color(s, c) {
+    return '<span style="color: ' + c + '">' + s + '</span>'
+}
+
 
 var learning_params = new Array(n_blocks);
 for (let i = 0; i < n_blocks; i++) {
@@ -60,39 +67,39 @@ for (let i = 0; i < n_blocks; i++) {
 /* A complete list of all vignettes */
 var vignettes = [{
     name: 'sewage', units: 'gallon', interval: 'day', valence: 'negative',
-    c: 'Huxley Steel', a: 'Huxley Lumber',
-    instructions: ["There are two plants, Huxley Steel and Huxley Lumber, in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants, and it is only capable of filtering " +
-        unit(threshold, 'gallon') + ' of sewage per day. So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + 
-        '<br><br><strong> Huxley Steel and Huxley Lumber each produce ' + unit(mu_c, 'gallon') +
+    instructions: ['There are two plants, ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ', in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants, and it is only capable of filtering ' +
+        unit(threshold, 'gallon') + ' of sewage per day. So, if ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + 
+        '<br><br><strong> ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' each produce ' + unit(mu_c, 'gallon') +
         ' of sewage on average. </strong> So, the town\'s river' + normality(threshold) + 'gets polluted with sewage.',
         '<br><br>We will show you how much sewage each of the two plants produced on ' + (n_learning*n_blocks) +
         ' total days, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the river was polluted. <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of sewage produced by each plant varies from day to day.'],
     learning: {
-        stim1: 'Huxley Steel produced ',
+        stim1: color('Huxley Steel', c_color) + ' produced ',
         stim2: ' of sewage. ',
-        stim3: '<p>Huxley Lumber produced ',
-        stim4: ' of sewage.<p><strong>Did the river get polluted today?</strong></p>',
-        alert: 'Remember that the river gets polluted whenever Huxley Steel and Huxley Lumber produce more than ' + unit(threshold, 'gallon') + ' of sewage in total.',
+        stim3: color('Huxley Lumber', a_color) + ' produced ',
+        stim4: ' of sewage.',
+        question: 'Did the river get polluted today?',
+        alert: 'Remember that the river gets polluted whenever ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' produce more than ' + unit(threshold, 'gallon') + ' of sewage in total.',
     },
     man_check: {
-        c: "How much does the amount of sewage produced by Huxley Steel vary from day to day?",
-        a: "How much does the amount of sewage produced by Huxley Lumber vary from day to day?",
+        c: 'How much does the amount of sewage produced by ' + color('Huxley Steel', c_color) + ' vary from day to day?',
+        a: 'How much does the amount of sewage produced by ' + color('Huxley Lumber', a_color) + ' vary from day to day?',
     },
     judgment: {
         reminder: 'As a reminder, the water facility is capable of filtering ' + unit(threshold, 'gallon') +
-            ' of sewage per day. So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') +
+            ' of sewage per day. So, if ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' together produce more than ' + unit(threshold, 'gallon') +
             ' of sewage, then the river will get polluted on that day.',
-        vignette: 'Today, Huxley Steel sent ' + unit(c, 'gallon') + ' of sewage to the water treatment plant and Huxley Lumber sent ' +
+        vignette: 'Today, ' + color('Huxley Steel', c_color) + ' sent ' + unit(c, 'gallon') + ' of sewage to the water treatment plant and ' + color('Huxley Lumber', a_color) + ' sent ' +
             unit(a, 'gallon') + ' of sewage to the water treatment plant. So, the river got polluted.',
-        statement: 'Huxley Steel producing ' + unit(c, 'gallon') + ' of sewage caused the river to get polluted today.'
+        statement: color('Huxley Steel', c_color) + ' producing ' + unit(c, 'gallon') + ' of sewage caused the river to get polluted today.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect Huxley Steel to produce ' + unit(c, 'gallon') + ' of sewage?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect Huxley Lumber to produce ' + unit(a, 'gallon') + ' of sewage?</strong></p>',  
+        c: '<p><strong>To what extent did you expect ' + color('Huxley Steel', c_color) + ' to produce ' + unit(c, 'gallon') + ' of sewage?</strong></p>',
+        a: '<br><p><strong>To what extent did you expect ' + color('Huxley Lumber', a_color) + ' to produce ' + unit(a, 'gallon') + ' of sewage?</strong></p>',  
     }
 }, {
     name: 'sales', units: 'ream', interval: 'day', valence: 'positive',
-    instructions: ["There are two employees, Susan and Mike, in the sales department of a paper company’s local branch. Every day, both employees try to sell as many reams of paper as possible. " +
+    instructions: ['There are two employees, ' + color('Susan', c_color) + ' and Mike, in the sales department of a paper company’s local branch. Every day, both employees try to sell as many reams of paper as possible. ' +
         'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. <br><br>So, if Susan and Mike together sell more than ' +
         unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day.' + '<br><br><strong>Susan and Mike each sell ' + unit(mu_c, 'ream') + ' of paper on average. </strong> So, the branch' + normality(threshold) + 'makes a proft.',
         '<br><br>We will show you how many reams of paper each of the two employees sold on ' + (n_learning*n_blocks) +
@@ -556,13 +563,10 @@ var learning_block = {
             button_html: '<button class="jspsych-btn" disabled>%choice%</button>',
             stimulus: function () {
                 return '<p align="left">' + capitalize(vignette.interval) + ' ' + (current_trial + 1) + ' of ' + n_blocks * n_learning + ':</p>' + 
-                    '<canvas id="plot"><br>' + vignette.learning.stim4;
-                /*
-                return '<p align="left">' + capitalize(vignette.interval) + ' ' + (current_trial+1) + ' of ' + n_blocks*n_learning + ':</p>' +
                     vignette.learning.stim1 + unit(learning_params[current_trial].c, vignette.units) +
                     vignette.learning.stim2 + '<br>' + vignette.learning.stim3 +
-                    unit(learning_params[current_trial].a, vignette.units) + vignette.learning.stim4;
-                */
+                    unit(learning_params[current_trial].a, vignette.units) + vignette.learning.stim4 +
+                    '<br><br><canvas id="plot" height="100px"></canvas><p><strong>' + vignette.learning.question + '</strong></p>';
             },
             on_load: function () {
                 setTimeout(function() {
@@ -575,15 +579,38 @@ var learning_block = {
                     document.getElementById('plot'),
                     {
                         options: {
+                            events: [],
                             indexAxis: 'y',
                             scales: {
                                 x: {
+                                    title: {
+                                        display: true,
+                                        text: capitalize(vignette.units + 's'),
+                                        font: {
+                                            size: 18
+                                        }
+                                    },
+                                    ticks: { font: { size: 14 } },
                                     stacked: true,
                                     min: 0,
-                                    max: threshold*1.5
+                                    max: Math.round(Math.max(threshold*1.25,  mu_c + 2.5*sd_c + mu_a + 2.5*sd_a))
                                 },
                                 y: {
                                     stacked: true
+                                }
+                            },
+                            animation: {
+                                duration: 0
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false,
+                                    labels: {
+                                        // This more specific font property overrides the global property
+                                        font: {
+                                            size: 18
+                                        }
+                                    }
                                 }
                             }
                         },
@@ -591,29 +618,34 @@ var learning_block = {
                             labels: [''],
                             datasets: [{
                                 type: 'bar',
-                                label: vignette.c,
+                                label: 'C',
                                 data: [{ x: learning_params[current_trial].c, y: 0 }],
-                                backgroundColor: 'rgb(255, 159, 64)',
+                                backgroundColor: c_color,
                                 maxBarThickness: 50
                             }, {
                                 type: 'bar',
-                                label: vignette.a,
+                                label: 'A',
                                 data: [{ x: learning_params[current_trial].a, y: 0 }],
-                                backgroundColor: 'rgb(153, 102, 255)',
+                                backgroundColor: a_color,
                                 maxBarThickness: 50
                             }]
                         },
-                        plugins: {
-                            annotation: {
-                                line1: {
-                                    type: 'line', 
-                                    xMin: threshold, xMax: threshold,
-                                    borderColor: 'rgb(255, 99, 132)',
-                                    borderWidth: 2,
-                                    label: 'threshold'
-                                }
+                        plugins: [{
+                            afterDatasetsDraw: (chart, options, el) => {
+                                const ctx = chart.ctx;
+                                const xAxis = chart.scales['x'];
+                                const yAxis = chart.scales['y'];
+                                ctx.save();
+                                ctx.strokeStyle = 'rgba(0, 0, 0, 1)'; // Set the line color
+                                ctx.lineWidth = 2; // Set the line width
+                                ctx.setLineDash([5, 7.5]);
+                                ctx.beginPath();
+                                ctx.moveTo(xAxis.getPixelForValue(threshold), yAxis.top);
+                                ctx.lineTo(xAxis.getPixelForValue(threshold), yAxis.bottom);
+                                ctx.stroke();
+                                ctx.restore();
                             }
-                        }
+                        }]
                     }
                 );
                 
@@ -829,5 +861,4 @@ var justification = {
 }
 
 /* start the experiment */
-jsPsych.run([//consent, instructions, 
-    learning_stage, judgment, confidence, justification, vibes_c, vibes_a, age, gender, attn_check, comments]);
+jsPsych.run([consent, instructions, learning_stage, judgment, confidence, justification, vibes_c, vibes_a, age, gender, attn_check, comments]);
