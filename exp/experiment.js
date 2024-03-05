@@ -60,6 +60,7 @@ for (let i = 0; i < n_blocks; i++) {
 /* A complete list of all vignettes */
 var vignettes = [{
     name: 'sewage', units: 'gallon', interval: 'day', valence: 'negative',
+    c: 'Huxley Steel', a: 'Huxley Lumber',
     instructions: ["There are two plants, Huxley Steel and Huxley Lumber, in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants, and it is only capable of filtering " +
         unit(threshold, 'gallon') + ' of sewage per day. So, if Huxley Steel and Huxley Lumber together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + 
         '<br><br><strong> Huxley Steel and Huxley Lumber each produce ' + unit(mu_c, 'gallon') +
@@ -543,6 +544,8 @@ function sampleNormal(mean, sd, min = 0, max = Infinity) {
     return s;
 }
 
+Chart.register('chartjs-plugin-annotation');
+
 /* run learning trials */
 var current_trial = 0;  // counter for current trial in block
 var learning_block = {
@@ -552,10 +555,14 @@ var learning_block = {
             choices: ['No', 'Yes'],
             button_html: '<button class="jspsych-btn" disabled>%choice%</button>',
             stimulus: function () {
+                return '<p align="left">' + capitalize(vignette.interval) + ' ' + (current_trial + 1) + ' of ' + n_blocks * n_learning + ':</p>' + 
+                    '<canvas id="plot"><br>' + vignette.learning.stim4;
+                /*
                 return '<p align="left">' + capitalize(vignette.interval) + ' ' + (current_trial+1) + ' of ' + n_blocks*n_learning + ':</p>' +
                     vignette.learning.stim1 + unit(learning_params[current_trial].c, vignette.units) +
                     vignette.learning.stim2 + '<br>' + vignette.learning.stim3 +
                     unit(learning_params[current_trial].a, vignette.units) + vignette.learning.stim4;
+                */
             },
             on_load: function () {
                 setTimeout(function() {
@@ -563,6 +570,53 @@ var learning_block = {
                         button.disabled = false;
                     });
                 }, 1000); // 1000ms delay before showing buttons
+                
+                let chart = new Chart(
+                    document.getElementById('plot'),
+                    {
+                        options: {
+                            indexAxis: 'y',
+                            scales: {
+                                x: {
+                                    stacked: true,
+                                    min: 0,
+                                    max: threshold*1.5
+                                },
+                                y: {
+                                    stacked: true
+                                }
+                            }
+                        },
+                        data: {
+                            labels: [''],
+                            datasets: [{
+                                type: 'bar',
+                                label: vignette.c,
+                                data: [{ x: learning_params[current_trial].c, y: 0 }],
+                                backgroundColor: 'rgb(255, 159, 64)',
+                                maxBarThickness: 50
+                            }, {
+                                type: 'bar',
+                                label: vignette.a,
+                                data: [{ x: learning_params[current_trial].a, y: 0 }],
+                                backgroundColor: 'rgb(153, 102, 255)',
+                                maxBarThickness: 50
+                            }]
+                        },
+                        plugins: {
+                            annotation: {
+                                line1: {
+                                    type: 'line', 
+                                    xMin: threshold, xMax: threshold,
+                                    borderColor: 'rgb(255, 99, 132)',
+                                    borderWidth: 2,
+                                    label: 'threshold'
+                                }
+                            }
+                        }
+                    }
+                );
+                
             },
             data: function () {
                 return {
@@ -775,4 +829,5 @@ var justification = {
 }
 
 /* start the experiment */
-jsPsych.run([consent, instructions, learning_stage, judgment, confidence, justification, vibes_c, vibes_a, age, gender, attn_check, comments]);
+jsPsych.run([//consent, instructions, 
+    learning_stage, judgment, confidence, justification, vibes_c, vibes_a, age, gender, attn_check, comments]);
