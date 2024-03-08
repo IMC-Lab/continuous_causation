@@ -40,7 +40,7 @@ var a = c;
 //var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
 var threshold = 14;
 var n_learning = 4;
-var n_blocks = 4;
+var n_blocks = 1;
 
 var c_color = 'rgb(255, 159, 64)';
 var a_color = 'rgb(153, 102, 255)';
@@ -71,7 +71,7 @@ var vignettes = [{
         unit(threshold, 'gallon') + ' of sewage per day. So, if ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + 
         '<br><br><strong> ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' each produce ' + unit(mu_c, 'gallon') +
         ' of sewage on average. </strong> So, the town\'s river' + normality(threshold) + 'gets polluted with sewage.',
-        '<br><br>We will show you how much sewage each of the two plants produced on ' + (n_learning*n_blocks) +
+        'We will show you how much sewage each of the two plants produced on ' + (n_learning*n_blocks) +
         ' total days, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the river was polluted. <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of sewage produced by each plant varies from day to day.'],
     learning: {
         stim1: color('Huxley Steel', c_color) + ' produced ',
@@ -99,15 +99,15 @@ var vignettes = [{
     }
 }, {
     name: 'sales', units: 'ream', interval: 'day', valence: 'positive',
-    instructions: ['There are two employees, ' + color('Susan', c_color) + ' and Mike, in the sales department of a paper company’s local branch. Every day, both employees try to sell as many reams of paper as possible. ' +
-        'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. <br><br>So, if Susan and Mike together sell more than ' +
-        unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day.' + '<br><br><strong>Susan and Mike each sell ' + unit(mu_c, 'ream') + ' of paper on average. </strong> So, the branch' + normality(threshold) + 'makes a proft.',
-        '<br><br>We will show you how many reams of paper each of the two employees sold on ' + (n_learning*n_blocks) +
-        '  total days, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the branch made a profit. <br><br> <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of paper sold by each employee varies from day to day.'],
+    instructions: ['There are two employees, ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ', in the sales department of a paper company’s local branch. Every day, both employees try to sell as many reams of paper as possible. ' +
+        'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. So, if ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ' together sell more than ' +
+        unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day.' + '<br><br><strong>' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ' each sell ' + unit(mu_c, 'ream') + ' of paper on average. </strong> So, the branch' + normality(threshold) + 'makes a proft.',
+        'We will show you how many reams of paper each of the two employees sold on ' + (n_learning*n_blocks) +
+        '  total days, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the branch made a profit. <br><br> Every ' + n_learning + ' days, you will be asked how much the amount of paper sold by each employee varies from day to day.'],
     learning: {
-        stim1: 'Susan sold ',
+        stim1: color('Susan', c_color) + ' sold ',
         stim2: ' of paper for the branch.',
-        stim3: '<p>Mike sold ',
+        stim3: color('Mike', a_color) + ' sold ',
         stim4: ' of paper for the branch. <p><strong>Did the branch make a profit today?</strong></p>',
         alert: 'Remember that the local branch makes a profit whenever Susan and Mike sell over ' + unit(threshold, 'ream') + ' of paper in total.',
     },
@@ -131,8 +131,8 @@ var vignettes = [{
     instructions: ['Luke and Lisa have a special joint savings account together. Every month, they each add money to their account. If Luke and Lisa save over ' +
         unit(threshold, 'dollar') + ' by the end of the month, their bank deposits a bonus into their account.' +
         '<br><br><strong>Luke and Lisa each save ' + unit(mu_c, 'dollar') + ' on average.</strong> So, the bank' + normality(threshold) + 'deposits a bonus into their account.' ,
-        '<br><br>We will show you how much money each person saved for ' +
-        (n_learning*n_blocks) + '  total months, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual months. For each month, you will be asked whether their bank deposited a bonus into their account. <br><br> <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of money saved by each person varies from month to month.'],
+        'We will show you how much money each person saved for ' +
+        (n_learning*n_blocks) + '  total months, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual months. For each month, you will be asked whether their bank deposited a bonus into their account. <br><br> Every ' + n_learning + ' days, you will be asked how much the amount of money saved by each person varies from month to month.'],
     learning: {
         stim1: 'Luke saved ',
         stim2: '. ',
@@ -159,11 +159,11 @@ var vignettes = [{
     name: 'basketball', units: 'point', interval: 'match', valence: 'positive',
     instructions: ['The local high school has a varsity basketball team and a junior varsity basketball team. Every match, both teams play a separate game against teams from other nearby schools. ' +
         'To motivate everyone, the coach has promised to take both teams out for ice cream after any match in which they score over ' + unit(threshold, 'point') +
-        ' total. <br><br> So, if the varsity and junior varsity teams together score over ' +
+        ' total. So, if the varsity and junior varsity teams together score over ' +
         unit(threshold, 'point') + ' points during a match, the coach will take them out for ice cream.' +
         '<br><br><strong>The varsity and junior varsity teams each score ' + unit(mu_c, 'point') + ' on average.</strong> So, the coach' + normality(threshold) + 'takes the team out for ice cream.',
-        '<br><br>We will show you how many points each of the two basketball teams scored during ' + (n_learning*n_blocks) +
-        '  total matches, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual matches. For each match, you will be asked whether they went out for ice cream after the match. <br><br> <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of points scored by each team varies from match to match.'],
+        'We will show you how many points each of the two basketball teams scored during ' + (n_learning*n_blocks) +
+        '  total matches, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual matches. For each match, you will be asked whether they went out for ice cream after the match. <br><br> Every ' + n_learning + ' days, you will be asked how much the amount of points scored by each team varies from match to match.'],
     learning: {
         stim1: 'The varsity team scored ',
         stim2: '.',
@@ -187,11 +187,11 @@ var vignettes = [{
 }, {
     name: 'food', units: 'canned good', interval: 'day', valence: 'positive',
     instructions: ['Fairfield Middle School, which teaches 7th grade and 8th grade students, is hosting a food drive for their community. To encourage their students to donate to the food drive, the principal told the school that everyone can receive 15 extra minutes of lunch time whenever the school collects over ' +
-        unit(threshold, 'canned good') + '. <br><br> So, if the 7th grade students and the 8th grade students bring in over ' + unit(threshold, 'canned good') +
+        unit(threshold, 'canned good') + '. So, if the 7th grade students and the 8th grade students bring in over ' + unit(threshold, 'canned good') +
         ' in total, the school will receive 15 extra minutes of lunch for that day.' +
-        '<strong> The 7th grade class and the 8th grade class each bring in ' + unit(mu_c, 'canned good') + ' on average.</strong><br> So, the school' + normality(threshold) + 'receives 15 extra minutes of lunch time.' ,
-        ' <br>We will show you how many canned goods were brought in by the 7th grade class and the 8th grade class on ' +
-        (n_learning*n_blocks) + '  total days, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the school received 15 extra minutes of lunch time. <br><br> <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of canned goods brought in by each class varies from day to day.'] ,
+        '<br><br><strong> The 7th grade class and the 8th grade class each bring in ' + unit(mu_c, 'canned good') + ' on average.</strong> So, the school' + normality(threshold) + 'receives 15 extra minutes of lunch time.' ,
+        'We will show you how many canned goods were brought in by the 7th grade class and the 8th grade class on ' +
+        (n_learning*n_blocks) + '  total days, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the school received 15 extra minutes of lunch time. <br><br> Every ' + n_learning + ' days, you will be asked how much the amount of canned goods brought in by each class varies from day to day.'] ,
     learning: {
         stim1: 'The 7th grade class brought in ',
         stim2: ' for the food drive. ',
@@ -243,11 +243,11 @@ var vignettes = [{
 },*/ {
     name: 'electricity', units: 'megawatt', interval: 'day', valence: 'negative',
     instructions: ['Chester and Franklin are the only two towns supplied by their local power grid. The power grid is able to supply up to ' +
-        unit(threshold, 'megawatt') + ' of renewable electricity per day. <br><br>So, if the two towns together use more than ' + unit(threshold, 'megawatt') +
+        unit(threshold, 'megawatt') + ' of renewable electricity per day. So, if the two towns together use more than ' + unit(threshold, 'megawatt') +
         ' of electricity on a given day, the power grid will resort to using non-renewable energy for that day.' +
-        '<strong>Chester and Franklin each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. </strong> So, the power grid' + normality(threshold) + 'uses non-renewable energy.',
-        ' <br><br>We will show you how much electricity each of the two towns used on ' + (n_learning*n_blocks) +
-        '  total days, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the power grid used non-renewable energy. <br><br> <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of electricity used by each town varies from day to day.'],
+        '<br><br><strong>Chester and Franklin each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. </strong> So, the power grid' + normality(threshold) + 'uses non-renewable energy.',
+        'We will show you how much electricity each of the two towns used on ' + (n_learning*n_blocks) +
+        '  total days, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the power grid used non-renewable energy. <br><br> Every ' + n_learning + ' days, you will be asked how much the amount of electricity used by each town varies from day to day.'],
     learning: {
         stim1: 'Chester used ',
         stim2: ' of electricity. ',
@@ -272,10 +272,10 @@ var vignettes = [{
     }
 }, {
     name: 'water', units: 'gallon', interval: 'day', valence: 'negative',
-    instructions: ['Alison and Tony live together in an apartment in town. To help with utilities, their landlord agreed to pay for them to use up to ' + unit(threshold, 'gallon') + '. <br><br>So, if Alison and Tony together use more than ' +
+    instructions: ['Alison and Tony live together in an apartment in town. To help with utilities, their landlord agreed to pay for them to use up to ' + unit(threshold, 'gallon') + ' of water. So, if Alison and Tony together use more than ' +
         unit(threshold, 'gallon') + ' of water in a month, their landlord will send them a bill to pay for the remainder.' +
-        '<strong>Alison and Tony each use ' + unit(mu_c, 'gallon') + ' of water on average.</strong> So, the landlord' + normality(threshold) + 'sends them a bill.', 
-        '<br><br>We will show you how much water Tony and Alison used on ' + (n_learning*n_blocks) + '  total months, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual months. For each month, you will be asked whether their landlord sent them a bill. <br><br> <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of water used by each person varies from month to month.'] ,
+        '<br><br><strong>Alison and Tony each use ' + unit(mu_c, 'gallon') + ' of water on average.</strong> So, the landlord' + normality(threshold) + 'sends them a bill.', 
+        'We will show you how much water Tony and Alison used in ' + (n_learning*n_blocks) + ' individual months, separated into ' + n_blocks + ' blocks of ' + n_learning + ' months. For each month, you will be asked whether their landlord sent them a bill. <br><br> Every ' + n_learning + ' days, you will be asked how much the amount of water used by each person varies from month to month.'] ,
     learning: {
         stim1: 'Alison used ',
         stim2: ' of water.',
@@ -304,11 +304,11 @@ var vignettes = [{
     instructions: ['Williamsburg North and Williamsburg South are the two high schools in their district. ' +
         'Every year, each school sends some of their graduating students to different universities. ' +
         'To encourage college admissions, the state uses the number of students sent to a university to determine how much funding their district’s education program will get for the year. ' +
-        '<br><br>So, if Williamsburg North and Williamsburg South together send over ' + unit(threshold, 'student') +
+        'So, if Williamsburg North and Williamsburg South together send over ' + unit(threshold, 'student') +
         ' to a university, their district will receive more education funding.' +
-        '<strong>Williamsburg North and Williamsburg South each send ' + unit(mu_c, 'student') + ' to a university on average.</strong> So, their district' + normality(threshold) + 'receives more education funding.',
-        '<br><br>We will show you how many students the two schools sent to a university for ' + (n_learning*n_blocks) +
-        '  total years, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual years. For each year, you will be asked whether the district received more funding. <br><br> <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of students sent by each school varies from year to year.'],
+        '<br><br><strong>Williamsburg North and Williamsburg South each send ' + unit(mu_c, 'student') + ' to a university on average.</strong> So, their district' + normality(threshold) + 'receives more education funding.',
+        'We will show you how many students the two schools sent to a university for ' + (n_learning*n_blocks) +
+        '  total years, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual years. For each year, you will be asked whether the district received more funding. <br><br>Every ' + n_learning + ' days, you will be asked how much the number of students sent by each school varies from year to year.'],
     learning: {
         stim1: 'Williamsburg North sent ',
         stim2: ' to a university.',
@@ -334,10 +334,10 @@ var vignettes = [{
     instructions: ['Ned is a trucker that delivers construction supplies for two clients, Hammerco and Brick Works. ' +
         'Every day, he receives an order from both companies to pick up bricks on the other side of Middleview river. ' +
         'To get there, he must cross the Middleview bridge which has a maximum weight capacity of ' + unit(threshold, 'ton') + 
-        '. <br><br>So, if Hammerco and Brick Works need more than ' + unit(threshold, 'ton') + 
-        ' of bricks, Ned has to take two trips across the river that day.' + '<strong>Hammerco and Brick Works each order ' + unit(mu_c, 'ton') + ' of bricks on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.',
-        '<br><br>We will show you how much brick Hammerco and Brick Works ordered on ' + (n_learning*n_blocks) +
-        ' total days, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether Ned took two trips across the river. <br><br> <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of bricks ordered by each company varies from day to day.'],
+        '. So, if Hammerco and Brick Works need more than ' + unit(threshold, 'ton') + 
+        ' of bricks, Ned has to take two trips across the river that day.' + '<br><br><strong>Hammerco and Brick Works each order ' + unit(mu_c, 'ton') + ' of bricks on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.',
+        'We will show you how much brick Hammerco and Brick Works ordered on ' + (n_learning*n_blocks) +
+        ' total days, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether Ned took two trips across the river. <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of bricks ordered by each company varies from day to day.'],
     learning: {
         stim1: 'Hammerco ordered ',
         stim2: ' of bricks.',
@@ -363,11 +363,11 @@ var vignettes = [{
     name: 'running', units: 'mile', interval: 'month', valence: 'positive',
     instructions: ['Francine wants to help her friends Olivia and Mimi run more. To help achieve their goal, they agreed to a deal. ' +
         'At the start of each month, they will measure how many miles Olivia and Mimi each ran since the previous month. Their goal is to run ' +
-        unit(threshold, 'mile') + ' combined each month. <br><br>So, if they run a total of more than ' + unit(threshold, 'mile') + 
+        unit(threshold, 'mile') + ' combined each month. So, if they run a total of more than ' + unit(threshold, 'mile') + 
         ' that month, Francine will bake them a cake. Francine will not bake a cake if they run less than ' + unit(threshold, 'mile') + ' that month.' +
-        '<strong>Olivia and Mimi each run ' + unit(mu_c, 'mile') + ' on average.</strong> So, Francine' + normality(threshold) + 'bakes them a cake.',
-        '<br><br>We will show you how many miles Olivia and Mimi ran on ' + (n_learning*n_blocks) +
-        ' separate months. For each month, you will be asked whether Francine baked them a cake. <br><br> <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of miles ran by each person varies from month to month.'],
+        '<br><br><strong>Olivia and Mimi each run ' + unit(mu_c, 'mile') + ' on average.</strong> So, Francine' + normality(threshold) + 'bakes them a cake.',
+        'We will show you how many miles Olivia and Mimi ran on ' + (n_learning*n_blocks) +
+        ' separate months. For each month, you will be asked whether Francine baked them a cake. <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of miles ran by each person varies from month to month.'],
     learning: {
         stim1: 'Olivia ran ',
         stim2: '.',
@@ -392,11 +392,11 @@ var vignettes = [{
 }, {
     name: 'cellular', units: 'gigabyte', interval: 'month', valence: 'negative',
     instructions: ['To save money, Ricardo and Pierre are on a family cell phone plan. The plan has a cellular data limit of ' + 
-        unit(threshold, 'gigabyte') + ' per month. <br><br> So, if Ricardo and Pierre together use more than ' +
+        unit(threshold, 'gigabyte') + ' per month. So, if Ricardo and Pierre together use more than ' +
         unit(threshold, 'gigabyte') + ' of data in a given month, then the cell company will charge them a data overage fee.' +
-        '<strong>Ricardo and Pierre each use ' + unit(mu_c, 'gallon') + ' on average.</strong> So, the cell phone company' + normality(threshold) + 'charges them a data overage fee.',
-        '<br><br>We will show you how much data Ricardo and Pierre used on ' + (n_learning*n_blocks) +
-        ' separate months. For each month, you will be asked whether the company charged them a fee. <br><br> <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of data used by each person varies from month to month.'],
+        '<br><br><strong>Ricardo and Pierre each use ' + unit(mu_c, 'gigabyte') + ' on average.</strong> So, the cell phone company' + normality(threshold) + 'charges them a data overage fee.',
+        'We will show you how much data Ricardo and Pierre used on ' + (n_learning*n_blocks) +
+        ' separate months. For each month, you will be asked whether the company charged them a fee. <br><br>Every ' + n_learning + ' days, you will be asked how much the amount of data used by each person varies from month to month.'],
     learning: {
         stim1: 'Ricardo used ',
         stim2: ' of data.',
@@ -421,8 +421,8 @@ var vignettes = [{
 
 /* Randomly assign a condition */
 var id = jsPsych.randomization.randomID();
-//var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
-var vignette = vignettes[0];  // use to pre-select a specific vignette
+var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
+//var vignette = vignettes[8];  // use to pre-select a specific vignette
 
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
