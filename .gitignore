@@ -3,6 +3,7 @@
 .Rapp.history
 **/.DS_Store
 papers/*
+analyses/data/experiment1/*.csv
 
 # Session Data files
 .RData
