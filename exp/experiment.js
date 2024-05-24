@@ -30,17 +30,19 @@ var jsPsych = initJsPsych({
     }
 });
 
-var mu_c = 10;
-var mu_a = 10;
-//var sd_c = jsPsych.randomization.sampleWithoutReplacement([5, .1], 1)[0];
-var sd_c = .1
-var sd_a = 5;
-var c = 15;
+
+
+var mu_c = 50;
+var mu_a = mu_c;
+var sd_c = jsPsych.randomization.sampleWithoutReplacement([30, 1], 1)[0];
+//var sd_c = 1
+var sd_a = 30;
+var c = Math.round(4/3 * mu_c + 2/3);
 var a = c;
-//var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
-var threshold = 29;
-var n_learning = 4;
-var n_blocks = 1;
+var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
+//var threshold = c+a-1;
+var n_learning_per_block = 10;
+var n_blocks = 4;
 
 var c_color = 'rgb(255, 159, 64)';
 var a_color = 'rgb(153, 102, 255)';
@@ -51,14 +53,14 @@ function color(s, c) {
 
 var learning_params = new Array(n_blocks);
 for (let i = 0; i < n_blocks; i++) {
-    for (let j = 0; j < n_learning; j++) {
+    for (let j = 0; j < n_learning_per_block; j++) {
         let c = sampleNormal(mu_c, sd_c);
         let a = sampleNormal(mu_a, sd_a);
         let e = Number(c + a > threshold);
-        learning_params[i * n_learning + j] = { 
+        learning_params[i * n_learning_per_block + j] = { 
             block: i,
-            trial: i * n_learning + j,
-            last_trial_in_block: j == n_learning-1,
+            trial: i * n_learning_per_block + j,
+            last_trial_in_block: j == n_learning_per_block-1,
             c: c, a: a, e: e
         }
     }
@@ -71,8 +73,8 @@ var vignettes = [{
         unit(threshold, 'gallon') + ' of sewage per day. So, if ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + 
         '<br><br><strong> ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' each produce ' + unit(mu_c, 'gallon') +
         ' of sewage on average. </strong> So, the town\'s river' + normality(threshold) + 'gets polluted with sewage.',
-        'We will show you how much sewage each of the two plants produced on ' + (n_learning*n_blocks) +
-        ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the river was polluted.' +
+        'We will show you how much sewage each of the two plants produced on ' + (n_learning_per_block*n_blocks) +
+        ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the river was polluted.' +
         '<br><br><strong>At the end of each block, you will be asked how much the amount of sewage produced by each plant varies from day to day.</strong>'],
     learning: {
         stim1: color('Huxley Steel', c_color) + ' produced ',
@@ -80,7 +82,7 @@ var vignettes = [{
         stim3: color('Huxley Lumber', a_color) + ' produced ',
         stim4: ' of sewage.',
         question: 'Did the river get polluted today?',
-        alert: 'Remember that the river gets polluted whenever ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' produce more than ' + unit(threshold, 'gallon') + ' of sewage in total.',
+        alert: 'Remember that the river gets polluted whenever ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' produce <b>more than</b> ' + unit(threshold, 'gallon') + ' of sewage in total.',
     },
     man_check: {
         c: 'How much does the amount of sewage produced by ' + color('Huxley Steel', c_color) + ' vary from day to day?',
@@ -91,7 +93,7 @@ var vignettes = [{
             ' of sewage per day. So, if ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' together produce more than ' + unit(threshold, 'gallon') +
             ' of sewage, then the river will get polluted on that day.',
         vignette: 'Today, ' + color('Huxley Steel', c_color) + ' sent ' + unit(c, 'gallon') + ' of sewage to the water treatment plant and ' + color('Huxley Lumber', a_color) + ' sent ' +
-            unit(a, 'gallon') + ' of sewage to the water treatment plant. So, the river got polluted.',
+            unit(a, 'gallon') + ' of sewage to the water treatment plant. Together, they sent ' + unit(c + a, 'gallon') + ' of sewage to the water treatment plant. So, the river got polluted.',
         statement: color('Huxley Steel', c_color) + ' producing ' + unit(c, 'gallon') + ' of sewage caused the river to get polluted today.'
     },
     vibe_check: {
@@ -104,8 +106,8 @@ var vignettes = [{
         'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. So, if ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ' together sell more than ' +
         unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day.' 
         + '<br><br><strong> ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ' each sell ' + unit(mu_c, 'ream') + ' of paper on average. </strong> So, the branch' + normality(threshold) + 'makes a profit.',
-        'We will show you how many reams of paper each of the two employees sold on ' + (n_learning*n_blocks) +
-        '  days in total, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the branch made a profit.'
+        'We will show you how many reams of paper each of the two employees sold on ' + (n_learning_per_block*n_blocks) +
+        '  days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the branch made a profit.'
          + '<br><br><strong>At the end of each block, you will be asked how much the amount of paper sold by each employee varies from day to day.</strong>'],
     learning: {
         stim1: color('Susan', c_color) + ' sold ',
@@ -113,7 +115,7 @@ var vignettes = [{
         stim3: '<p>' + color('Mike', a_color) + ' sold ',
         stim4: ' of paper for the branch.',
         question: 'Did the branch make a profit today?',
-        alert: 'Remember that the local branch makes a profit whenever ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) +  ' sell over ' + unit(threshold, 'ream') + ' of paper in total.',
+        alert: 'Remember that the local branch makes a profit whenever ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) +  ' sell <b>more than</b> ' + unit(threshold, 'ream') + ' of paper in total.',
     },
     man_check: {
         c: 'How much does the amount of paper sold by ' + color('Susan', c_color) + ' vary from day to day?',
@@ -123,7 +125,7 @@ var vignettes = [{
         reminder: 'As a reminder, each day the local branch of the company will make a profit if ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ' together sell over ' +
             unit(threshold, 'ream') + ' of paper.',
         vignette: 'Today,  ' + color('Susan', c_color) + ' sold ' + unit(c, 'ream') + ' of paper and ' + color('Mike', a_color) + ' sold ' +
-            unit(a, 'ream') + ' of paper. So, the branch made a profit.',
+            unit(a, 'ream') + ' of paper. Together, they sold ' + unit(c+a, 'ream') + ' of paper. So, the branch made a profit.',
         statement: color('Susan', c_color) + ' selling ' + unit(c, 'ream') + ' of paper caused the branch to make a profit today.'
     },
     vibe_check: {
@@ -132,11 +134,11 @@ var vignettes = [{
     }
 }, {
     name: 'savings', units: 'dollar', interval: 'month', valence: 'positive',
-    instructions: [color('Luke', c_color) + ' and  ' + color('Lisa', a_color) + ' have a special joint savings account together. Every month, they each try to add as much money to their account as possible. If ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' save over ' +
+    instructions: [color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' have a special joint savings account together. At the end of each month, they each independently make a single deposit to their account to save as much money as possible. If ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' save over ' +
         unit(threshold, 'dollar') + ' by the end of the month, their bank deposits a bonus into their account.' +
         '<br><br><strong> ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' each save ' + unit(mu_c, 'dollar') + ' on average.</strong> So, the bank' + normality(threshold) + 'deposits a bonus into their account.' ,
         'We will show you how much money each person saved for ' +
-        (n_learning*n_blocks) + '  months in total, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual months. For each month, you will be asked whether their bank deposited a bonus into their account.'
+        (n_learning_per_block*n_blocks) + '  months in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual months. For each month, you will be asked whether their bank deposited a bonus into their account.'
          + '<br><br><strong>At the end of each block, you will be asked how much the amount of money saved by each person varies from month to month.</strong>'],
     learning: {
         stim1: color('Luke', c_color) + ' saved ',
@@ -144,7 +146,7 @@ var vignettes = [{
         stim3: color('Lisa', a_color) + ' saved ',
         stim4: '.',
         question: 'Did the bank deposit a bonus into their savings account this month?',
-        alert: 'Remember that the bank deposits a bonus into their savings account whenever ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' save over ' + unit(threshold, 'dollar') + ' in total.',
+        alert: 'Remember that the bank deposits a bonus into their savings account whenever ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' save <b>more than</b> ' + unit(threshold, 'dollar') + ' in total.',
     },
     man_check: {
         c: 'How much does the amount of money saved by ' + color('Luke', c_color) + ' vary from month to month?',
@@ -159,7 +161,7 @@ var vignettes = [{
     },
     vibe_check: {
         c: '<p><strong>To what extent did you expect ' + color('Luke', c_color) + ' to save ' + unit(c, 'dollar') + '?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect ' + color('Lisa', a_color) + ' to save ' + unit(a, 'gallon') + '?</strong></p>',  
+        a: '<br><p><strong>To what extent did you expect ' + color('Lisa', a_color) + ' to save ' + unit(a, 'dollar') + '?</strong></p>',  
     }
 },{
     name: 'basketball', units: 'point', interval: 'match', valence: 'positive',
@@ -169,8 +171,8 @@ var vignettes = [{
         unit(threshold, 'point') + ' points during a match, the coach will take them out for ice cream.' +
         ' Each match, both teams try to score as many points at possible.' +
         '<br><br><strong>The ' + color('varsity', c_color) + ' and ' + color('junior varsity', a_color) + ' teams each score ' + unit(mu_c, 'point') + ' on average.</strong> So, the coach' + normality(threshold) + 'takes the team out for ice cream.',
-        'We will show you how many points each of the two basketball teams scored during ' + (n_learning*n_blocks) +
-        '  matches in total, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual matches. For each match, you will be asked whether they went out for ice cream after the match.' + 
+        'We will show you how many points each of the two basketball teams scored during ' + (n_learning_per_block*n_blocks) +
+        '  matches in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual matches. For each match, you will be asked whether they went out for ice cream after the match.' + 
         '<br><br><strong>At the end of each block, you will be asked how much the amount of points scored by each team varies from match to match.</strong>'],
     learning: {
         stim1: 'The ' + color('varsity', c_color) + ' team scored ',
@@ -178,7 +180,7 @@ var vignettes = [{
         stim3: 'The ' + color('junior varsity', a_color) + ' team scored ',
         stim4: '.',
         question: 'Did the team go out for ice cream today?',
-        alert: 'Remember that the team goes out for ice cream whenever the ' + color('varsity', c_color) + ' and ' + color('junior varsity', a_color) + ' teams score over ' + unit(threshold, 'point') + ' in total.',
+        alert: 'Remember that the team goes out for ice cream whenever the ' + color('varsity', c_color) + ' and ' + color('junior varsity', a_color) + ' teams score <b>more than</b> ' + unit(threshold, 'point') + ' in total.',
     },
     man_check: {
         c: 'How much does the number of points scored by the ' + color('varsity', c_color) + ' team vary from match to match?',
@@ -200,7 +202,7 @@ var vignettes = [{
         ' in total, the school will receive 15 extra minutes of lunch for that day. ' +
         '<br><br><strong> The ' + color('7th grade', c_color) + ' class and the ' + color('8th grade', a_color) + ' class each bring in ' + unit(mu_c, 'canned good') + ' on average.</strong> So, the school' + normality(threshold) + 'receives 15 extra minutes of lunch time.' ,
         'We will show you how many canned goods were brought in by the ' + color('7th grade', c_color) + ' class and the ' + color('8th grade', a_color) + ' class on ' +
-        (n_learning*n_blocks) + '  days in total, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the school received 15 extra minutes of lunch time.' + 
+        (n_learning_per_block*n_blocks) + '  days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the school received 15 extra minutes of lunch time.' + 
         '<br><br><strong>At the end of each block, you will be asked how much the amount of canned goods brought in by each class varies from day to day.</strong>'] ,
     learning: {
         stim1: 'The ' + color('7th grade', c_color) + ' class brought in ',
@@ -208,7 +210,7 @@ var vignettes = [{
         stim3: 'The ' + color('8th grade', a_color) + ' class brought in ',
         stim4: ' for the food drive.',
         question: 'Did Fairfield Middle School receive 15 extra minutes of lunch time today?',
-        alert: 'Remember that Fairfield Middle School receives 15 extra minutes during lunch whenever they bring over ' + unit(threshold, ' canned good') + ' in total.',
+        alert: 'Remember that Fairfield Middle School receives 15 extra minutes during lunch whenever they bring <b>more than</b> ' + unit(threshold, ' canned good') + ' in total.',
     },
     man_check: {
         c: 'How much does the number of canned goods brought in by the ' + color('7th grade', c_color) + ' class vary from day to day?',
@@ -257,8 +259,8 @@ var vignettes = [{
         unit(threshold, 'megawatt') + ' of renewable electricity per day. So, if the two towns together use more than ' + unit(threshold, 'megawatt') +
         ' of electricity on a given day, the power grid will resort to using non-renewable energy for that day. ' +
         '<br><br><strong> ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. </strong> So, the power grid' + normality(threshold) + 'uses non-renewable energy.',
-        ' We will show you how much electricity each of the two towns used on ' + (n_learning*n_blocks) +
-        '  days in total, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether the power grid used non-renewable energy.' + 
+        ' We will show you how much electricity each of the two towns used on ' + (n_learning_per_block*n_blocks) +
+        '  days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the power grid used non-renewable energy.' + 
         '<br><br><strong>At the end of each block, you will be asked how much the amount of electricity used by each town varies from day to day.</strong>'],
     learning: {
         stim1: color('Chester', c_color) + ' used ',
@@ -266,7 +268,7 @@ var vignettes = [{
         stim3: color('Franklin', a_color) + ' used ',
         stim4: ' of electricity.',
         question: 'Did the power grid use non-renewable energy today?',
-        alert: 'Remember that the power grid will use non-renewable energy whenever ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' use over ' + unit(threshold, 'megawatt') + ' in total.',
+        alert: 'Remember that the power grid will use non-renewable energy whenever ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' use <b>more than</b> ' + unit(threshold, 'megawatt') + ' in total.',
     },
     man_check: {
         c: 'How much does the amount of electricity used by ' + color('Chester', c_color) + ' vary from day to day?',
@@ -288,7 +290,7 @@ var vignettes = [{
     instructions: [color('Alison', c_color) + ' and ' + color('Tony', a_color) + ' live together in an apartment in town. To help with utilities, their landlord agreed to pay for them to use up to ' + unit(threshold, 'gallon') + '. So, if ' + color('Alison', c_color) + ' and ' + color('Tony', a_color) + ' together use more than ' +
         unit(threshold, 'gallon') + ' of water in a month, their landlord will send them a bill to pay for the remainder. ' +
         '<br><br><strong>' + color('Alison', c_color) + ' and ' + color('Tony', a_color) + ' each use ' + unit(mu_c, 'gallon') + ' of water on average.</strong> So, the landlord' + normality(threshold) + 'sends them a bill.', 
-        'We will show you how much water ' + color('Alison', c_color) + ' and ' + color('Tony', a_color) + ' used on ' + (n_learning*n_blocks) + '  months in total, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual months. For each month, you will be asked whether their landlord sent them a bill.' +
+        'We will show you how much water ' + color('Alison', c_color) + ' and ' + color('Tony', a_color) + ' used on ' + (n_learning_per_block*n_blocks) + '  months in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual months. For each month, you will be asked whether their landlord sent them a bill.' +
         '<br><br><strong>At the end of each block, you will be asked how much the amount of water used by each person varies from month to month.</strong>'] ,
     learning: {
         stim1: color('Alison', c_color) + ' used ',
@@ -296,7 +298,7 @@ var vignettes = [{
         stim3: color('Tony', a_color) + ' used ',
         stim4: ' of water.',
         question: 'Did their landlord send them a bill this month?',
-        alert: 'Remember that their landlord will send them a bill whenever ' + color('Alison', c_color) + ' and ' + color('Tony', a_color) + ' use over ' + unit(threshold, 'gallon') + ' of water in total.',
+        alert: 'Remember that their landlord will send them a bill whenever ' + color('Alison', c_color) + ' and ' + color('Tony', a_color) + ' use <b>more than</b> ' + unit(threshold, 'gallon') + ' of water in total.',
     },
     man_check: {
         c: 'How much does the amount of water used by ' + color('Alison', c_color) + ' vary from month to month?',
@@ -322,8 +324,8 @@ var vignettes = [{
         'If ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' together send over ' + unit(threshold, 'student') +
         ' to a university, their district will receive more education funding. ' +
         '<br><br><strong>' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' each send ' + unit(mu_c, 'student') + ' to a university on average.</strong> So, their district' + normality(threshold) + 'receives more education funding.',
-        'We will show you how many students the two schools sent to a university for ' + (n_learning*n_blocks) +
-        '  years in total, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual years. For each year, you will be asked whether the district received more funding.' + 
+        'We will show you how many students the two schools sent to a university for ' + (n_learning_per_block*n_blocks) +
+        '  years in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual years. For each year, you will be asked whether the district received more funding.' + 
         '<br><br><strong>At the end of each block, you will be asked how much the amount of students sent by each school varies from year to year.</strong>'],
     learning: {
         stim1: color('Williamsburg North', c_color) + ' sent ',
@@ -331,7 +333,7 @@ var vignettes = [{
         stim3: '' + color('Williamsburg South', a_color) + ' sent ',
         stim4: ' to a university.',
         question: 'Did the district receive more funding this year?',
-        alert: 'Remember that the district will receive more funding whenever ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' send over ' + unit(threshold, 'student') + ' to a university in total.',
+        alert: 'Remember that the district will receive more funding whenever ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' send <b>more than</b> ' + unit(threshold, 'student') + ' to a university in total.',
     },
     man_check: {
         c: 'How much does the number of students that ' + color('Williamsburg North', c_color) + ' sends to a university vary from year to year?',
@@ -353,8 +355,8 @@ var vignettes = [{
         'To get there, he must cross the Middleview bridge which has a maximum weight capacity of ' + unit(threshold, 'ton') + 
         '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' need more than ' + unit(threshold, 'ton') + 
         ' of bricks, Ned has to take two trips across the river that day. ' + '<br><br><strong>' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' each order ' + unit(mu_c, 'ton') + ' of bricks on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.',
-        'We will show you how much brick ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' ordered on ' + (n_learning*n_blocks) +
-        ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning + ' individual days. For each day, you will be asked whether Ned took two trips across the river.' + 
+        'We will show you how much brick ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' ordered on ' + (n_learning_per_block*n_blocks) +
+        ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether Ned took two trips across the river.' + 
         '<br><br><strong>At the end of each block, you will be asked how much the amount of bricks ordered by each company varies from day to day.</strong>'],
     learning: {
         stim1: color('Hammerco', c_color) + ' ordered ',
@@ -362,7 +364,7 @@ var vignettes = [{
         stim3: color('Brick Works', a_color) + ' ordered ',
         stim4: ' of bricks.',
         question: 'Did Ned take two trips across the river today?',
-        alert: 'Remember that Ned takes two trips across the river whenever ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' order over ' + unit(threshold, 'ton') + ' of bricks in total.',
+        alert: 'Remember that Ned takes two trips across the river whenever ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' order <b>more than</b> ' + unit(threshold, 'ton') + ' of bricks in total.',
     },
     man_check: {
         c: 'How much does the amount of brick ordered by ' + color('Hammerco', c_color) + ' vary from day to day?',
@@ -385,7 +387,7 @@ var vignettes = [{
         unit(threshold, 'mile') + ' combined each month. So, if they run a total of more than ' + unit(threshold, 'mile') + 
         ' that month, Francine will bake them a cake. Francine will not bake a cake if they run less than ' + unit(threshold, 'mile') + ' that month. ' +
         '<br><br><strong>' + color('Olivia', c_color) + ' and ' + color('Mimi', a_color) + ' each run ' + unit(mu_c, 'mile') + ' on average.</strong> So, Francine' + normality(threshold) + 'bakes them a cake.',
-        'We will show you how many miles ' + color('Olivia', c_color) + ' and ' + color('Mimi', a_color) + ' ran on ' + (n_learning*n_blocks) +
+        'We will show you how many miles ' + color('Olivia', c_color) + ' and ' + color('Mimi', a_color) + ' ran on ' + (n_learning_per_block*n_blocks) +
         ' months in total. For each month, you will be asked whether Francine baked them a cake.' +
         '<br><br><strong>At the end of each block, you will be asked how much the amount of miles ran by each person varies from month to month.</strong>'],
     learning: {
@@ -394,7 +396,7 @@ var vignettes = [{
         stim3: color('Mimi', a_color) + ' ran ',
         stim4: '.',
         question: 'Did Francine bake them a cake this month?',
-        alert: 'Remember that Francine bakes ' + color('Olivia', c_color) + ' and ' + color('Mimi', a_color) + ' a cake whenever they run more than ' + unit(threshold, 'mile') + ' in total.',
+        alert: 'Remember that Francine bakes ' + color('Olivia', c_color) + ' and ' + color('Mimi', a_color) + ' a cake whenever they run <b>more than</b> ' + unit(threshold, 'mile') + ' in total.',
     },
     man_check: {
         c: 'How much does the number of miles that ' + color('Olivia', c_color) + ' runs vary from month to month?',
@@ -415,8 +417,8 @@ var vignettes = [{
     instructions: ['To save money, ' + color('Ricardo', c_color) + ' and ' + color('Pierre', a_color) + ' are on a family cell phone plan. The plan has a cellular data limit of ' + 
         unit(threshold, 'gigabyte') + ' per month. So, if ' + color('Ricardo', c_color) + ' and ' + color('Pierre', a_color) + ' together use more than ' +
         unit(threshold, 'gigabyte') + ' of data in a given month, then the cell company will charge them a data overage fee. ' +
-        '<strong>' + color('Ricardo', c_color) + ' and ' + color('Pierre', a_color) + ' each use ' + unit(mu_c, 'gallon') + ' on average.</strong> So, the cell phone company' + normality(threshold) + 'charges them a data overage fee.',
-        'We will show you how much data ' + color('Ricardo', c_color) + ' and ' + color('Pierre', a_color) + ' used on ' + (n_learning*n_blocks) +
+        '<strong>' + color('Ricardo', c_color) + ' and ' + color('Pierre', a_color) + ' each use ' + unit(mu_c, 'gigabyte') + ' on average.</strong> So, the cell phone company' + normality(threshold) + 'charges them a data overage fee.',
+        'We will show you how much data ' + color('Ricardo', c_color) + ' and ' + color('Pierre', a_color) + ' used on ' + (n_learning_per_block*n_blocks) +
         ' months in total. For each month, you will be asked whether the company charged them a fee.' +
         '<br><br><strong>At the end of each block, you will be asked how much the amount of data used by each person varies from month to month.</strong>'],
     learning: {
@@ -425,7 +427,7 @@ var vignettes = [{
         stim3: color('Pierre', a_color) + ' used ',
         stim4: ' of data.',
         question: 'Did the cell company charge them a fee this month?</strong></p>',
-        alert: 'Remember that the cell company charges a data overage fee whenever ' + color('Ricardo', c_color) + ' and ' + color('Pierre', a_color) + ' use over ' + unit(threshold, 'gigabyte') + ' of data in total.',
+        alert: 'Remember that the cell company charges a data overage fee whenever ' + color('Ricardo', c_color) + ' and ' + color('Pierre', a_color) + ' use <b>more than</b> ' + unit(threshold, 'gigabyte') + ' of data in total.',
     },
     man_check: {
         c: 'How much does the amount of data that ' + color('Ricardo', c_color) + ' uses vary from month to month?',
@@ -455,7 +457,7 @@ console.log('threshold: ' + threshold);
 /* Capture info from Prolific */
 jsPsych.data.addProperties({
     id: id, mu_c: mu_c, mu_a: mu_a, sd_c: sd_c, sd_a: sd_a, 
-    threshold: threshold, c: c, a: a, n_learning: n_learning,
+    threshold: threshold, c: c, a: a, n_learning: n_learning_per_block,
     prolific_id: jsPsych.data.getURLVariable('PROLIFIC_PID'),
     study_id: jsPsych.data.getURLVariable('STUDY_ID'),
     session_id: jsPsych.data.getURLVariable('SESSION_ID')
@@ -641,7 +643,7 @@ var learning_block = {
             choices: ['No', 'Yes'],
             button_html: '<button class="jspsych-btn" disabled>%choice%</button>',
             stimulus: function () {
-                return '<p align="left">' + capitalize(vignette.interval) + ' ' + (current_trial + 1) + ' of ' + n_blocks * n_learning + ':</p>' + 
+                return '<p align="left">' + capitalize(vignette.interval) + ' ' + (current_trial + 1) + ' of ' + n_blocks * n_learning_per_block + ':</p>' + 
                     vignette.learning.stim1 + unit(learning_params[current_trial].c, vignette.units) +
                     vignette.learning.stim2 + '<br>' + vignette.learning.stim3 +
                     unit(learning_params[current_trial].a, vignette.units) + vignette.learning.stim4 +
@@ -670,7 +672,7 @@ var learning_block = {
             show_clickable_nav: true, allow_backward: false,
             pages: function () {
                 let d = jsPsych.data.getLastTrialData().values()[0];
-                let header = '<p align="left">' + capitalize(vignette.interval) + ' ' + d.trial + ' of ' + n_blocks*n_learning + ':</p>';
+                let header = '<p align="left">' + capitalize(vignette.interval) + ' ' + d.trial + ' of ' + n_blocks*n_learning_per_block + ':</p>';
                 if (d.response == d.e)
                     return [header + '<p style="font-weight: bold; color: green;">Correct!</p>'];
 
@@ -691,8 +693,10 @@ var learning_block = {
 var block_completion = {
     type: jsPsychInstructions,
     show_clickable_nav: true,
-    pages: ['Great work, you finished block ' + (learning_params[current_trial].block + 1) +
-            ' of ' + n_blocks + '!']
+    pages: function () {
+        return ['Great work, you finished block ' + (learning_params[current_trial-1].block + 1) +
+                ' of ' + n_blocks + '!']
+    }
 }
 
 /* display manipulation check */
