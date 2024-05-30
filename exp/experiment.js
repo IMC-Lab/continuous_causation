@@ -13,7 +13,7 @@ var jsPsych = initJsPsych({
             'id': jsPsych.randomization.randomID(),
             'extension': 'csv',
             'directory': 'data',
-            'experimentName': 'lab_meeting',
+            'experimentName': 'pilot',
             'curData': data.csv()
         };
         await $.post("https://dibs-web01.vm.duke.edu/debrigard/continuous_causation/exp/save.php",
@@ -32,12 +32,12 @@ var jsPsych = initJsPsych({
 
 
 
-var mu_c = 50;
+var mu_c = 75;
 var mu_a = mu_c;
-var sd_c = jsPsych.randomization.sampleWithoutReplacement([30, 1], 1)[0];
+var sd_c = jsPsych.randomization.sampleWithoutReplacement([50, 1], 1)[0];
 //var sd_c = 1
-var sd_a = 30;
-var c = Math.round(4/3 * mu_c + 2/3);
+var sd_a = 50;
+var c = Math.floor(4/3 * mu_c + 2/3);
 var a = c;
 var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
 //var threshold = c+a-1;
@@ -75,7 +75,7 @@ var vignettes = [{
         ' of sewage on average. </strong> So, the town\'s river' + normality(threshold) + 'gets polluted with sewage.',
         'We will show you how much sewage each of the two plants produced on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the river was polluted.' +
-        '<br><br><strong>At the end of each block, you will be asked how much the amount of sewage produced by each plant varies from day to day.</strong>'],
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of sewage produced by each plant varies from day to day.</strong>'],
     learning: {
         stim1: color('Huxley Steel', c_color) + ' produced ',
         stim2: ' of sewage. ',
@@ -97,8 +97,8 @@ var vignettes = [{
         statement: color('Huxley Steel', c_color) + ' producing ' + unit(c, 'gallon') + ' of sewage caused the river to get polluted today.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect ' + color('Huxley Steel', c_color) + ' to produce ' + unit(c, 'gallon') + ' of sewage?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect ' + color('Huxley Lumber', a_color) + ' to produce ' + unit(a, 'gallon') + ' of sewage?</strong></p>',  
+        c: '<p><strong>How surprised were you that ' + color('Huxley Steel', c_color) + ' produced ' + unit(c, 'gallon') + ' of sewage?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Huxley Lumber', a_color) + ' produced ' + unit(a, 'gallon') + ' of sewage?</strong></p>',  
     }
 }, {
     name: 'sales', units: 'ream', interval: 'day', valence: 'positive',
@@ -108,7 +108,7 @@ var vignettes = [{
         + '<br><br><strong> ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ' each sell ' + unit(mu_c, 'ream') + ' of paper on average. </strong> So, the branch' + normality(threshold) + 'makes a profit.',
         'We will show you how many reams of paper each of the two employees sold on ' + (n_learning_per_block*n_blocks) +
         '  days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the branch made a profit.'
-         + '<br><br><strong>At the end of each block, you will be asked how much the amount of paper sold by each employee varies from day to day.</strong>'],
+         + '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of paper sold by each employee varies from day to day.</strong>'],
     learning: {
         stim1: color('Susan', c_color) + ' sold ',
         stim2: ' of paper for the branch.',
@@ -129,8 +129,8 @@ var vignettes = [{
         statement: color('Susan', c_color) + ' selling ' + unit(c, 'ream') + ' of paper caused the branch to make a profit today.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect ' + color('Susan', c_color) + ' to sell ' + unit(c, 'ream') + ' of paper?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect ' + color('Mike', a_color) + ' to sell ' + unit(a, 'ream') + ' of paper?</strong></p>',  
+        c: '<p><strong>How surprised were you that ' + color('Susan', c_color) + ' sold ' + unit(c, 'ream') + ' of paper?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Mike', a_color) + ' sold ' + unit(a, 'ream') + ' of paper?</strong></p>',  
     }
 }, {
     name: 'savings', units: 'dollar', interval: 'month', valence: 'positive',
@@ -139,7 +139,7 @@ var vignettes = [{
         '<br><br><strong> ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' each save ' + unit(mu_c, 'dollar') + ' on average.</strong> So, the bank' + normality(threshold) + 'deposits a bonus into their account.' ,
         'We will show you how much money each person saved for ' +
         (n_learning_per_block*n_blocks) + '  months in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual months. For each month, you will be asked whether their bank deposited a bonus into their account.'
-         + '<br><br><strong>At the end of each block, you will be asked how much the amount of money saved by each person varies from month to month.</strong>'],
+         + '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of money saved by each person varies from month to month.</strong>'],
     learning: {
         stim1: color('Luke', c_color) + ' saved ',
         stim2: '. ',
@@ -160,8 +160,8 @@ var vignettes = [{
         statement: color('Luke', c_color) + ' saving ' + unit(c, 'dollar') + ' caused the bank to deposit a bonus into their savings account this month.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect ' + color('Luke', c_color) + ' to save ' + unit(c, 'dollar') + '?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect ' + color('Lisa', a_color) + ' to save ' + unit(a, 'dollar') + '?</strong></p>',  
+        c: '<p><strong>How surprised were you that ' + color('Luke', c_color) + ' saved ' + unit(c, 'dollar') + '?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Lisa', a_color) + ' saved ' + unit(a, 'dollar') + '?</strong></p>',  
     }
 },{
     name: 'basketball', units: 'point', interval: 'match', valence: 'positive',
@@ -173,7 +173,7 @@ var vignettes = [{
         '<br><br><strong>The ' + color('varsity', c_color) + ' and ' + color('junior varsity', a_color) + ' teams each score ' + unit(mu_c, 'point') + ' on average.</strong> So, the coach' + normality(threshold) + 'takes the team out for ice cream.',
         'We will show you how many points each of the two basketball teams scored during ' + (n_learning_per_block*n_blocks) +
         '  matches in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual matches. For each match, you will be asked whether they went out for ice cream after the match.' + 
-        '<br><br><strong>At the end of each block, you will be asked how much the amount of points scored by each team varies from match to match.</strong>'],
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of points scored by each team varies from match to match.</strong>'],
     learning: {
         stim1: 'The ' + color('varsity', c_color) + ' team scored ',
         stim2: '.',
@@ -192,8 +192,8 @@ var vignettes = [{
         statement: 'The ' + color('varsity', c_color) + ' team scoring ' + unit(c, 'point') + ' caused the team to go out for ice cream today.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect the ' + color('varsity', c_color) + ' team to score ' + unit(c, 'point') + '?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect the ' + color('junior varsity', a_color) + ' team to score ' + unit(a, 'point') + '?</strong></p>',  
+        c: '<p><strong>How surprised were you that the ' + color('varsity', c_color) + ' team scored ' + unit(c, 'point') + '?</strong></p>',
+        a: '<br><p><strong>How surprised were you that the ' + color('junior varsity', a_color) + ' team scored ' + unit(a, 'point') + '?</strong></p>',  
     }
 }, {
     name: 'food', units: 'canned good', interval: 'day', valence: 'positive',
@@ -203,7 +203,7 @@ var vignettes = [{
         '<br><br><strong> The ' + color('7th grade', c_color) + ' class and the ' + color('8th grade', a_color) + ' class each bring in ' + unit(mu_c, 'canned good') + ' on average.</strong> So, the school' + normality(threshold) + 'receives 15 extra minutes of lunch time.' ,
         'We will show you how many canned goods were brought in by the ' + color('7th grade', c_color) + ' class and the ' + color('8th grade', a_color) + ' class on ' +
         (n_learning_per_block*n_blocks) + '  days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the school received 15 extra minutes of lunch time.' + 
-        '<br><br><strong>At the end of each block, you will be asked how much the amount of canned goods brought in by each class varies from day to day.</strong>'] ,
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of canned goods brought in by each class varies from day to day.</strong>'] ,
     learning: {
         stim1: 'The ' + color('7th grade', c_color) + ' class brought in ',
         stim2: ' for the food drive. ',
@@ -223,8 +223,8 @@ var vignettes = [{
         statement: 'The ' + color('7th grade', c_color) + ' class bringing in ' + unit(c, 'canned good') + ' caused Fairfield Middle School to receive 15 extra minutes of lunch time today.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect the ' + color('7th grade', c_color) + ' class to bring in ' + unit(c, 'canned good') + '?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect the ' + color('8th grade', a_color) + ' class to bring in ' + unit(a, 'canned good') + '?</strong></p>',  
+        c: '<p><strong>How surprised were you that the ' + color('7th grade', c_color) + ' class brought in ' + unit(c, 'canned good') + '?</strong></p>',
+        a: '<br><p><strong>How surprised were you that the ' + color('8th grade', a_color) + ' class brought in ' + unit(a, 'canned good') + '?</strong></p>',  
     }
 }, /*{
     name: 'bus', units: 'minute', interval: 'day', valence: 'negative',
@@ -250,8 +250,8 @@ var vignettes = [{
         statement: 'Sam taking ' + unit(c, 'minute') + ' to get ready caused him and Jeffrey to be late to school.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect Sam to take ' + unit(c, 'minute') + ' to get ready?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect Jeffrey to take ' + unit(a, 'minute') + ' to get ready?</strong></p>',  
+        c: '<p><strong>How surprised were you that Sam took ' + unit(c, 'minute') + ' to get ready?</strong></p>',
+        a: '<br><p><strong>How surprised were you that Jeffrey took ' + unit(a, 'minute') + ' to get ready?</strong></p>',  
     }
 },*/ {
     name: 'electricity', units: 'megawatt', interval: 'day', valence: 'negative',
@@ -261,7 +261,7 @@ var vignettes = [{
         '<br><br><strong> ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. </strong> So, the power grid' + normality(threshold) + 'uses non-renewable energy.',
         ' We will show you how much electricity each of the two towns used on ' + (n_learning_per_block*n_blocks) +
         '  days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the power grid used non-renewable energy.' + 
-        '<br><br><strong>At the end of each block, you will be asked how much the amount of electricity used by each town varies from day to day.</strong>'],
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of electricity used by each town varies from day to day.</strong>'],
     learning: {
         stim1: color('Chester', c_color) + ' used ',
         stim2: ' of electricity. ',
@@ -282,8 +282,8 @@ var vignettes = [{
         statement: color('Chester', c_color) + ' using ' + unit(c, 'megawatt') + ' of electricity caused the power grid to use non-renewable energy today.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect ' + color('Chester', c_color) + ' to use ' + unit(c, 'megawatt') + ' of electricity?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect ' + color('Franklin', a_color) + ' to use ' + unit(a, 'megawatt') + ' of electricity?</strong></p>',  
+        c: '<p><strong>How surprised were you that ' + color('Chester', c_color) + ' used ' + unit(c, 'megawatt') + ' of electricity?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Franklin', a_color) + ' used ' + unit(a, 'megawatt') + ' of electricity?</strong></p>',  
     }
 }, {
     name: 'water', units: 'gallon', interval: 'day', valence: 'negative',
@@ -291,7 +291,7 @@ var vignettes = [{
         unit(threshold, 'gallon') + ' of water in a month, their landlord will send them a bill to pay for the remainder. ' +
         '<br><br><strong>' + color('Alison', c_color) + ' and ' + color('Tony', a_color) + ' each use ' + unit(mu_c, 'gallon') + ' of water on average.</strong> So, the landlord' + normality(threshold) + 'sends them a bill.', 
         'We will show you how much water ' + color('Alison', c_color) + ' and ' + color('Tony', a_color) + ' used on ' + (n_learning_per_block*n_blocks) + '  months in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual months. For each month, you will be asked whether their landlord sent them a bill.' +
-        '<br><br><strong>At the end of each block, you will be asked how much the amount of water used by each person varies from month to month.</strong>'] ,
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of water used by each person varies from month to month.</strong>'] ,
     learning: {
         stim1: color('Alison', c_color) + ' used ',
         stim2: ' of water.',
@@ -313,8 +313,8 @@ var vignettes = [{
         statement: color('Alison', c_color) + ' using ' + unit(c, 'gallon') + ' of water caused their landlord to send them a bill this month.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect ' + color('Alison', c_color) + ' to use ' + unit(c, 'gallon') + ' of water?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect ' + color('Tony', a_color) + ' to use ' + unit(a, 'gallon') + ' of water?</strong></p>',  
+        c: '<p><strong>How surprised were you that ' + color('Alison', c_color) + ' used ' + unit(c, 'gallon') + ' of water?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Tony', a_color) + ' used ' + unit(a, 'gallon') + ' of water?</strong></p>',  
     }
 }, {
     name: 'funding', units: 'student', interval: 'year', valence: 'positive',
@@ -326,7 +326,7 @@ var vignettes = [{
         '<br><br><strong>' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' each send ' + unit(mu_c, 'student') + ' to a university on average.</strong> So, their district' + normality(threshold) + 'receives more education funding.',
         'We will show you how many students the two schools sent to a university for ' + (n_learning_per_block*n_blocks) +
         '  years in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual years. For each year, you will be asked whether the district received more funding.' + 
-        '<br><br><strong>At the end of each block, you will be asked how much the amount of students sent by each school varies from year to year.</strong>'],
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of students sent by each school varies from year to year.</strong>'],
     learning: {
         stim1: color('Williamsburg North', c_color) + ' sent ',
         stim2: ' to a university.',
@@ -345,8 +345,8 @@ var vignettes = [{
         statement: color('Williamsburg North', c_color) + ' sending ' + unit(c, 'student') + ' to a university caused the district to receive more funding this year.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect ' + color('Williamsburg North', c_color) + ' to send ' + unit(c, 'student') + ' to a university?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect ' + color('Williamsburg South', a_color) + ' to send ' + unit(a, 'student') + ' to a university?</strong></p>',  
+        c: '<p><strong>How surprised were you that ' + color('Williamsburg North', c_color) + ' sent ' + unit(c, 'student') + ' to a university?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Williamsburg South', a_color) + ' sent ' + unit(a, 'student') + ' to a university?</strong></p>',  
     }
 }, {
     name: 'trucking', units: 'ton', interval: 'day', valence: 'negative',
@@ -357,7 +357,7 @@ var vignettes = [{
         ' of bricks, Ned has to take two trips across the river that day. ' + '<br><br><strong>' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' each order ' + unit(mu_c, 'ton') + ' of bricks on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.',
         'We will show you how much brick ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' ordered on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether Ned took two trips across the river.' + 
-        '<br><br><strong>At the end of each block, you will be asked how much the amount of bricks ordered by each company varies from day to day.</strong>'],
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of bricks ordered by each company varies from day to day.</strong>'],
     learning: {
         stim1: color('Hammerco', c_color) + ' ordered ',
         stim2: ' of bricks.',
@@ -377,8 +377,8 @@ var vignettes = [{
         statement: color('Hammerco', c_color) + ' ordering ' + unit(c, 'ton') + ' of brick caused Ned to take two trips across the river today.'
     },
     vibe_check: {
-        c: 'To what extent did you expect ' + color('Hammerco', c_color) + ' to order ' + unit(c, 'ton') + ' of bricks?',
-        a: 'To what extent did you expect ' + color('Brick Works', a_color) + ' to order ' + unit(a, 'ton') + ' of bricks?',
+        c: 'How surprised were you that ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'ton') + ' of bricks?',
+        a: 'How surprised were you that ' + color('Brick Works', a_color) + ' ordered ' + unit(a, 'ton') + ' of bricks?',
     } 
 }, {
     name: 'running', units: 'mile', interval: 'month', valence: 'positive',
@@ -389,7 +389,7 @@ var vignettes = [{
         '<br><br><strong>' + color('Olivia', c_color) + ' and ' + color('Mimi', a_color) + ' each run ' + unit(mu_c, 'mile') + ' on average.</strong> So, Francine' + normality(threshold) + 'bakes them a cake.',
         'We will show you how many miles ' + color('Olivia', c_color) + ' and ' + color('Mimi', a_color) + ' ran on ' + (n_learning_per_block*n_blocks) +
         ' months in total. For each month, you will be asked whether Francine baked them a cake.' +
-        '<br><br><strong>At the end of each block, you will be asked how much the amount of miles ran by each person varies from month to month.</strong>'],
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of miles ran by each person varies from month to month.</strong>'],
     learning: {
         stim1: color('Olivia', c_color) + ' ran ',
         stim2: '. ',
@@ -409,8 +409,8 @@ var vignettes = [{
         statement: color('Olivia', c_color) + ' running ' + unit(c, 'mile') + ' caused Francine to bake a cake this month.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect ' + color('Olivia', c_color) + ' to run ' + unit(c, 'mile') + '?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect ' + color('Mimi', a_color) + ' to run ' + unit(a, 'mile') + '?</strong></p>',  
+        c: '<p><strong>How surprised were you that ' + color('Olivia', c_color) + ' ran ' + unit(c, 'mile') + '?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Mimi', a_color) + ' ran ' + unit(a, 'mile') + '?</strong></p>',  
     }
 }, {
     name: 'cellular', units: 'gigabyte', interval: 'month', valence: 'negative',
@@ -420,7 +420,7 @@ var vignettes = [{
         '<strong>' + color('Ricardo', c_color) + ' and ' + color('Pierre', a_color) + ' each use ' + unit(mu_c, 'gigabyte') + ' on average.</strong> So, the cell phone company' + normality(threshold) + 'charges them a data overage fee.',
         'We will show you how much data ' + color('Ricardo', c_color) + ' and ' + color('Pierre', a_color) + ' used on ' + (n_learning_per_block*n_blocks) +
         ' months in total. For each month, you will be asked whether the company charged them a fee.' +
-        '<br><br><strong>At the end of each block, you will be asked how much the amount of data used by each person varies from month to month.</strong>'],
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of data used by each person varies from month to month.</strong>'],
     learning: {
         stim1: color('Ricardo', c_color) + ' used ',
         stim2: ' of data.',
@@ -439,8 +439,8 @@ var vignettes = [{
         statement: color('Ricardo', c_color) + ' using ' + unit(c, 'gigabyte') + ' of data caused the cell company to charge them a fee this month.'
     },
     vibe_check: {
-        c: '<p><strong>To what extent did you expect ' + color('Ricardo', c_color) + ' to use ' + unit(c, 'gigabyte') + ' of data?</strong></p>',
-        a: '<br><p><strong>To what extent did you expect ' + color('Pierre', a_color) + ' to use ' + unit(a, 'gigabyte') + ' of data?</strong></p>',  
+        c: '<p><strong>How surprised were you that ' + color('Ricardo', c_color) + ' used ' + unit(c, 'gigabyte') + ' of data?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Pierre', a_color) + ' used ' + unit(a, 'gigabyte') + ' of data?</strong></p>',  
     }
 }]
 
@@ -703,7 +703,7 @@ var block_completion = {
 var man_check_c = {
     type: jsPsychHtmlSliderResponse,
     stimulus: '<strong>' + vignette.man_check.c + '</strong>',
-    min: 0, max: 1, step: 'any', require_movement: true, labels: ['not at all', 'totally random'],
+    min: 0, max: 1, step: 'any', require_movement: true, labels: ['not at all', 'very much'],
     // Hide the slider thumb until response
     on_load: function () {
         document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
@@ -739,7 +739,7 @@ var man_check_a = {
             </div></div>` +
             '<strong>' + vignette.man_check.a + '</strong>';
     },
-    min: 0, max: 1, step: 'any', require_movement: true, labels: ['not at all', 'totally random'],
+    min: 0, max: 1, step: 'any', require_movement: true, labels: ['not at all', 'very much'],
     // Hide the slider thumb until response
     on_load: function () {
         document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
