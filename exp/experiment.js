@@ -350,7 +350,7 @@ var vignettes = [{
     }
 }, {
     name: 'trucking', units: 'ton', interval: 'day', valence: 'negative',
-    instructions: ['Ned is a trucker that delivers construction supplies for two clients, ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + '. ' +
+    instructions: ['Ned is a trucker who delivers construction supplies for two clients, ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + '. ' +
         'Every day, he receives an order from both companies to pick up bricks on the other side of Middleview river. ' +
         'To get there, he must cross the Middleview bridge which has a maximum weight capacity of ' + unit(threshold, 'ton') + 
         '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' need more than ' + unit(threshold, 'ton') + 
