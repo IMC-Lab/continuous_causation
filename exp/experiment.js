@@ -41,8 +41,8 @@ var c = Math.floor(4/3 * mu_c + 2/3);
 var a = c;
 var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
 //var threshold = c+a-1;
-var n_learning_per_block = 10;
-var n_blocks = 4;
+var n_learning_per_block = 2;
+var n_blocks = 2;
 
 var c_color = 'rgb(255, 159, 64)';
 var a_color = 'rgb(153, 102, 255)';
@@ -92,8 +92,8 @@ var vignettes = [{
         reminder: 'As a reminder, the water facility is capable of filtering ' + unit(threshold, 'gallon') +
             ' of sewage per day. So, if ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' together produce more than ' + unit(threshold, 'gallon') +
             ' of sewage, then the river will get polluted on that day.',
-        vignette: 'Today, ' + color('Huxley Steel', c_color) + ' sent ' + unit(c, 'gallon') + ' of sewage to the water treatment plant and ' + color('Huxley Lumber', a_color) + ' sent ' +
-            unit(a, 'gallon') + ' of sewage to the water treatment plant. Together, they sent ' + unit(c + a, 'gallon') + ' of sewage to the water treatment plant. So, the river got polluted.',
+        vignette: 'Today, ' + color('Huxley Steel', c_color) + ' sent ' + unit(c, 'gallon') + ' of sewage to the water treatment facility and ' + color('Huxley Lumber', a_color) + ' sent ' +
+            unit(a, 'gallon') + ' of sewage to the water treatment facility. Together, they sent ' + unit(c + a, 'gallon') + ' of sewage to the water treatment plant. So, the river got polluted.',
         statement: color('Huxley Steel', c_color) + ' producing ' + unit(c, 'gallon') + ' of sewage caused the river to get polluted today.'
     },
     vibe_check: {
@@ -318,14 +318,14 @@ var vignettes = [{
     }
 }, {
     name: 'funding', units: 'student', interval: 'year', valence: 'positive',
-    instructions: [color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' are the two high schools in their district. Each school has around the same number of students. ' +
+    instructions: [color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' are the two high schools in the Williamsburg district. Each school has around the same number of students. ' +
         'Every year, each school tries to send as many of their graduating students as possible to a university. ' +
         'To encourage college admissions, the state uses the number of students sent to a university to determine how much funding their district’s education program will get for the year. ' +
         'If ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' together send over ' + unit(threshold, 'student') +
         ' to a university, their district will receive more education funding. ' +
         '<br><br><strong>' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' each send ' + unit(mu_c, 'student') + ' to a university on average.</strong> So, their district' + normality(threshold) + 'receives more education funding.',
-        'We will show you how many students the two schools sent to a university for ' + (n_learning_per_block*n_blocks) +
-        '  years in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual years. For each year, you will be asked whether the district received more funding.' + 
+        'We will show you how many students the two schools sent to a university over ' + (n_learning_per_block*n_blocks) +
+        '  years in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual years. For each year, you will be asked whether the Williamsburg district received more funding.' + 
         '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of students sent by each school varies from year to year.</strong>'],
     learning: {
         stim1: color('Williamsburg North', c_color) + ' sent ',
@@ -341,7 +341,7 @@ var vignettes = [{
     },
     judgment: {
         reminder: 'As a reminder, the district will receive more funding for education if ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' together send over ' + unit(threshold, 'student') + ' to a university.',
-        vignette: 'This year, ' + color('Williamsburg North', c_color) + ' sent ' + unit(c, 'student') + ' to a university and ' + color('Williamsburg South', a_color) + ' sent ' + unit(a, 'student') + ' to a university. So, the district received more funding.',
+        vignette: 'This year, ' + color('Williamsburg North', c_color) + ' sent ' + unit(c, 'student') + ' to a university and ' + color('Williamsburg South', a_color) + ' sent ' + unit(a, 'student') + ' to a university. Together, they sent 200 students to a university. So, the Williamsburg district received more funding.',
         statement: color('Williamsburg North', c_color) + ' sending ' + unit(c, 'student') + ' to a university caused the district to receive more funding this year.'
     },
     vibe_check: {
@@ -353,7 +353,7 @@ var vignettes = [{
     instructions: ['Ned is a trucker who delivers construction supplies for two clients, ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + '. ' +
         'Every day, he receives an order from both companies to pick up bricks on the other side of Middleview river. ' +
         'To get there, he must cross the Middleview bridge which has a maximum weight capacity of ' + unit(threshold, 'ton') + 
-        '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' need more than ' + unit(threshold, 'ton') + 
+        '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' together need more than ' + unit(threshold, 'ton') + 
         ' of bricks, Ned has to take two trips across the river that day. ' + '<br><br><strong>' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' each order ' + unit(mu_c, 'ton') + ' of bricks on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.',
         'We will show you how much brick ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' ordered on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether Ned took two trips across the river.' + 
@@ -373,12 +373,12 @@ var vignettes = [{
     judgment: {
         reminder: 'As a reminder, the Middleview bridge can support a maximum of ' + unit(threshold, 'ton') + 
             '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' order more than ' + unit(threshold, 'ton') + ' of bricks in total, Ned has to take two trips across the river that day.',
-        vignette: 'Today, ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'ton') + ' of brick and ' + color('Brick Works', a_color) + ' ordered ' + unit(a, 'ton') + ' of brick. So, Ned took two trips across the river today.',
+        vignette: 'Today, ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'ton') + ' of brick and ' + color('Brick Works', a_color) + ' ordered ' + unit(a, 'ton') + ' of brick. Together, they ordered 200 tons of brick. So, Ned took two trips across the river today.',
         statement: color('Hammerco', c_color) + ' ordering ' + unit(c, 'ton') + ' of brick caused Ned to take two trips across the river today.'
     },
     vibe_check: {
-        c: 'How surprised were you that ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'ton') + ' of bricks?',
-        a: 'How surprised were you that ' + color('Brick Works', a_color) + ' ordered ' + unit(a, 'ton') + ' of bricks?',
+        c: '<p><strong>How surprised were you that ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'ton') + ' of bricks?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Brick Works', a_color) + ' ordered ' + unit(a, 'ton') + ' of bricks?</strong></p>',
     } 
 }, {
     name: 'running', units: 'mile', interval: 'month', valence: 'positive',
@@ -447,7 +447,7 @@ var vignettes = [{
 /* Randomly assign a condition */
 var id = jsPsych.randomization.randomID();
 //var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
-var vignette = vignettes[1];  // use to pre-select a specific vignette
+var vignette = vignettes[8];  // use to pre-select a specific vignette
 
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
