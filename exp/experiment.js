@@ -41,8 +41,8 @@ var c = Math.floor(4/3 * mu_c + 2/3);
 var a = c;
 var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
 //var threshold = c+a-1;
-var n_learning_per_block = 2;
-var n_blocks = 2;
+var n_learning_per_block = 10;
+var n_blocks = 4;
 
 var c_color = 'rgb(255, 159, 64)';
 var a_color = 'rgb(153, 102, 255)';
@@ -134,7 +134,7 @@ var vignettes = [{
     }
 }, {
     name: 'savings', units: 'dollar', interval: 'month', valence: 'positive',
-    instructions: [color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' have a special joint savings account together. At the end of each month, they each independently make a single deposit to their account to save as much money as possible. If ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' save over ' +
+    instructions: [color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' have a special joint savings account together. At the end of each month, they each independently make a single deposit to their account to save as much money as possible. If ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' together save over ' +
         unit(threshold, 'dollar') + ' by the end of the month, their bank deposits a bonus into their account.' +
         '<br><br><strong> ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' each save ' + unit(mu_c, 'dollar') + ' on average.</strong> So, the bank' + normality(threshold) + 'deposits a bonus into their account.' ,
         'We will show you how much money each person saved for ' +
@@ -156,7 +156,7 @@ var vignettes = [{
         reminder: 'As a reminder, the bank deposits a bonus into their savings account if they save over ' +
             unit(threshold, 'dollar') + ' during that month.',
         vignette: 'During this month, ' + color('Luke', c_color) + ' saved ' + unit(c, 'dollar') + ', and ' + color('Lisa', a_color) + ' saved ' +
-            unit(a, 'dollar') + '. So, the bank deposited a bonus into their savings account.',
+            unit(a, 'dollar') + '. Together, they saved ' + unit(c + a, 'dollar') + '. So, the bank deposited a bonus into their savings account.',
         statement: color('Luke', c_color) + ' saving ' + unit(c, 'dollar') + ' caused the bank to deposit a bonus into their savings account this month.'
     },
     vibe_check: {
@@ -164,6 +164,105 @@ var vignettes = [{
         a: '<br><p><strong>How surprised were you that ' + color('Lisa', a_color) + ' saved ' + unit(a, 'dollar') + '?</strong></p>',  
     }
 },{
+    name: 'electricity', units: 'megawatt', interval: 'day', valence: 'negative',
+    instructions: [color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' are the only two towns supplied by their local power grid. The power grid is able to supply up to ' +
+        unit(threshold, 'megawatt') + ' of renewable electricity per day. So, if ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' together use more than ' + unit(threshold, 'megawatt') +
+        ' of electricity on a given day, the power grid will resort to using non-renewable energy for that day. ' +
+        '<br><br><strong> ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. </strong> So, the power grid' + normality(threshold) + 'uses non-renewable energy.',
+        ' We will show you how much electricity each of the two towns used on ' + (n_learning_per_block*n_blocks) +
+        '  days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the power grid used non-renewable energy.' + 
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of electricity used by each town varies from day to day.</strong>'],
+    learning: {
+        stim1: color('Chester', c_color) + ' used ',
+        stim2: ' of electricity. ',
+        stim3: color('Franklin', a_color) + ' used ',
+        stim4: ' of electricity.',
+        question: 'Did the power grid use non-renewable energy today?',
+        alert: 'Remember that the power grid will use non-renewable energy whenever ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' use <b>more than</b> ' + unit(threshold, 'megawatt') + ' in total.',
+    },
+    man_check: {
+        c: 'How much does the amount of electricity used by ' + color('Chester', c_color) + ' vary from day to day?',
+        a: 'How much does the amount of electricity used by ' + color('Franklin', a_color) + ' vary from day to day?',
+    },
+    judgment: {
+        reminder: 'As a reminder, the power grid is able to supply up to ' + unit(threshold, 'megawatt') +
+            ' of renewable electricity on any given day. So, if ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' together use over ' + unit(threshold, 'megawatt') +
+            ' of electricity, there will not be enough renewable energy to supply the towns, and the power grid will use non-renewable energy.',
+        vignette: 'Today, ' + color('Chester', c_color) + ' used ' + unit(c, 'megawatt') + ' of electricity and ' + color('Franklin', a_color) + ' used ' +
+            unit(a, 'megawatt') + ' of electricity. Together, they used ' + unit(c + a, 'megawatt') + ' of electricity. So, the power grid used non-renewable energy.',
+        statement: color('Chester', c_color) + ' using ' + unit(c, 'megawatt') + ' of electricity caused the power grid to use non-renewable energy today.'
+    },
+    vibe_check: {
+        c: '<p><strong>How surprised were you that ' + color('Chester', c_color) + ' used ' + unit(c, 'megawatt') + ' of electricity?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Franklin', a_color) + ' used ' + unit(a, 'megawatt') + ' of electricity?</strong></p>',  
+    }
+}, {
+    name: 'funding', units: 'student', interval: 'year', valence: 'positive',
+    instructions: [color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' are the two high schools in the Williamsburg district. Each school has around the same number of students. ' +
+        'Every year, each school tries to send as many of their graduating students as possible to a university. ' +
+        'To encourage college admissions, the state uses the number of students sent to a university to determine how much funding their district’s education program will get for the year. ' +
+        'If ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' together send over ' + unit(threshold, 'student') +
+        ' to a university, their district will receive more education funding. ' +
+        '<br><br><strong>' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' each send ' + unit(mu_c, 'student') + ' to a university on average.</strong> So, their district' + normality(threshold) + 'receives more education funding.',
+        'We will show you how many students the two schools sent to a university over ' + (n_learning_per_block*n_blocks) +
+        '  years in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual years. For each year, you will be asked whether the Williamsburg district received more funding.' + 
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of students sent by each school varies from year to year.</strong>'],
+    learning: {
+        stim1: color('Williamsburg North', c_color) + ' sent ',
+        stim2: ' to a university.',
+        stim3: '' + color('Williamsburg South', a_color) + ' sent ',
+        stim4: ' to a university.',
+        question: 'Did the district receive more funding this year?',
+        alert: 'Remember that the district will receive more funding whenever ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' send <b>more than</b> ' + unit(threshold, 'student') + ' to a university in total.',
+    },
+    man_check: {
+        c: 'How much does the number of students that ' + color('Williamsburg North', c_color) + ' sends to a university vary from year to year?',
+        a: 'How much does the number of students that ' + color('Williamsburg South', a_color) + ' sends to a university vary from year to year?',
+    },
+    judgment: {
+        reminder: 'As a reminder, the district will receive more funding for education if ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' together send over ' + unit(threshold, 'student') + ' to a university.',
+        vignette: 'This year, ' + color('Williamsburg North', c_color) + ' sent ' + unit(c, 'student') + ' to a university and ' + color('Williamsburg South', a_color) + ' sent ' + 
+            unit(a, 'student') + ' to a university. Together, they sent ' + unit(c + a, 'student') + ' to a university. So, the Williamsburg district received more funding.',
+        statement: color('Williamsburg North', c_color) + ' sending ' + unit(c, 'student') + ' to a university caused the district to receive more funding this year.'
+    },
+    vibe_check: {
+        c: '<p><strong>How surprised were you that ' + color('Williamsburg North', c_color) + ' sent ' + unit(c, 'student') + ' to a university?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Williamsburg South', a_color) + ' sent ' + unit(a, 'student') + ' to a university?</strong></p>',  
+    }
+}, {
+    name: 'trucking', units: 'ton', interval: 'day', valence: 'negative',
+    instructions: ['Ned is a trucker who delivers construction supplies for two clients, ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + '. ' +
+        'Every day, he receives an order from both companies to pick up bricks on the other side of Middleview river. ' +
+        'To get there, he must cross the Middleview bridge which has a maximum weight capacity of ' + unit(threshold, 'ton') + 
+        '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' together need more than ' + unit(threshold, 'ton') + 
+        ' of bricks, Ned has to take two trips across the river that day. ' + '<br><br><strong>' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' each order ' + unit(mu_c, 'ton') + ' of bricks on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.',
+        'We will show you how much brick ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' ordered on ' + (n_learning_per_block*n_blocks) +
+        ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether Ned took two trips across the river.' + 
+        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of bricks ordered by each company varies from day to day.</strong>'],
+    learning: {
+        stim1: color('Hammerco', c_color) + ' ordered ',
+        stim2: ' of bricks.',
+        stim3: color('Brick Works', a_color) + ' ordered ',
+        stim4: ' of bricks.',
+        question: 'Did Ned take two trips across the river today?',
+        alert: 'Remember that Ned takes two trips across the river whenever ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' order <b>more than</b> ' + unit(threshold, 'ton') + ' of bricks in total.',
+    },
+    man_check: {
+        c: 'How much does the amount of brick ordered by ' + color('Hammerco', c_color) + ' vary from day to day?',
+        a: 'How much does the amount of brick ordered by ' + color('Brick Works', a_color) + ' vary from day to day?',
+    },
+    judgment: {
+        reminder: 'As a reminder, the Middleview bridge can support a maximum of ' + unit(threshold, 'ton') + 
+            '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' order more than ' + unit(threshold, 'ton') + ' of bricks in total, Ned has to take two trips across the river that day.',
+        vignette: 'Today, ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'ton') + ' of brick and ' + color('Brick Works', a_color) + ' ordered ' + 
+            unit(a, 'ton') + ' of brick. Together, they ordered ' + unit(c + a, 'ton') + ' of brick. So, Ned took two trips across the river today.',
+        statement: color('Hammerco', c_color) + ' ordering ' + unit(c, 'ton') + ' of brick caused Ned to take two trips across the river today.'
+    },
+    vibe_check: {
+        c: '<p><strong>How surprised were you that ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'ton') + ' of bricks?</strong></p>',
+        a: '<br><p><strong>How surprised were you that ' + color('Brick Works', a_color) + ' ordered ' + unit(a, 'ton') + ' of bricks?</strong></p>',
+    } 
+}, /*{
     name: 'basketball', units: 'point', interval: 'match', valence: 'positive',
     instructions: ['The local high school has a ' + color('varsity', c_color) + ' basketball team and a ' + color('junior varsity', a_color) + ' basketball team. Every match, both teams play a separate game against teams from other nearby schools. ' +
         'To motivate everyone, the coach has promised to take both teams out for ice cream after any match in which they score over ' + unit(threshold, 'point') +
@@ -226,7 +325,7 @@ var vignettes = [{
         c: '<p><strong>How surprised were you that the ' + color('7th grade', c_color) + ' class brought in ' + unit(c, 'canned good') + '?</strong></p>',
         a: '<br><p><strong>How surprised were you that the ' + color('8th grade', a_color) + ' class brought in ' + unit(a, 'canned good') + '?</strong></p>',  
     }
-}, /*{
+}, {
     name: 'bus', units: 'minute', interval: 'day', valence: 'negative',
     instructions: 'Sam and Jeffrey are siblings who share a bathroom. Every morning, they catch the bus to their school together. After their mom wakes them up at 6am, they take turns getting ready in the bathroom. <br><br>If Sam and Jeffrey together take longer than ' +
         unit(threshold, 'minute') + ' to get ready, then they will miss their bus to school. If they miss their bus, they will have to walk instead, and they will be late to school.' +
@@ -252,38 +351,6 @@ var vignettes = [{
     vibe_check: {
         c: '<p><strong>How surprised were you that Sam took ' + unit(c, 'minute') + ' to get ready?</strong></p>',
         a: '<br><p><strong>How surprised were you that Jeffrey took ' + unit(a, 'minute') + ' to get ready?</strong></p>',  
-    }
-},*/ {
-    name: 'electricity', units: 'megawatt', interval: 'day', valence: 'negative',
-    instructions: [color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' are the only two towns supplied by their local power grid. The power grid is able to supply up to ' +
-        unit(threshold, 'megawatt') + ' of renewable electricity per day. So, if the two towns together use more than ' + unit(threshold, 'megawatt') +
-        ' of electricity on a given day, the power grid will resort to using non-renewable energy for that day. ' +
-        '<br><br><strong> ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' each use ' + unit(mu_c, 'megawatt') + ' of electricity on average. </strong> So, the power grid' + normality(threshold) + 'uses non-renewable energy.',
-        ' We will show you how much electricity each of the two towns used on ' + (n_learning_per_block*n_blocks) +
-        '  days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the power grid used non-renewable energy.' + 
-        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of electricity used by each town varies from day to day.</strong>'],
-    learning: {
-        stim1: color('Chester', c_color) + ' used ',
-        stim2: ' of electricity. ',
-        stim3: color('Franklin', a_color) + ' used ',
-        stim4: ' of electricity.',
-        question: 'Did the power grid use non-renewable energy today?',
-        alert: 'Remember that the power grid will use non-renewable energy whenever ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' use <b>more than</b> ' + unit(threshold, 'megawatt') + ' in total.',
-    },
-    man_check: {
-        c: 'How much does the amount of electricity used by ' + color('Chester', c_color) + ' vary from day to day?',
-        a: 'How much does the amount of electricity used by ' + color('Franklin', a_color) + ' vary from day to day?',
-    },
-    judgment: {
-        reminder: 'As a reminder, the power grid is able to supply up to ' + unit(threshold, 'megawatt') +
-            ' of renewable electricity on any given day. So, if ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' together use over ' + unit(threshold, 'megawatt') +
-            ' of electricity, there will not be enough renewable energy to supply the towns, and the power grid will use non-renewable energy.',
-        vignette: 'Today, ' + color('Chester', c_color) + ' used ' + unit(c, 'megawatt') + ' of electricity and ' + color('Franklin', a_color) + ' used ' + unit(a, 'megawatt') + ' of electricity. So, the power grid used non-renewable energy.',
-        statement: color('Chester', c_color) + ' using ' + unit(c, 'megawatt') + ' of electricity caused the power grid to use non-renewable energy today.'
-    },
-    vibe_check: {
-        c: '<p><strong>How surprised were you that ' + color('Chester', c_color) + ' used ' + unit(c, 'megawatt') + ' of electricity?</strong></p>',
-        a: '<br><p><strong>How surprised were you that ' + color('Franklin', a_color) + ' used ' + unit(a, 'megawatt') + ' of electricity?</strong></p>',  
     }
 }, {
     name: 'water', units: 'gallon', interval: 'day', valence: 'negative',
@@ -316,70 +383,6 @@ var vignettes = [{
         c: '<p><strong>How surprised were you that ' + color('Alison', c_color) + ' used ' + unit(c, 'gallon') + ' of water?</strong></p>',
         a: '<br><p><strong>How surprised were you that ' + color('Tony', a_color) + ' used ' + unit(a, 'gallon') + ' of water?</strong></p>',  
     }
-}, {
-    name: 'funding', units: 'student', interval: 'year', valence: 'positive',
-    instructions: [color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' are the two high schools in the Williamsburg district. Each school has around the same number of students. ' +
-        'Every year, each school tries to send as many of their graduating students as possible to a university. ' +
-        'To encourage college admissions, the state uses the number of students sent to a university to determine how much funding their district’s education program will get for the year. ' +
-        'If ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' together send over ' + unit(threshold, 'student') +
-        ' to a university, their district will receive more education funding. ' +
-        '<br><br><strong>' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' each send ' + unit(mu_c, 'student') + ' to a university on average.</strong> So, their district' + normality(threshold) + 'receives more education funding.',
-        'We will show you how many students the two schools sent to a university over ' + (n_learning_per_block*n_blocks) +
-        '  years in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual years. For each year, you will be asked whether the Williamsburg district received more funding.' + 
-        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of students sent by each school varies from year to year.</strong>'],
-    learning: {
-        stim1: color('Williamsburg North', c_color) + ' sent ',
-        stim2: ' to a university.',
-        stim3: '' + color('Williamsburg South', a_color) + ' sent ',
-        stim4: ' to a university.',
-        question: 'Did the district receive more funding this year?',
-        alert: 'Remember that the district will receive more funding whenever ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' send <b>more than</b> ' + unit(threshold, 'student') + ' to a university in total.',
-    },
-    man_check: {
-        c: 'How much does the number of students that ' + color('Williamsburg North', c_color) + ' sends to a university vary from year to year?',
-        a: 'How much does the number of students that ' + color('Williamsburg South', a_color) + ' sends to a university vary from year to year?',
-    },
-    judgment: {
-        reminder: 'As a reminder, the district will receive more funding for education if ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' together send over ' + unit(threshold, 'student') + ' to a university.',
-        vignette: 'This year, ' + color('Williamsburg North', c_color) + ' sent ' + unit(c, 'student') + ' to a university and ' + color('Williamsburg South', a_color) + ' sent ' + unit(a, 'student') + ' to a university. Together, they sent 200 students to a university. So, the Williamsburg district received more funding.',
-        statement: color('Williamsburg North', c_color) + ' sending ' + unit(c, 'student') + ' to a university caused the district to receive more funding this year.'
-    },
-    vibe_check: {
-        c: '<p><strong>How surprised were you that ' + color('Williamsburg North', c_color) + ' sent ' + unit(c, 'student') + ' to a university?</strong></p>',
-        a: '<br><p><strong>How surprised were you that ' + color('Williamsburg South', a_color) + ' sent ' + unit(a, 'student') + ' to a university?</strong></p>',  
-    }
-}, {
-    name: 'trucking', units: 'ton', interval: 'day', valence: 'negative',
-    instructions: ['Ned is a trucker who delivers construction supplies for two clients, ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + '. ' +
-        'Every day, he receives an order from both companies to pick up bricks on the other side of Middleview river. ' +
-        'To get there, he must cross the Middleview bridge which has a maximum weight capacity of ' + unit(threshold, 'ton') + 
-        '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' together need more than ' + unit(threshold, 'ton') + 
-        ' of bricks, Ned has to take two trips across the river that day. ' + '<br><br><strong>' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' each order ' + unit(mu_c, 'ton') + ' of bricks on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.',
-        'We will show you how much brick ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' ordered on ' + (n_learning_per_block*n_blocks) +
-        ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether Ned took two trips across the river.' + 
-        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of bricks ordered by each company varies from day to day.</strong>'],
-    learning: {
-        stim1: color('Hammerco', c_color) + ' ordered ',
-        stim2: ' of bricks.',
-        stim3: color('Brick Works', a_color) + ' ordered ',
-        stim4: ' of bricks.',
-        question: 'Did Ned take two trips across the river today?',
-        alert: 'Remember that Ned takes two trips across the river whenever ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' order <b>more than</b> ' + unit(threshold, 'ton') + ' of bricks in total.',
-    },
-    man_check: {
-        c: 'How much does the amount of brick ordered by ' + color('Hammerco', c_color) + ' vary from day to day?',
-        a: 'How much does the amount of brick ordered by ' + color('Brick Works', a_color) + ' vary from day to day?',
-    },
-    judgment: {
-        reminder: 'As a reminder, the Middleview bridge can support a maximum of ' + unit(threshold, 'ton') + 
-            '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' order more than ' + unit(threshold, 'ton') + ' of bricks in total, Ned has to take two trips across the river that day.',
-        vignette: 'Today, ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'ton') + ' of brick and ' + color('Brick Works', a_color) + ' ordered ' + unit(a, 'ton') + ' of brick. Together, they ordered 200 tons of brick. So, Ned took two trips across the river today.',
-        statement: color('Hammerco', c_color) + ' ordering ' + unit(c, 'ton') + ' of brick caused Ned to take two trips across the river today.'
-    },
-    vibe_check: {
-        c: '<p><strong>How surprised were you that ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'ton') + ' of bricks?</strong></p>',
-        a: '<br><p><strong>How surprised were you that ' + color('Brick Works', a_color) + ' ordered ' + unit(a, 'ton') + ' of bricks?</strong></p>',
-    } 
 }, {
     name: 'running', units: 'mile', interval: 'month', valence: 'positive',
     instructions: ['Francine wants to help her friends ' + color('Olivia', c_color) + ' and ' + color('Mimi', a_color) + ' train for a race. To help achieve their goal, they agreed to a deal. ' +
@@ -442,12 +445,12 @@ var vignettes = [{
         c: '<p><strong>How surprised were you that ' + color('Ricardo', c_color) + ' used ' + unit(c, 'gigabyte') + ' of data?</strong></p>',
         a: '<br><p><strong>How surprised were you that ' + color('Pierre', a_color) + ' used ' + unit(a, 'gigabyte') + ' of data?</strong></p>',  
     }
-}]
+}*/]
 
 /* Randomly assign a condition */
 var id = jsPsych.randomization.randomID();
-//var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
-var vignette = vignettes[8];  // use to pre-select a specific vignette
+var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
+//var vignette = vignettes[1];  // use to pre-select a specific vignette
 
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
