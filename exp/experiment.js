@@ -41,8 +41,8 @@ var c = Math.floor(4/3 * mu_c + 2/3);
 var a = c;
 var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
 //var threshold = c+a-1;
-var n_learning_per_block = 10;
-var n_blocks = 4;
+var n_learning_per_block = 2;
+var n_blocks = 1;
 
 var c_color = 'rgb(255, 159, 64)';
 var a_color = 'rgb(153, 102, 255)';
@@ -228,13 +228,13 @@ var vignettes = [{
         a: '<p><strong>How surprised were you that ' + color('Williamsburg South', a_color) + ' sent ' + unit(a, 'student') + ' to a university?</strong></p>',  
     }
 }, {
-    name: 'trucking', units: 'ton', interval: 'day', valence: 'negative',
+    name: 'trucking', units: 'case', interval: 'day', valence: 'negative',
     instructions: ['Ned is a trucker who delivers construction supplies for two clients, ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + '. ' +
         'Every day, he receives an order from both companies to pick up bricks on the other side of Middleview river. ' +
-        'To get there, he must cross the Middleview bridge which has a maximum weight capacity of ' + unit(threshold, 'ton') + 
-        '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' together need more than ' + unit(threshold, 'ton') + 
-        ' of bricks, Ned has to take two trips across the river that day. ' + '<br><br><strong>' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' each order ' + unit(mu_c, 'ton') + ' of bricks per day on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.',
-        'We will show you how much brick ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' ordered on ' + (n_learning_per_block*n_blocks) +
+        'To get there, he must cross the Middleview bridge which can only support the weight of ' + unit(threshold, 'case') + 
+        ' of bricks. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' together need more than ' + unit(threshold, 'case') + 
+        ' of bricks, Ned has to take two trips across the river that day. ' + '<br><br><strong>' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' each order ' + unit(mu_c, 'case') + ' of bricks per day on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.',
+        'We will show you how many cases of bricks ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' ordered on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether Ned took two trips across the river.' + 
         '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of bricks ordered by each company varies from day to day.</strong>'],
     learning: {
@@ -243,29 +243,29 @@ var vignettes = [{
         stim3: color('Brick Works', a_color) + ' ordered ',
         stim4: ' of bricks.',
         question: 'Did Ned take two trips across the river today?',
-        alert: 'Remember that Ned takes two trips across the river whenever ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' order <b>more than</b> ' + unit(threshold, 'ton') + ' of bricks in total.',
+        alert: 'Remember that Ned takes two trips across the river whenever ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' order <b>more than</b> ' + unit(threshold, 'case') + ' of bricks in total.',
     },
     man_check: {
         c: 'How much does the amount of brick ordered by ' + color('Hammerco', c_color) + ' vary from day to day?',
         a: 'How much does the amount of brick ordered by ' + color('Brick Works', a_color) + ' vary from day to day?',
     },
     judgment: {
-        reminder: 'As a reminder, the Middleview bridge can support a maximum of ' + unit(threshold, 'ton') + 
-            '.',
-        vignette: 'Today, ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'ton') + ' of brick and ' + color('Brick Works', a_color) + ' ordered ' + 
-            unit(a, 'ton') + ' of brick. Together, they ordered ' + unit(c + a, 'ton') + ' of brick. So, Ned took two trips across the river today.',
-        statement: color('Hammerco', c_color) + ' ordering ' + unit(c, 'ton') + ' of brick caused Ned to take two trips across the river today.'
+        reminder: 'As a reminder, the Middleview bridge can support the weight of a maximum of ' + unit(threshold, 'case') + 
+            ' of bricks.',
+        vignette: 'Today, ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'case') + ' of bricks and ' + color('Brick Works', a_color) + ' ordered ' + 
+            unit(a, 'case') + ' of bricks. Together, they ordered ' + unit(c + a, 'case') + ' of bricks. So, Ned took two trips across the river today.',
+        statement: color('Hammerco', c_color) + ' ordering ' + unit(c, 'case') + ' of bricks caused Ned to take two trips across the river today.'
     },
     vibe_check: {
-        c: '<p><strong>How surprised were you that ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'ton') + ' of bricks?</strong></p>',
-        a: '<p><strong>How surprised were you that ' + color('Brick Works', a_color) + ' ordered ' + unit(a, 'ton') + ' of bricks?</strong></p>',
+        c: '<p><strong>How surprised were you that ' + color('Hammerco', c_color) + ' ordered ' + unit(c, 'case') + ' of bricks?</strong></p>',
+        a: '<p><strong>How surprised were you that ' + color('Brick Works', a_color) + ' ordered ' + unit(a, 'case') + ' of bricks?</strong></p>',
     } 
 }]
 
 /* Randomly assign a condition */
 var id = jsPsych.randomization.randomID();
-var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
-//var vignette = vignettes[1];  // use to pre-select a specific vignette
+//var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
+var vignette = vignettes[5];  // use to pre-select a specific vignette
 
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
