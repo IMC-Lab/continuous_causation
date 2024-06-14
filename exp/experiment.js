@@ -264,8 +264,8 @@ var vignettes = [{
 
 /* Randomly assign a condition */
 var id = jsPsych.randomization.randomID();
-//var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
-var vignette = vignettes[5];  // use to pre-select a specific vignette
+var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
+//var vignette = vignettes[5];  // use to pre-select a specific vignette
 
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
