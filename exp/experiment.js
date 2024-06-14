@@ -41,8 +41,8 @@ var c = Math.floor(4/3 * mu_c + 2/3);
 var a = c;
 var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
 //var threshold = c+a-1;
-var n_learning_per_block = 2;
-var n_blocks = 1;
+var n_learning_per_block = 10;
+var n_blocks = 4;
 
 var c_color = 'rgb(255, 159, 64)';
 var a_color = 'rgb(153, 102, 255)';
