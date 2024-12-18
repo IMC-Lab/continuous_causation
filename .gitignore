@@ -1,3 +1,7 @@
+# Model files
+**/*.rds
+**/*.*~
+
 # History files
 .Rhistory
 .Rapp.history
