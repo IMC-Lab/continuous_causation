@@ -70,8 +70,7 @@ var vignettes = [{
     name: 'sewage', units: 'gallon', interval: 'day', valence: 'negative',
     instructions: ['There are two plants, ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ', in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants, and it is only capable of filtering ' +
         unit(threshold, 'gallon') + ' of sewage per day. So, if ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + 
-        '<br><br><strong> ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' each produce ' + unit(mu_c, 'gallon') +
-        ' of sewage per day on average. </strong> So, the town\'s river' + normality(threshold) + 'gets polluted with sewage.',
+        '<br><br><strong>The town\'s river' + normality(threshold) + 'gets polluted with sewage.',
         'We will show you how much sewage each of the two plants produced on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the river was polluted.' +
         '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of sewage produced by each plant varies from day to day.</strong>'],
@@ -84,8 +83,8 @@ var vignettes = [{
         alert: 'Remember that the river gets polluted whenever ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' produce <b>more than</b> ' + unit(threshold, 'gallon') + ' of sewage in total.',
     },
     man_check: {
-        c: 'How much does the amount of sewage produced by ' + color('Huxley Steel', c_color) + ' vary from day to day?',
-        a: 'How much does the amount of sewage produced by ' + color('Huxley Lumber', a_color) + ' vary from day to day?',
+        c: 'On average, how many gallons of sewage does ' + color('Huxley Steel', c_color) + ' produce each day?',
+        a: 'On average, how many gallons of sewage does ' + color('Huxley Lumber', a_color) + ' produce each day?',
     },
     judgment: {
         reminder: 'As a reminder, the water facility is capable of filtering ' + unit(threshold, 'gallon') +
@@ -103,7 +102,7 @@ var vignettes = [{
     instructions: ['There are two employees, ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ', in the sales department of a paper company’s local branch. Every day, both employees try to sell as many reams of paper as possible. ' +
         'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. So, if ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ' together sell more than ' +
         unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day.' 
-        + '<br><br><strong> ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ' each sell ' + unit(mu_c, 'ream') + ' of paper per day on average. </strong> So, the branch' + normality(threshold) + 'makes a profit.',
+        + '<br><br><strong>The branch' + normality(threshold) + 'makes a profit.',
         'We will show you how many reams of paper each of the two employees sold on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the branch made a profit.'
          + '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of paper sold by each employee varies from day to day.</strong>'],
@@ -116,8 +115,8 @@ var vignettes = [{
         alert: 'Remember that the local branch makes a profit whenever ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) +  ' sell <b>more than</b> ' + unit(threshold, 'ream') + ' of paper in total.',
     },
     man_check: {
-        c: 'How much does the amount of paper sold by ' + color('Susan', c_color) + ' vary from day to day?',
-        a: 'How much does the amount of paper sold by ' + color('Mike', a_color) + ' vary from day to day?',
+        c: 'On average, how many reams of paper does ' + color('Susan', c_color) + ' sell each day?',
+        a: 'On average, how many reams of paper does ' + color('Mike', a_color) + ' sell each day?',
     },
     judgment: {
         reminder: 'As a reminder, each day the local branch of the company will make a profit if ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ' together sell over ' +
@@ -134,7 +133,7 @@ var vignettes = [{
     name: 'savings', units: 'dollar', interval: 'month', valence: 'positive',
     instructions: [color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' have a special joint savings account together. At the end of each month, they each independently make a single deposit to their account to save as much money as possible. If ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' together save over ' +
         unit(threshold, 'dollar') + ' by the end of the month, then their bank deposits a bonus into their account.' +
-        '<br><br><strong> ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' each save ' + unit(mu_c, 'dollar') + ' per month on average.</strong> So, the bank' + normality(threshold) + 'deposits a bonus into their account.' ,
+        '<br><br><strong>The bank' + normality(threshold) + 'deposits a bonus into their account.' ,
         'We will show you how much money each person saved for ' +
         (n_learning_per_block*n_blocks) + ' months in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual months. For each month, you will be asked whether their bank deposited a bonus into their account.'
          + '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of money saved by each person varies from month to month.</strong>'],
@@ -147,8 +146,8 @@ var vignettes = [{
         alert: 'Remember that the bank deposits a bonus into their savings account whenever ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' save <b>more than</b> ' + unit(threshold, 'dollar') + ' in total.',
     },
     man_check: {
-        c: 'How much does the amount of money saved by ' + color('Luke', c_color) + ' vary from month to month?',
-        a: 'How much does the amount of money saved by ' + color('Lisa', a_color) + ' vary from month to month?',
+        c: 'On average, how much money does ' + color('Luke', c_color) + ' save each month?',
+        a: 'On average, how much money does ' + color('Lisa', a_color) + ' save each month?',
     },
     judgment: {
         reminder: 'As a reminder, the bank deposits a bonus into their savings account if they save over ' +
@@ -166,7 +165,7 @@ var vignettes = [{
     instructions: [color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' are the only two towns supplied by their local power grid. The power grid is able to supply up to ' +
         unit(threshold, 'megawatt') + ' of renewable electricity per day. So, if ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' together use more than ' + unit(threshold, 'megawatt') +
         ' of electricity on a given day, then the power grid will resort to using non-renewable energy for that day. ' +
-        '<br><br><strong> ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' each use ' + unit(mu_c, 'megawatt') + ' of electricity per day on average. </strong> So, the power grid' + normality(threshold) + 'uses non-renewable energy.',
+        '<br><br><strong>The power grid' + normality(threshold) + 'uses non-renewable energy.',
         ' We will show you how much electricity each of the two towns used on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the power grid used non-renewable energy.' + 
         '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of electricity used by each town varies from day to day.</strong>'],
@@ -179,8 +178,8 @@ var vignettes = [{
         alert: 'Remember that the power grid will use non-renewable energy whenever ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' use <b>more than</b> ' + unit(threshold, 'megawatt') + ' in total.',
     },
     man_check: {
-        c: 'How much does the amount of electricity used by ' + color('Chester', c_color) + ' vary from day to day?',
-        a: 'How much does the amount of electricity used by ' + color('Franklin', a_color) + ' vary from day to day?',
+        c: 'On average, how many megawatts of electricity does ' + color('Chester', c_color) + ' use each day?',
+        a: 'On average, how many megawatts of electricity does ' + color('Franklin', a_color) + ' use each day?',
     },
     judgment: {
         reminder: 'As a reminder, the power grid is able to supply up to ' + unit(threshold, 'megawatt') +
@@ -200,7 +199,7 @@ var vignettes = [{
         'To encourage college admissions, the state uses the number of students sent to a university to determine how much funding their district’s education program will get for the year. ' +
         'If ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' together send over ' + unit(threshold, 'student') +
         ' to a university, then their district will receive more education funding. ' +
-        '<br><br><strong>' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' each send ' + unit(mu_c, 'student') + ' to a university per year on average.</strong> So, their district' + normality(threshold) + 'receives more education funding.',
+        '<br><br><strong>Their district' + normality(threshold) + 'receives more education funding.',
         'We will show you how many students the two schools sent to a university over ' + (n_learning_per_block*n_blocks) +
         ' years in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual years. For each year, you will be asked whether the Williamsburg district received more funding.' + 
         '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of students sent by each school varies from year to year.</strong>'],
@@ -213,8 +212,8 @@ var vignettes = [{
         alert: 'Remember that the district will receive more funding whenever ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' send <b>more than</b> ' + unit(threshold, 'student') + ' to a university in total.',
     },
     man_check: {
-        c: 'How much does the number of students that ' + color('Williamsburg North', c_color) + ' sends to a university vary from year to year?',
-        a: 'How much does the number of students that ' + color('Williamsburg South', a_color) + ' sends to a university vary from year to year?',
+        c: 'On average, how many students does ' + color('Williamsburg North', c_color) + ' send to a university each year?',
+        a: 'On average, how many students does ' + color('Williamsburg South', a_color) + ' send to a university each year?',
     },
     judgment: {
         reminder: 'As a reminder, the district will receive more funding for education if ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' together send over ' + unit(threshold, 'student') + ' to a university.',
@@ -232,7 +231,7 @@ var vignettes = [{
         'Every day, he receives an order from both companies to pick up bricks on the other side of Middleview river. ' +
         'To get there, he must cross the Middleview bridge which has a maximum weight capacity of ' + unit(threshold, 'ton') + 
         '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' together need more than ' + unit(threshold, 'ton') + 
-        ' of bricks, Ned has to take two trips across the river that day. ' + '<br><br><strong>' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' each order ' + unit(mu_c, 'ton') + ' of bricks per day on average.</strong> So, Ned' + normality(threshold) + 'takes two trips across the river.',
+        ' of bricks, Ned has to take two trips across the river that day. ' + '<br><br><strong>Ned' + normality(threshold) + 'takes two trips across the river.',
         'We will show you how much brick ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' ordered on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether Ned took two trips across the river.' + 
         '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of bricks ordered by each company varies from day to day.</strong>'],
@@ -245,8 +244,8 @@ var vignettes = [{
         alert: 'Remember that Ned takes two trips across the river whenever ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' order <b>more than</b> ' + unit(threshold, 'ton') + ' of bricks in total.',
     },
     man_check: {
-        c: 'How much does the amount of brick ordered by ' + color('Hammerco', c_color) + ' vary from day to day?',
-        a: 'How much does the amount of brick ordered by ' + color('Brick Works', a_color) + ' vary from day to day?',
+        c: 'On average, how many tons of brick does ' + color('Hammerco', c_color) + ' order each day?',
+        a: 'On average, how many tons of brick does ' + color('Brick Works', a_color) + ' order each day?',
     },
     judgment: {
         reminder: 'As a reminder, the Middleview bridge can support a maximum of ' + unit(threshold, 'ton') + 
