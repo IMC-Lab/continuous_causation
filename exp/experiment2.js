@@ -40,7 +40,7 @@ var c = Math.round(75 + 1/3*50 + 2/3);
 var a = c;
 var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
 //var threshold = c+a-1;
-var n_learning_per_block = 10;
+var n_learning_per_block = 2;
 var n_blocks = 4;
 
 var c_color = 'rgb(255, 159, 64)';
@@ -70,10 +70,10 @@ var vignettes = [{
     name: 'sewage', units: 'gallon', interval: 'day', valence: 'negative',
     instructions: ['There are two plants, ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ', in the small town of Huxley. Every day, both plants send their sewage to a water treatment facility. The water facility only filters sewage from the two plants, and it is only capable of filtering ' +
         unit(threshold, 'gallon') + ' of sewage per day. So, if ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' together produce more than ' + unit(threshold, 'gallon') + ' of sewage on a given day, then the river will get polluted that day.' + 
-        '<br><br><strong>The town\'s river' + normality(threshold) + 'gets polluted with sewage.',
+        '<br><br> Based on the average amount of sewage ' + color('Huxley Steel', c_color) + ' and ' + color('Huxley Lumber', a_color) + ' each produce per day, the town\'s river ' + normality(threshold) + ' gets polluted with sewage.',
         'We will show you how much sewage each of the two plants produced on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the river was polluted.' +
-        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of sewage produced by each plant varies from day to day.</strong>'],
+        '<br><br><strong>At the end of each block, you will be asked how many gallons of sewage are produced by each plant on average.</strong>'],
     learning: {
         stim1: color('Huxley Steel', c_color) + ' produced ',
         stim2: ' of sewage. ',
@@ -102,10 +102,10 @@ var vignettes = [{
     instructions: ['There are two employees, ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ', in the sales department of a paper company’s local branch. Every day, both employees try to sell as many reams of paper as possible. ' +
         'The local branch must sell over ' + unit(threshold, 'ream') + ' of paper in order to make a profit for their company. So, if ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ' together sell more than ' +
         unit(threshold, 'ream') + ' of paper, then their branch will make a profit for that day.' 
-        + '<br><br><strong>The branch' + normality(threshold) + 'makes a profit.',
+        + '<br><br> Based on the average amount of paper ' + color('Susan', c_color) + ' and ' + color('Mike', a_color) + ' each sell per day, the branch ' + normality(threshold) + ' makes a profit.',
         'We will show you how many reams of paper each of the two employees sold on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the branch made a profit.'
-         + '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of paper sold by each employee varies from day to day.</strong>'],
+         + '<br><br><strong>At the end of each block, you will be asked how much paper is sold by each employee on average.</strong>'],
     learning: {
         stim1: color('Susan', c_color) + ' sold ',
         stim2: ' of paper for the branch.',
@@ -133,10 +133,10 @@ var vignettes = [{
     name: 'savings', units: 'dollar', interval: 'month', valence: 'positive',
     instructions: [color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' have a special joint savings account together. At the end of each month, they each independently make a single deposit to their account to save as much money as possible. If ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' together save over ' +
         unit(threshold, 'dollar') + ' by the end of the month, then their bank deposits a bonus into their account.' +
-        '<br><br><strong>The bank' + normality(threshold) + 'deposits a bonus into their account.' ,
+        '<br><br>Based on the average amount of money ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' each save per month, the bank' + normality(threshold) + 'deposits a bonus into their account.' ,
         'We will show you how much money each person saved for ' +
         (n_learning_per_block*n_blocks) + ' months in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual months. For each month, you will be asked whether their bank deposited a bonus into their account.'
-         + '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of money saved by each person varies from month to month.</strong>'],
+         + '<br><br><strong>At the end of each block, you will be asked how much money is saved by each person on average.</strong>'],
     learning: {
         stim1: color('Luke', c_color) + ' saved ',
         stim2: '. ',
@@ -165,10 +165,10 @@ var vignettes = [{
     instructions: [color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' are the only two towns supplied by their local power grid. The power grid is able to supply up to ' +
         unit(threshold, 'megawatt') + ' of renewable electricity per day. So, if ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' together use more than ' + unit(threshold, 'megawatt') +
         ' of electricity on a given day, then the power grid will resort to using non-renewable energy for that day. ' +
-        '<br><br><strong>The power grid' + normality(threshold) + 'uses non-renewable energy.',
+        '<br><br>Based on the average amount of electricity ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + 'each use per day, the power grid' + normality(threshold) + 'resorts to using non-renewable energy.',
         ' We will show you how much electricity each of the two towns used on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the power grid used non-renewable energy.' + 
-        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of electricity used by each town varies from day to day.</strong>'],
+        '<br><br><strong>At the end of each block, you will be asked how many megawatts of electricity are used by each town on average. </strong>'],
     learning: {
         stim1: color('Chester', c_color) + ' used ',
         stim2: ' of electricity. ',
@@ -199,10 +199,10 @@ var vignettes = [{
         'To encourage college admissions, the state uses the number of students sent to a university to determine how much funding their district’s education program will get for the year. ' +
         'If ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' together send over ' + unit(threshold, 'student') +
         ' to a university, then their district will receive more education funding. ' +
-        '<br><br><strong>Their district' + normality(threshold) + 'receives more education funding.',
+        '<br><br>Based on the average number of students ' + color('Williamsburg North', c_color) + ' and ' + color('Williamsburg South', a_color) + ' each send to a university per year, their district' + normality(threshold) + 'receives more education funding.',
         'We will show you how many students the two schools sent to a university over ' + (n_learning_per_block*n_blocks) +
         ' years in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual years. For each year, you will be asked whether the Williamsburg district received more funding.' + 
-        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of students sent by each school varies from year to year.</strong>'],
+        '<br><br><strong>At the end of each block, you will be asked how many students are sent to a university by each school on average.</strong>'],
     learning: {
         stim1: color('Williamsburg North', c_color) + ' sent ',
         stim2: ' to a university.',
@@ -231,10 +231,11 @@ var vignettes = [{
         'Every day, he receives an order from both companies to pick up bricks on the other side of Middleview river. ' +
         'To get there, he must cross the Middleview bridge which has a maximum weight capacity of ' + unit(threshold, 'ton') + 
         '. So, if ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' together need more than ' + unit(threshold, 'ton') + 
-        ' of bricks, Ned has to take two trips across the river that day. ' + '<br><br><strong>Ned' + normality(threshold) + 'takes two trips across the river.',
-        'We will show you how much brick ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' ordered on ' + (n_learning_per_block*n_blocks) +
+        ' of bricks, Ned has to take two trips across the river that day. ' + 
+        '<br><br>Based on the average amount of brick ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' each need per day, Ned' + normality(threshold) + 'has to take two trips across the river.',
+        'We will show you how many tons of bricks ' + color('Hammerco', c_color) + ' and ' + color('Brick Works', a_color) + ' ordered on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether Ned took two trips across the river.' + 
-        '<br><br><strong>At the end of each block, you will be asked to rate how much the amount of bricks ordered by each company varies from day to day.</strong>'],
+        '<br><br><strong>At the end of each block, you will be asked how many tons of bricks are ordered by each company on average.</strong>'],
     learning: {
         stim1: color('Hammerco', c_color) + ' ordered ',
         stim2: ' of bricks.',
@@ -263,7 +264,7 @@ var vignettes = [{
 /* Randomly assign a condition */
 var id = jsPsych.randomization.randomID();
 var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
-//var vignette = vignettes[1];  // use to pre-select a specific vignette
+var vignette = vignettes[4];  // use to pre-select a specific vignette
 
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
@@ -520,7 +521,7 @@ var block_completion = {
 var man_check_c = {
     type: jsPsychHtmlSliderResponse,
     stimulus: '<strong>' + vignette.man_check.c + '</strong>',
-    min: 0, max: 1, step: 'any', require_movement: true, labels: ['not at all', 'very much'],
+    min: 0, max: 1, step: 'any', require_movement: true, labels: ['0', '100'],
     // Hide the slider thumb until response
     on_load: function () {
         document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
@@ -547,16 +548,16 @@ var man_check_a = {
             <input type="range" disabled="true" class="jspsych-slider" value="` + data.response + `" min="0" max="1" step="any">
             <div>
                 <div style="border: 1px solid transparent; display: inline-block; position: absolute; left:calc(0% - (100% / 2) - -7.5px); text-align: center; width: 100%;">
-                    <span style="text-align: center; font-size: 80%;">not at all</span>
+                    <span style="text-align: center; font-size: 80%;">0</span>
                 </div>
                 <div style="border: 1px solid transparent; display: inline-block; position: absolute; left:calc(100% - (100% / 2) - 7.5px); text-align: center; width: 100%;">
-                    <span style="text-align: center; font-size: 80%;">totally random</span>
+                    <span style="text-align: center; font-size: 80%;">100</span>
                 </div>
             </div>
             </div></div>` +
             '<strong>' + vignette.man_check.a + '</strong>';
     },
-    min: 0, max: 1, step: 'any', require_movement: true, labels: ['not at all', 'very much'],
+    min: 0, max: 1, step: 'any', require_movement: true, labels: ['0', '100'],
     // Hide the slider thumb until response
     on_load: function () {
         document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
