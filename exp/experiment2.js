@@ -32,15 +32,18 @@ var jsPsych = initJsPsych({
 
 
 
-var mu_c = jsPsych.randomization.sampleWithoutReplacement([75, 50], 1)[0];
-var mu_a = 75;
+var mu_abnormal = 25;
+var mu_normal = 75;
+//var mu_c = jsPsych.randomization.sampleWithoutReplacement([mu_normal, mu_abnormal], 1)[0];
+var mu_c = mu_abnormal;
+var mu_a = mu_normal;
 var sd_c = 25;
 var sd_a = 25;
-var c = Math.round(75 + 1/3*50 + 2/3);
+var c = Math.round(mu_normal + 1/3*mu_abnormal + 2/3);
 var a = c;
-var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
-//var threshold = c+a-1;
-var n_learning_per_block = 2;
+// var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
+var threshold = c+a-1;
+var n_learning_per_block = 10;
 var n_blocks = 4;
 
 var c_color = 'rgb(255, 159, 64)';
@@ -264,11 +267,16 @@ var vignettes = [{
 /* Randomly assign a condition */
 var id = jsPsych.randomization.randomID();
 var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
-var vignette = vignettes[4];  // use to pre-select a specific vignette
+// var vignette = vignettes[0];  // use to pre-select a specific vignette
 
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
+console.log('mu_c:' + mu_c);
+console.log('mu_a: ' + mu_a);
 console.log('sd_c: ' + sd_c);
+console.log('sd_a:' + sd_a);
+console.log('c: ' + c)
+console.log('a: ' + a)
 console.log('threshold: ' + threshold);
 
 /* Capture info from Prolific */
