@@ -34,15 +34,15 @@ var jsPsych = initJsPsych({
 
 var mu_abnormal = 25;
 var mu_normal = 75;
-//var mu_c = jsPsych.randomization.sampleWithoutReplacement([mu_normal, mu_abnormal], 1)[0];
-var mu_c = mu_abnormal;
+var mu_c = jsPsych.randomization.sampleWithoutReplacement([mu_normal, mu_abnormal], 1)[0];
+//var mu_c = mu_abnormal;
 var mu_a = mu_normal;
 var sd_c = 25;
 var sd_a = 25;
 var c = Math.round(mu_normal + 1/3*mu_abnormal + 2/3);
 var a = c;
-// var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
-var threshold = c+a-1;
+var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
+//var threshold = c+a-1;
 var n_learning_per_block = 10;
 var n_blocks = 4;
 
@@ -168,7 +168,7 @@ var vignettes = [{
     instructions: [color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' are the only two towns supplied by their local power grid. The power grid is able to supply up to ' +
         unit(threshold, 'megawatt') + ' of renewable electricity per day. So, if ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' together use more than ' + unit(threshold, 'megawatt') +
         ' of electricity on a given day, then the power grid will resort to using non-renewable energy for that day. ' +
-        '<br><br>Based on the average amount of electricity ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + 'each use per day, the power grid' + normality(threshold) + 'resorts to using non-renewable energy.',
+        '<br><br>Based on the average amount of electricity ' + color('Chester', c_color) + ' and ' + color('Franklin', a_color) + ' each use per day, the power grid' + normality(threshold) + 'resorts to using non-renewable energy.',
         ' We will show you how much electricity each of the two towns used on ' + (n_learning_per_block*n_blocks) +
         ' days in total, separated into ' + n_blocks + ' blocks of ' + n_learning_per_block + ' individual days. For each day, you will be asked whether the power grid used non-renewable energy.' + 
         '<br><br><strong>At the end of each block, you will be asked how many megawatts of electricity are used by each town on average. </strong>'],
