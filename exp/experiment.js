@@ -444,9 +444,9 @@ var instructions = {
 }
 
 function sampleNormal(mean, sd, min = 0, max = Infinity) {
-    let s = Math.round(jStat.normal.sample(mean, sd));
+    let s = Math.round(jsPsych.randomization.sampleNormal(mean, sd));
     while (s < min || s > max)
-        s = Math.round(jStat.normal.sample(mean, sd));
+        s = Math.round(jsPsych.randomization.sampleNormal(mean, sd));
     return s;
 }
 

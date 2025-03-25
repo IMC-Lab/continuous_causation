@@ -149,8 +149,8 @@ var vignettes = [{
         alert: 'Remember that the bank deposits a bonus into their savings account whenever ' + color('Luke', c_color) + ' and ' + color('Lisa', a_color) + ' save <b>more than</b> ' + unit(threshold, 'dollar') + ' in total.',
     },
     man_check: {
-        c: 'On average, how much money does ' + color('Luke', c_color) + ' save each month?',
-        a: 'On average, how much money does ' + color('Lisa', a_color) + ' save each month?',
+        c: 'On average, how many dollars does ' + color('Luke', c_color) + ' save each month?',
+        a: 'On average, how many dollars does ' + color('Lisa', a_color) + ' save each month?',
     },
     judgment: {
         reminder: 'As a reminder, the bank deposits a bonus into their savings account if they save over ' +
@@ -451,9 +451,9 @@ var instructions = {
 }
 
 function sampleNormal(mean, sd, min = 0, max = Infinity) {
-    let s = Math.round(jStat.normal.sample(mean, sd));
+    let s = Math.round(jsPsych.randomization.sampleNormal(mean, sd));
     while (s < min || s > max)
-        s = Math.round(jStat.normal.sample(mean, sd));
+        s = Math.round(jsPsych.randomization.sampleNormal(mean, sd));
     return s;
 }
 
@@ -529,7 +529,7 @@ var block_completion = {
 var man_check_c = {
     type: jsPsychHtmlSliderResponse,
     stimulus: '<strong>' + vignette.man_check.c + '</strong>',
-    min: 0, max: 1, step: 'any', require_movement: true, labels: ['0', '100'],
+    min: 0, max: 1, step: 'any', require_movement: true, labels: ['0', '50', '100'],
     // Hide the slider thumb until response
     on_load: function () {
         document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
@@ -565,7 +565,7 @@ var man_check_a = {
             </div></div>` +
             '<strong>' + vignette.man_check.a + '</strong>';
     },
-    min: 0, max: 1, step: 'any', require_movement: true, labels: ['0', '100'],
+    min: 0, max: 1, step: 'any', require_movement: true, labels: ['0', '50', '100'],
     // Hide the slider thumb until response
     on_load: function () {
         document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
