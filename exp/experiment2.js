@@ -529,7 +529,7 @@ var block_completion = {
 var man_check_c = {
     type: jsPsychHtmlSliderResponse,
     stimulus: '<strong>' + vignette.man_check.c + '</strong>',
-    min: 0, max: 1, step: 'any', require_movement: true, labels: ['0', '50', '100'],
+    min: 0, max: 1, step: 'any', require_movement: true, labels: ['0', '25', '50', '75', '100'],
     // Hide the slider thumb until response
     on_load: function () {
         document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
@@ -550,22 +550,21 @@ var man_check_c = {
 var man_check_a = {
     type: jsPsychHtmlSliderResponse,
     stimulus: function () {
+        // make slider labels
+        let label_width_perc = 100 / (man_check_c.labels.length - 1);
+        let labels = man_check_c.labels.map(l => '<div style="border: 1px solid transparent; display: inline-block; position: absolute; left:calc(' + 
+            l + '% - (' + label_width_perc + '% / 2) - ' + ((parseInt(l) - 50) / 50) * 7.5 + 'px); text-align: center; width: ' + label_width_perc + '%;">' +
+                '<span style="text-align: center; font-size: 80%;">' + l + '</span></div>').join('');
+
+        // create transparent slider with previous response
         let data = jsPsych.data.getLastTrialData().values()[0];
         return '<div style="opacity: .5;">' + data.stimulus +
-            `<div class="jspsych-html-slider-response-container" style="position:relative; margin: 0 auto 3em auto; width:auto;">
-            <input type="range" disabled="true" class="jspsych-slider" value="` + data.response + `" min="0" max="1" step="any">
-            <div>
-                <div style="border: 1px solid transparent; display: inline-block; position: absolute; left:calc(0% - (100% / 2) - -7.5px); text-align: center; width: 100%;">
-                    <span style="text-align: center; font-size: 80%;">0</span>
-                </div>
-                <div style="border: 1px solid transparent; display: inline-block; position: absolute; left:calc(100% - (100% / 2) - 7.5px); text-align: center; width: 100%;">
-                    <span style="text-align: center; font-size: 80%;">100</span>
-                </div>
-            </div>
-            </div></div>` +
+            '<div class="jspsych-html-slider-response-container" style="position:relative; margin: 0 auto 3em auto; width:auto;">' +
+            '<input type="range" disabled="true" class="jspsych-slider" value="' + data.response + '" min="0" max="1" step="any">' +
+            '<div>' + labels + '</div></div></div>' + 
             '<strong>' + vignette.man_check.a + '</strong>';
     },
-    min: 0, max: 1, step: 'any', require_movement: true, labels: ['0', '50', '100'],
+    min: 0, max: 1, step: 'any', require_movement: true, labels: ['0', '25', '50', '75', '100'],
     // Hide the slider thumb until response
     on_load: function () {
         document.getElementById('jspsych-html-slider-response-response').classList.add('hidden');
