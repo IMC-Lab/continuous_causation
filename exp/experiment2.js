@@ -41,8 +41,8 @@ var sd_c = 25;
 var sd_a = 25;
 var c = Math.round(mu_normal + 1/3*mu_abnormal + 2/3);
 var a = c;
-var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
-//var threshold = c+a-1;
+//var threshold = jsPsych.randomization.sampleWithoutReplacement([c-1, c+a-1], 1)[0];
+var threshold = c+a-1;
 var n_learning_per_block = 10;
 var n_blocks = 4;
 
@@ -266,8 +266,8 @@ var vignettes = [{
 
 /* Randomly assign a condition */
 var id = jsPsych.randomization.randomID();
-var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
-// var vignette = vignettes[0];  // use to pre-select a specific vignette
+//var vignette = jsPsych.randomization.sampleWithoutReplacement(vignettes, 1)[0];
+var vignette = vignettes[0];  // use to pre-select a specific vignette
 
 console.log('ID: ' + id);
 console.log('Vignette: ' + vignette.name);
