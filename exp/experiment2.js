@@ -13,7 +13,7 @@ var jsPsych = initJsPsych({
             'id': jsPsych.randomization.randomID(),
             'extension': 'csv',
             'directory': 'data',
-            'experimentName': 'exp2',
+            'experimentName': 'experiment2',
             'curData': data.csv()
         };
         await $.post("https://dibs-web01.vm.duke.edu/debrigard/continuous_causation/exp/save.php",
