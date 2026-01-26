@@ -1,33 +1,26 @@
 library(tidyverse)
 
-d <- list.files('data/experiment1/', full.names=TRUE) %>%
-    read_csv() %>%
-    mutate(measure=ifelse(!is.na(trial), 'learning', measure)) %>%
-    filter(!is.na(measure))
+setwd("/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projects/Causation")
 
+# d <- tibble(files=list.files('experiment2', full.names=TRUE)) %>%
+#   mutate(group=row_number() %% 6) %>%
+#   group_by(group) %>%
+#   nest(filenames=files) %>%
+#   mutate(data=map(filenames, ~ read_csv(.$files)))
+#   
+# d <- d %>% unnest(data) %>%
+#   ungroup() %>%
+#   select(-group, -filenames)
+# 
+# d <- list.files('experiment2', full.names=TRUE) %>%
+#     read_csv(progress=TRUE, lazy=TRUE) %>%
+#     mutate(measure=ifelse(!is.na(trial), 'learning', measure)) %>%
+#     filter(!is.na(measure))
 
-d.learning <- d %>%
-    filter(measure %in% c('learning', 'manipulation_check')) %>%
-    group_by(id) %>%
-    mutate(average_c=last(response_c), average_a=last(response_a)) %>%
-    filter(measure != 'manipulation_check') %>%
-    group_by(prolific_id, id, average_c, average_a) %>%
-    count() %>%
-    transmute(n_incorrect=n-20)
-
-## randomly select bonus winners
-bonus_c <- d.learning %>% ungroup %>%
-    filter(average_c==10) %>%
-    sample_n(size=10) %>%
-    pull(prolific_id)
-bonus_a <- d.learning %>% ungroup %>%
-    filter(average_a==10) %>%
-    sample_n(size=10) %>%
-    pull(prolific_id)
-tibble(id=c(bonus_c, bonus_a), bonus=2.00) %>%
-    group_by(id) %>%
-    summarize(bonus=sum(bonus)) %>%
-    write_csv('data/bonus.csv')
+d <- list.files('experiment2', full.names=TRUE) %>%
+  read_csv()
+  #mutate(measure=ifelse(!is.na(trial), 'learning', measure)) %>%
+ # filter(!is.na(measure))
 
 ## format to one row per participant and save to file
 d %>%
@@ -35,26 +28,17 @@ d %>%
     group_by(id) %>%
     select(id, mu_c:valence, measure, response, rt) %>%
     pivot_wider(names_from=measure, values_from=c(response, rt)) %>%
-    left_join(d.learning, by=c('id', 'prolific_id')) %>%
-    select(-prolific_id) %>%
+    left_join(d.learning, by=c('id')) %>%
+   # select(-prolific_id) %>%
     select(-c(rt_justification:rt_comments)) %>%
     rename_with(~ str_remove(., 'response_'), response_judgment:response_comments) %>%
-    rename(cause=judgment, vignette=name) %>%
+    rename(cause=judgment) %>%
     mutate(cause=as.numeric(cause),
            confidence=as.numeric(confidence),
            age=as.numeric(age)) %>%
-    write_csv('data/experiment1.csv')
-
-
-
-### Test
-d <- list.files('data/experiment1/', full.names=TRUE) %>%
-    read_csv(id='filename') %>%
-    ##mutate(measure=ifelse(!is.na(trial) & is.na(measure), 'learning', measure)) %>%
-    filter(!is.na(measure)) %>%
-    group_by(id) %>%
-    mutate(duration_mins=(last(time_elapsed)-first(time_elapsed))/1000/60) %>%
-    ungroup()
+    write_csv('experiment2.csv')
+test<- read_csv('experiment2.csv')
+names(test)
 
 d.manipulation_check <- d %>%
     filter(measure == 'manipulation_check') %>%
@@ -73,7 +57,7 @@ d.learning <- d %>%
 d.learning %>%
     select(-prolific_id) %>%
     rename(vignette=name) %>%
-    write_csv('data/experiment1_learning.csv')
+    write_csv('experiment2_learning.csv')
 
 
 ## format to one row per participant and save to file
@@ -93,4 +77,16 @@ d <- d %>%
     mutate(cause=as.numeric(cause),
            confidence=as.numeric(confidence),
            age=as.numeric(age)) %>%
-    write_csv('data/experiment1_judgments.csv')
+    write_csv('experiment2_judgments.csv')
+
+
+d %>%
+  group_by(mu_c, threshold) %>%
+  summarize(cause=mean(cause), confidence=mean(confidence))
+
+ggplot(d, aes(x=mu_c, y=cause)) +
+  geom_violin(aes(group=mu_c)) +
+  stat_summary(fun.data=mean_se) +
+  facet_wrap(~ threshold) +
+  ylim(0, 1) +
+  theme_classic()
