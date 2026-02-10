@@ -1,6 +1,6 @@
 library(tidyverse)
 
-setwd("/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projects/Causation")
+setwd("/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projects/Causation/raw_data/")
 
 # d <- tibble(files=list.files('experiment2', full.names=TRUE)) %>%
 #   mutate(group=row_number() %% 6) %>%
@@ -17,10 +17,10 @@ setwd("/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projec
 #     mutate(measure=ifelse(!is.na(trial), 'learning', measure)) %>%
 #     filter(!is.na(measure))
 
-d <- list.files('experiment2', full.names=TRUE) %>%
-  read_csv()
-  #mutate(measure=ifelse(!is.na(trial), 'learning', measure)) %>%
- # filter(!is.na(measure))
+d <- list.files("experiment2", full.names = TRUE) %>%
+  read_csv %>%
+  filter(!is.na(measure))
+print(d)
 
 ## format to one row per participant and save to file
 d %>%
