@@ -12,7 +12,7 @@ setwd("/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projec
 
 ## Read in the judgment data
 d <- read_csv('experiment2_judgments.csv') %>% 
-    filter(attention_check == 'Yes.', vignette=='sewage') %>%
+    filter(attention_check == 'Yes.') %>%
     mutate(normality=factor(mu_c, levels=c(75, 25), labels=c('Normal', 'Abnormal')),
            structure=factor(threshold, levels=c(167,83), labels=c('Conjunctive', 'Disjunctive'))) %>%
     select(-mu_c) %>%
@@ -24,7 +24,7 @@ names(d)
 d.learning <- read_csv('experiment2_learning.csv') %>%
     filter(id %in% d$id) %>%
     mutate(normality=factor(mu_c, levels=c(75, 25), labels=c('Normal', 'Abnormal')),
-           structure=factor(threshold, levels=c(167), labels=c('Conjunctive')),
+           structure=factor(threshold, levels=c(167, 83), labels=c('Conjunctive', 'Disjunctive')),
            block=factor(block),
            trial=factor(trial)) %>%
    select(-mu_c) %>%
@@ -45,19 +45,20 @@ d.learning.check <- d.learning %>%
     mutate(variable = factor(variable, levels = c('mcc','mca')))
 
 
-m.learning <- ordbetareg(bf(perceived_average ~ normality*variable*block + (1|id),
-                            phi ~ normality*variable*block + (1|id),
+m.learning <- ordbetareg(bf(perceived_average ~ structure*normality*variable*block + (1|id) +
+                            (structure*normality*variable*block || vignette),
+                            phi ~ structure*normality*variable*block + (1|id) + (1|vignette),
                             center=FALSE),
                          data=d.learning.check, cores=4, chains=4,
-                         ##warmup=1000, iter=11000,
+                         #warmup=1000, iter=11000,
                          phi_reg='both',
                          dirichlet_prior=c(2,2,2),
-                         intercept_prior_mean=0, intercept_prior_SD=2, #do i change any of the priors here?
+                         intercept_prior_mean=0, intercept_prior_SD=2, #do i change any of the priors here? -> no
                          coef_prior_mean=0, coef_prior_SD=2,
                          phi_intercept_prior_mean=1, phi_intercept_prior_SD=1,
                          phi_coef_prior_mean=0, phi_coef_prior_SD=1,
-                         extra_prior=prior('normal(0, 1)', class='sd') + #do i change class here? 
-                           prior('normal(0, 1)', class='sd', dpar='phi'), #and here?
+                         extra_prior=prior('normal(0, 1)', class='sd') + #do i change class here? -> again, no
+                           prior('normal(0, 1)', class='sd', dpar='phi'), #and here? -> nope
                          backend='cmdstanr', adapt_delta=.95, file='m_learning_exp2.rds')
 summary(m.learning, prior=TRUE)
 
@@ -101,7 +102,7 @@ prior.norm <- ordbetareg(bf(perceived_normality ~ structure * normality * variab
                         center=FALSE), sample_prior='only',
                      data=d.norm, cores=4, chains=4, warmup=1000, iter=11000, phi_reg='both',
                      dirichlet_prior=c(2,2,2),
-                     intercept_prior_mean=0, intercept_prior_SD=2, #again, do i change priors here?
+                     intercept_prior_mean=0, intercept_prior_SD=2, #again, do i change priors here? no lol
                      coef_prior_mean=0, coef_prior_SD=2,
                      phi_intercept_prior_mean=1, phi_intercept_prior_SD=1,
                      phi_coef_prior_mean=0, phi_coef_prior_SD=1,
@@ -109,20 +110,23 @@ prior.norm <- ordbetareg(bf(perceived_normality ~ structure * normality * variab
                          prior('normal(0, 1)', class='sd', dpar='phi'),
                      backend='cmdstanr')
 
-m.norm <- ordbetareg(bf(perceived_normality ~ normality * variable,
-                        phi ~  normality * variable,
+m.norm <- ordbetareg(bf(perceived_normality ~ normality * structure * variable +
+                          (structure * normality * variable || vignette),
+                        phi ~  structure* normality * variable + (1 || vignette),
                         center=FALSE),
-                     data=d.norm, cores=4, chains=4, ##warmup=1000, iter=11000,
+                     data=d.norm, cores=4, chains=4, warmup=1000, iter=11000,
                      phi_reg='both',
                      dirichlet_prior=c(2,2,2),
                      intercept_prior_mean=0, intercept_prior_SD=2, #same question...
                      coef_prior_mean=0, coef_prior_SD=2,
                      phi_intercept_prior_mean=1, phi_intercept_prior_SD=1,
                      phi_coef_prior_mean=0, phi_coef_prior_SD=1,
-                     backend='cmdstanr', file='m_norm_exp2.rds')
+                     backend='cmdstanr')
+                     #file='m_norm_exp2.rds')
 summary(m.norm, prior=TRUE)
 
 
+get_variables(m.norm)  # use this to see the model coefficient names
 describe_posterior(m.norm, test=c('bf'), bf_prior=prior.norm,
                    parameters=c('b_Intercept', 'b_structure83',
                                 'b_SD_c1', 'b_structure83:SD_c1'))
@@ -240,10 +244,10 @@ ggsave('experiment2/normality_vignette.png', width=10, height=15)
 
 
 ## model for causal judgments
-m.cause <- ordbetareg(bf(cause ~ normality,
-                         phi ~ normality,
+m.cause <- ordbetareg(bf(cause ~ structure*normality + (structure * normality || vignette),
+                         phi ~ structure * normality + (1 || vignette),
                          center=FALSE),
-                      data=d, cores=4, chains=4, ##warmup=1000, iter=11000,
+                      data=d, cores=4, chains=4, warmup=1000, iter=11000,
                       phi_reg='both',
                       dirichlet_prior=c(2,2,2),
                       intercept_prior_mean=0, intercept_prior_SD=2,
@@ -286,10 +290,10 @@ d %>%
     median_qi(.linpred, BF)
 
 
-## compute bayes factors
+## compute bayes factors --> potentially ignore (normality block does something similar)
 describe_posterior(m.cause, test=c('bf'), bf_prior=prior.cause,
-                   parameters=c('b_Intercept', 'b_structure99',
-                                'b_SD_c1', 'b_structure99:SD_c1'))
+                   parameters=c('b_Intercept', 'b_normality99',
+                                'b_SD_c1', 'b_normality99:SD_c1'))
 
 
 d %>%
