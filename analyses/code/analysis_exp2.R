@@ -85,7 +85,9 @@ d.learning.check %>%
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
 
-ggsave('experiment2/manipulation_check.pdf', width=10, height=5)
+ggsave('manipulation_check.pdf', 
+       path= '/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projects/Causation/continuous_causation/analyses/plots/experiment2', 
+       width=10, height=5)
 
 
 
@@ -202,28 +204,46 @@ d.norm %>%
               position=position_dodge(.25), data=d.norm) +
     stat_pointinterval(aes(y=.epred), point_interval=median_hdi, .width=.95,
                        position=position_dodge(.25)) +
-  scale_x_discrete(name='', ##labels=c('Alternate\nCause', 'Focal\nCause')
+  scale_x_discrete(name='', labels=c('Alternate\nCause', 'Focal\nCause')
                    ) +
     scale_y_continuous('Surprisal Rating', limits=0:1,
                        labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
     facet_wrap(~ structure, labeller=as_labeller(~ paste0('Structure: ', .))) +
     scale_side_mirrored(name='',
                         start='bottomleft') +
-    scale_fill_manual(name='Normality', ##labels=c('Normal\n(mu=25)', 'Abnormal\n(mu=75)'),
+    scale_fill_manual(name='Normality', labels=c('Normal\n(mu=25)', 'Abnormal\n(mu=75)'),
                       values=PALETTE) +
     theme_classic(18) +
   theme(axis.title.x=element_blank())
 
 
-ggsave('experiment2/normality.pdf', width=10, height=5)
+ggsave('normality.pdf', 
+       path= '/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projects/Causation/continuous_causation/analyses/plots/experiment2',
+       width=10, height=5)
+
+#troubleshooting
+# range(d.norm$perceived_normality, na.rm = TRUE)
+# warnings()
+# d.norm <- d.norm %>% mutate(perceived_normality = pmin(pmax(perceived_normality, 1e-6), 1 - 1e-6))
+# str(d.norm$perceived_normality)
+# sum(is.na(d.norm$perceived_normality))
+# length(unique(d.norm$perceived_normality))
+# str(d.norm$variable)
+# d.norm <- d.norm %>%
+#   mutate(variable = factor(variable))
+# d.norm %>% group_vars()
+# d.norm <- d.norm %>% ungroup()
+# stat_halfeye(aes(y = normality, side = normality), adjust = 0.5, .width = 0.95) +
+# ggplot(d.norm, aes(x = variable, y = perceived_normality)) +
+#   stat_halfeye(aes(y = normality, side = normality), adjust = 0.5, .width = 0.95) +
 
 
 d.norm %>%
     distinct(structure, normality, variable, vignette) %>%
     add_epred_draws(m.norm) %>%
     ggplot(aes(x=variable, fill=normality)) +
-    stat_slab(aes(y=normality, side=normality), show.legend=c(side=FALSE),
-              position=position_dodge(.25), data=d.norm) +
+    stat_slab(aes(y=perceived_normality, side=normality), show.legend=c(side=FALSE),
+             position=position_dodge(.25), data = d.norm) +
     stat_pointinterval(aes(y=.epred), point_interval=median_hdi, .width=.95,
                        position=position_dodge(.25)) +
     scale_x_discrete(name='', labels=c('Alternate\nCause', 'Focal\nCause')) +
@@ -236,9 +256,10 @@ d.norm %>%
                       values=PALETTE) +
     theme_classic(18) +
     theme(axis.title.x=element_blank())
-ggsave('experiment2/normality_vignette.png', width=10, height=15)
 
-
+ggsave('normality_vignette.png', 
+       path= '/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projects/Causation/continuous_causation/analyses/plots/experiment2',
+       width=10, height=15)
 
 
 
@@ -305,13 +326,15 @@ d %>%
                        position=position_dodge(.25)) +
     scale_x_discrete(name='Structure') +
     scale_y_continuous('Causal Judgment', labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
-    scale_side_mirrored(name='Normality', ##labels=c('Normal\n(mu=25)', 'Abnormal\n(mu=75)'),
+    scale_side_mirrored(name='Normality', labels=c('Normal\n(mu=25)', 'Abnormal\n(mu=75)'),
                         start='bottomleft') +
-    scale_fill_manual(name='Normality', ##labels=c('Normal\n(mu=25)', 'Abnormal\n(mu=75)'),
+    scale_fill_manual(name='Normality', labels=c('Normal\n(mu=25)', 'Abnormal\n(mu=75)'),
                       values=PALETTE) +
   theme_classic(18)
 
-ggsave('experiment2/cause.pdf', width=10, height=4)
+ggsave('cause.pdf', 
+       path= '/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projects/Causation/continuous_causation/analyses/plots/experiment2',
+       width=10, height=4)
 
 d %>%
     distinct(structure, normality, vignette) %>%
@@ -329,7 +352,9 @@ d %>%
     scale_fill_manual(name='Normality', labels=c('Normal\n(mu=25)', 'Abnormal\n(mu=75)'),
                       values=PALETTE) +
     theme_classic()
-ggsave('experiment2/cause_vignette.png', width=10, height=5)
+ggsave('cause_vignette.png',
+       path= '/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projects/Causation/continuous_causation/analyses/plots/experiment2',
+       width=10, height=5)
 
 ## Plot prior/posteriors of model coefficients to visualize BFs
 m.cause %>%
@@ -406,7 +431,9 @@ d.norm %>%
     scale_fill_manual(name='Normality', labels=c('Normal\n(mu=25)', 'Abnormal\n(mu=75)'),
                       values=PALETTE) +
     theme_classic(18)
-ggsave('experiment2/confidence.pdf', width=10, height=5)
+ggsave('confidence.pdf', 
+       path= '/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projects/Causation/continuous_causation/analyses/plots/experiment2',
+       width=10, height=5)
 
 
 d.norm %>%
@@ -425,3 +452,6 @@ d.norm %>%
     facet_wrap(~ vignette) +
     theme_classic(18)
 
+ggsave('confidence_vignette.pdf', 
+       path= '/Users/kmiceli98/Library/CloudStorage/Box-Box/Grad_School/Research/Projects/Causation/continuous_causation/analyses/plots/experiment2',
+       width=10, height=5)
