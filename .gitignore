@@ -2,6 +2,13 @@
 **/*.rds
 **/*.*~
 
+# data files
+analyses/data/initial_experiment
+analyses/data/pilot
+analyses/data/experiment1
+analyses/data/test
+analyses/data/pilot_exp2
+
 # History files
 .Rhistory
 .Rapp.history
