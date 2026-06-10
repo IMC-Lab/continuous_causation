@@ -53,7 +53,8 @@ m.learning <- ordbetareg(bf(perceived_variability ~ threshold*SD_c*variable*bloc
                          extra_prior=prior('normal(0, 1)', class='sd') +
                            prior('normal(0, 1)', class='sd', dpar='phi'),
                          backend='cmdstanr', adapt_delta=.95,
-                         file=paste0(model_dir, 'learning.rds'))
+                         #file=paste0(model_dir, 'learning.rds'))
+                         file='learning.rds')
 summary(m.learning, prior=TRUE)
 prior.learning <- update(m.learning, sample_prior='only', cores=4)
 
@@ -79,7 +80,28 @@ d.learning.check |>
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
 ggsave(paste0(plot_dir, 'manipulation_check.pdf'), width=10, height=5)
 
-
+d.learning.check |>
+  distinct(vignette, threshold, SD_c, variable, block) |>
+  add_epred_draws(m.learning, re_formula=NA) |>
+  median_hdi() |>
+  mutate(variable=factor(variable, levels=c('a', 'c'))) |>
+  ggplot(aes(x=block, y=.epred, ymin=.lower, ymax=.upper,
+             group=interaction(SD_c, variable))) +
+  facet_grid(vignette ~ threshold, labeller=labeller(.cols=as_labeller(~ paste0('Threshold: ', .)))) +
+  geom_ribbon(aes(fill=SD_c), alpha=.1) +
+  geom_line(aes(color=SD_c, linetype=variable), linewidth=1) +
+  scale_y_continuous('Perceived Variability', limits=0:1,
+                     labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
+  scale_x_discrete('Block', expand=c(.05, 0)) + 
+  scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+                    values=PALETTE) +
+  scale_color_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+                     values=PALETTE) +
+  scale_linetype_manual('Variable', values=c('dotted', 'solid'),
+                        labels=c('Focal\nCause', 'Alternate\nCause')) +
+  theme_classic(18) +
+  theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
+ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), width=10, height=15)
 
 
 
