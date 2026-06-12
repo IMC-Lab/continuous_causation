@@ -193,6 +193,23 @@ d.norm |>
   median_qi(.linpred, BF) |>
   select(structure, variable, .linpred, .linpred.lower, .linpred.upper, BF)
 
+d.norm |>
+  distinct(structure, normality, variable) |>
+  add_linpred_draws(m.norm, re_formula=NA) |>
+  compare_levels(.linpred, by='normality') |>
+  compare_levels(.linpred, by='variable') |>
+  compare_levels(.linpred, by='structure') |>
+  left_join(d.norm |>
+              distinct(structure, normality, variable) |>
+              add_linpred_draws(prior.norm, re_formula=NA) |>
+              compare_levels(.linpred, by='normality') |>
+              compare_levels(.linpred, by='variable') |>
+              compare_levels(.linpred, by='structure') |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF) |>
+  select(structure, variable, .linpred, .linpred.lower, .linpred.upper, BF)
+
 
 ## normality contrast by vignette
 d.norm |>
@@ -258,7 +275,8 @@ d.norm |>
   facet_wrap(~ structure, labeller=as_labeller(~ paste0('Structure: ', .))) +
   scale_side_mirrored(name='',
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
+  scale_fill_manual(name='Normality',
+                    labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
@@ -279,7 +297,8 @@ d.norm |>
   facet_grid(vignette ~ structure, labeller=labeller(.cols=~ paste0('Structure: ', .))) +
   scale_side_mirrored(name='',
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
+  scale_fill_manual(name='Normality',
+                    labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
@@ -318,6 +337,21 @@ d |>
   mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
   median_qi(.linpred, BF)
 
+d |>
+  distinct(structure, normality) |>
+  add_linpred_draws(m.cause, re_formula=NA) |>
+  compare_levels(.linpred, by=normality) |>
+  compare_levels(.linpred, by=structure) |>
+  left_join(d.norm |>
+              distinct(structure, normality) |>
+              add_linpred_draws(prior.cause, re_formula=NA) |>
+              compare_levels(.linpred, by=normality) |>
+              compare_levels(.linpred, by=structure) |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF)
+
+
 
 d |>
   distinct(normality) |>
@@ -327,10 +361,16 @@ d |>
   stat_pointinterval(aes(y=.epred), point_interval=median_hdi, .width=.95,
                      position=position_dodge(.25)) +
   scale_x_discrete(name='Structure') +
-  scale_y_continuous('Causal Judgment', labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
+  scale_y_continuous('Causal Judgment',
+                     labels=c('0', '.25', '.5', '.75', '1'),
+                     expand=c(0, 0)) +
+  scale_side_mirrored(name='Normality',
+                      labels=c('Normal\n(\u03BC=75)',
+                               'Abnormal\n(\u03BC=25)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
+  scale_fill_manual(name='Normality',
+                    labels=c('Normal\n(\u03BC=75)',
+                             'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic(18)
 ggsave(paste0(plot_dir, 'cause.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
@@ -346,9 +386,13 @@ d |>
   scale_y_continuous('Causal Judgment') +
   coord_cartesian(ylim=c(0, 1)) +
   facet_wrap(~ vignette) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
+  scale_side_mirrored(name='Normality',
+                      labels=c('Normal\n(\u03BC=75)',
+                               'Abnormal\n(\u03BC=25)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
+  scale_fill_manual(name='Normality',
+                    labels=c('Normal\n(\u03BC=75)',
+                             'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic()
 ggsave(paste0(plot_dir, 'cause_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
@@ -404,6 +448,50 @@ m.confidence <- ordbetareg(bf(confidence ~ structure * normality + (structure * 
                            file=paste0(model_dir, 'confidence.rds'))
 prior.confidence <- update(m.confidence, sample_prior='only', cores=4)
 print(m.confidence, prior=TRUE)
+
+
+## normality contrasts
+d |>
+  distinct(structure, normality) |>
+  add_linpred_draws(m.confidence, re_formula=NA) |>
+  compare_levels(.linpred, by=normality) |>
+  left_join(d.norm |>
+              distinct(structure, normality) |>
+              add_linpred_draws(prior.confidence, re_formula=NA) |>
+              compare_levels(.linpred, by=normality) |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF)
+
+d |>
+  distinct(structure, normality) |>
+  add_linpred_draws(m.confidence, re_formula=NA) |>
+  compare_levels(.linpred, by=normality) |>
+  compare_levels(.linpred, by=structure) |>
+  left_join(d.norm |>
+              distinct(structure, normality) |>
+              add_linpred_draws(prior.confidence, re_formula=NA) |>
+              compare_levels(.linpred, by=normality) |>
+              compare_levels(.linpred, by=structure) |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF)
+
+
+## intercepts
+d |>
+  distinct(structure, normality) |>
+  add_epred_draws(m.confidence, re_formula=NA) |>
+  group_by(.draw) |>
+  summarize(.epred=mean(.epred)) |>
+  left_join(d |>
+              distinct(structure, normality) |>
+              add_epred_draws(prior.confidence, re_formula=NA) |>
+              group_by(.draw) |>
+              summarize(.epred.prior=mean(.epred))) |>
+  mutate(BF=exp(bf_pointnull(.epred, .epred.prior)$log_BF)) |>
+  median_qi(.epred, BF)
+
 
 
 d.norm |>

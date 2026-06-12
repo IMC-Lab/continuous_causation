@@ -41,15 +41,14 @@ p.manipulation2 <- ggplot(d.manipulation, aes(fill=name, xdist=dist_normal(sum_m
   geom_vline(aes(xintercept=2*actual)) +
   xlab('Focal Cause + Alternate Cause') +
   scale_fill_manual(name='Normality',
-                    labels=c('Normal<br>(\u03C3=50)',
-                             'Abnormal<br>(\u03C3=1)'),
+                    labels=c('Normal\n(\u03C3=50)',
+                             'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic(base_size=18) +
   theme(axis.line.y=element_blank(),
         axis.ticks.y=element_blank(),
         axis.text.y=element_blank(),
-        axis.title.y=element_blank(),
-        legend.text=element_markdown())
+        axis.title.y=element_blank())
 p.manipulation2
 
 ((p.manipulation1 / p.manipulation2) & coord_cartesian(xlim=c(0, 300), expand=FALSE)) +
@@ -77,15 +76,14 @@ p.manipulation1 <- ggplot(d.manipulation, aes(fill=name, xdist=dist_normal(mean,
   geom_text(aes(x=actual), label='Actual Value', y=.95, hjust=-.1, size=3, show.legend=FALSE) +
   xlab('Focal Cause') +
   scale_fill_manual(name='Normality',
-                    labels=c('Normal<br>(\u03BC=50)',
-                             'Abnormal<br>(\u03BC=1)'),
+                    labels=c('Normal\n(\u03BC=25)',
+                             'Abnormal\n(\u03BC=75)'),
                     values=PALETTE) +
   theme_classic(base_size=18) +
   theme(axis.line.y=element_blank(),
         axis.ticks.y=element_blank(),
         axis.text.y=element_blank(),
-        axis.title.y=element_blank(),
-        legend.text=element_markdown())
+        axis.title.y=element_blank())
 p.manipulation1
 
 p.manipulation2 <- ggplot(d.manipulation, aes(fill=name, xdist=dist_normal(sum_mean, sum_sd))) +
@@ -100,15 +98,14 @@ p.manipulation2 <- ggplot(d.manipulation, aes(fill=name, xdist=dist_normal(sum_m
   geom_vline(aes(xintercept=2*actual)) +
   xlab('Focal Cause + Alternate Cause') +
   scale_fill_manual(name='Normality',
-                    labels=c('Normal<br>(\u03BC=50)',
-                             'Abnormal<br>(\u03BC=1)'),
+                    labels=c('Normal\n(\u03BC=25)',
+                             'Abnormal\n(\u03BC=75)'),
                     values=PALETTE) +
   theme_classic(base_size=18) +
   theme(axis.line.y=element_blank(),
         axis.ticks.y=element_blank(),
         axis.text.y=element_blank(),
-        axis.title.y=element_blank(),
-        legend.text=element_markdown())
+        axis.title.y=element_blank())
 p.manipulation2
 
 ((p.manipulation1 / p.manipulation2) & coord_cartesian(xlim=c(0, 300), expand=FALSE)) +
