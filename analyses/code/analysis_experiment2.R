@@ -15,7 +15,6 @@ d <- read_csv('../data/experiment2_judgments.csv') |>
          structure=factor(threshold, levels=c(167,83), labels=c('Conjunctive', 'Disjunctive'))) |>
   select(-mu_c) |>
   group_by(structure, normality)
-names(d)
 
 
 ## Read in the learning stage data
@@ -27,7 +26,6 @@ d.learning <- read_csv('../data/experiment2_learning.csv') |>
          trial=factor(trial)) |>
   select(-mu_c) |>
   group_by(id, structure, normality, block)
-names(d.learning)
 
 
 ## Estimate perceived average by condition (manipulation check)
@@ -71,15 +69,15 @@ d.learning.check |>
   scale_y_continuous('Perceived Average', limits=0:1,
                      labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
   scale_x_discrete('Block', expand=c(.05, 0)) + 
-  scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
-  scale_color_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_color_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                      values=PALETTE) +
   scale_linetype_manual('Variable', values=c('dotted', 'solid'),
                         labels=c('Focal\nCause', 'Alternate\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-ggsave(paste0(plot_dir, 'manipulation_check.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'manipulation_check.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
 
 
 d.learning.check |>
@@ -95,15 +93,49 @@ d.learning.check |>
   scale_y_continuous('Perceived Average', limits=0:1,
                      labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
   scale_x_discrete('Block', expand=c(.05, 0)) + 
-  scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
-  scale_color_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_color_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                      values=PALETTE) +
   scale_linetype_manual('Variable', values=c('dotted', 'solid'),
                         labels=c('Focal\nCause', 'Alternate\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), width=10, height=15)
+ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), width=10, height=15, device=grDevices::cairo_pdf)
+
+## contrasts by normality
+d.learning.check |>
+  distinct(structure, normality, variable, block) |>
+  add_linpred_draws(m.learning, re_formula=NA) |>
+  compare_levels(.linpred, by=normality) |>
+  left_join(d.learning.check |>
+              distinct(structure, normality, variable, block) |>
+              add_linpred_draws(prior.learning, re_formula=NA) |>
+              compare_levels(.linpred, by=normality) |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF) |>
+  select(structure, variable, block, contains('.linpred'), BF) |>
+  mutate(BF=format(BF, scientific=FALSE))
+
+d.learning.check |>
+  distinct(structure, normality, variable, block) |>
+  add_linpred_draws(m.learning, re_formula=NA) |>
+  compare_levels(.linpred, by=normality) |>
+  compare_levels(.linpred, by=variable) |>
+  compare_levels(.linpred, by=block) |>
+  left_join(d.learning.check |>
+              distinct(structure, normality, variable, block) |>
+              add_linpred_draws(prior.learning, re_formula=NA) |>
+              compare_levels(.linpred, by=normality) |>
+              compare_levels(.linpred, by=variable) |>
+              compare_levels(.linpred, by=block) |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF) |>
+  select(structure, variable, block, contains('.linpred'), BF)
+
+
 
 
 
@@ -145,6 +177,22 @@ d.norm |>
   mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
   median_qi(.linpred, BF) |>
   select(structure, variable, .linpred, .linpred.lower, .linpred.upper, BF)
+
+d.norm |>
+  distinct(structure, normality, variable) |>
+  add_linpred_draws(m.norm, re_formula=NA) |>
+  compare_levels(.linpred, by='normality') |>
+  compare_levels(.linpred, by='variable') |>
+  left_join(d.norm |>
+              distinct(structure, normality, variable) |>
+              add_linpred_draws(prior.norm, re_formula=NA) |>
+              compare_levels(.linpred, by='normality') |>
+              compare_levels(.linpred, by='variable') |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF) |>
+  select(structure, variable, .linpred, .linpred.lower, .linpred.upper, BF)
+
 
 ## normality contrast by vignette
 d.norm |>
@@ -210,11 +258,11 @@ d.norm |>
   facet_wrap(~ structure, labeller=as_labeller(~ paste0('Structure: ', .))) +
   scale_side_mirrored(name='',
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-ggsave(paste0(plot_dir, 'normality.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'normality.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
 
 
 d.norm |>
@@ -231,11 +279,11 @@ d.norm |>
   facet_grid(vignette ~ structure, labeller=labeller(.cols=~ paste0('Structure: ', .))) +
   scale_side_mirrored(name='',
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-ggsave(paste0(plot_dir, 'normality_vignette.pdf'), width=10, height=15)
+ggsave(paste0(plot_dir, 'normality_vignette.pdf'), width=10, height=15, device=grDevices::cairo_pdf)
 
 
 
@@ -280,12 +328,12 @@ d |>
                      position=position_dodge(.25)) +
   scale_x_discrete(name='Structure') +
   scale_y_continuous('Causal Judgment', labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'cause.pdf'), width=6, height=4)
+ggsave(paste0(plot_dir, 'cause.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
 
 d |>
   distinct(structure, normality, vignette) |>
@@ -298,12 +346,12 @@ d |>
   scale_y_continuous('Causal Judgment') +
   coord_cartesian(ylim=c(0, 1)) +
   facet_wrap(~ vignette) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic()
-ggsave(paste0(plot_dir, 'cause_vignette.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'cause_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
 
 ## Plot prior/posteriors of model coefficients to visualize BFs
 m.cause |>
@@ -329,12 +377,12 @@ d |>
   scale_x_discrete(name='Structure') +
   scale_y_continuous('Precision Parameter') +
   coord_cartesian(ylim=c(0, 10)) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic()
-ggsave(paste0(plot_dir, 'cause_precision.pdf'), width=6, height=4)
+ggsave(paste0(plot_dir, 'cause_precision.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
 
 
 
@@ -367,12 +415,12 @@ d.norm |>
                      position=position_dodge(.25)) +
   scale_x_discrete(name='Structure') +
   scale_y_continuous('Confidence', labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'confidence.pdf'), width=6, height=4)
+ggsave(paste0(plot_dir, 'confidence.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
 
 
 d.norm |>
@@ -384,10 +432,10 @@ d.norm |>
                      position=position_dodge(.25)) +
   scale_x_discrete(name='Structure') +
   scale_y_continuous('Confidence', labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   facet_wrap(~ vignette) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
