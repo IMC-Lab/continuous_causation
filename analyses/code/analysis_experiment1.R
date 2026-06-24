@@ -133,7 +133,6 @@ d.learning.check |>
   mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
   median_qi(.linpred, BF) |>
   select(structure, variable, block, contains('.linpred'), BF)
->>>>>>> Stashed changes
 
 
 
