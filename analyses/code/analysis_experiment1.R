@@ -3,6 +3,8 @@ library(tidybayes)
 library(ggdist)
 library(ordbetareg)
 library(bayestestR)
+library(patchwork)
+
 
 model_dir <- '../models/experiment1/'
 plot_dir <- '../plots/experiment1/'
@@ -37,7 +39,6 @@ d.learning.check <- d.learning |>
             a=manipulation_check_a[1]) |>
   pivot_longer(c:a, names_to='variable', values_to='perceived_variability') |>
   ungroup()
-
 
 m.learning <- ordbetareg(bf(perceived_variability ~ threshold*SD_c*variable*block + (1|id) +
                               (threshold*SD_c*variable*block || vignette),
@@ -78,7 +79,7 @@ d.learning.check |>
                         labels=c('Alternate\nCause', 'Focal\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-ggsave(paste0(plot_dir, 'manipulation_check.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'manipulation_check.pdf'), p.manipulation, width=10, height=5)
 
 d.learning.check |>
   distinct(vignette, threshold, SD_c, variable, block) |>
@@ -101,7 +102,7 @@ d.learning.check |>
                         labels=c('Focal\nCause', 'Alternate\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), width=10, height=15)
+ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), p.manipulation_vignette, width=10, height=15)
 
 
 
@@ -190,7 +191,7 @@ d.norm |>
   select(threshold, SD_c, .linpred.lower, .linpred.upper, BF)
 
 
-d.norm |>
+p.normality <- d.norm |>
   distinct(threshold, SD_c, variable) |>
   add_epred_draws(m.norm, re_formula=NA) |>
   ggplot(aes(x=variable, fill=SD_c)) +
@@ -208,10 +209,10 @@ d.norm |>
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-ggsave(paste0(plot_dir, 'normality.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'normality.pdf'), p.normality, width=10, height=5)
 
 
-d.norm |>
+p.normality_vignette <- d.norm |>
   distinct(threshold, SD_c, variable, vignette) |>
   add_epred_draws(m.norm) |>
   ggplot(aes(x=variable, fill=SD_c)) +
@@ -229,7 +230,7 @@ d.norm |>
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-ggsave(paste0(plot_dir, 'normality_vignette.pdf'), width=10, height=15)
+ggsave(paste0(plot_dir, 'normality_vignette.pdf'), p.normality_vignette, width=10, height=15)
 
 
 
@@ -268,7 +269,7 @@ d |>
   median_qi(.linpred, BF)
 
 
-d |>
+p.cause <- d |>
   distinct(threshold, SD_c) |>
   add_epred_draws(m.cause, re_formula=NA) |>
   ggplot(aes(x=threshold, group=SD_c, fill=SD_c)) +
@@ -282,9 +283,9 @@ d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
                     values=PALETTE) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'cause.pdf'), width=10, height=4)
+ggsave(paste0(plot_dir, 'cause.pdf'), p.cause, width=10, height=4)
 
-d |>
+p.cause_vignette <- d |>
   distinct(threshold, SD_c, vignette) |>
   add_epred_draws(m.cause) |>
   ggplot(aes(x=threshold, group=SD_c, fill=SD_c)) +
@@ -300,7 +301,7 @@ d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
                     values=PALETTE) +
   theme_classic()
-ggsave(paste0(plot_dir, 'cause_vignette.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'cause_vignette.pdf'), p.cause_vignette, width=10, height=5)
 
 ## Plot prior/posteriors of model coefficients to visualize BFs
 m.cause |>
@@ -353,7 +354,7 @@ m.confidence <- ordbetareg(bf(confidence ~ threshold * SD_c + (threshold * SD_c 
 prior.confidence <- update(m.confidence, sample_prior='only', cores=4)
 print(m.confidence, prior=TRUE)
 
-d |>
+p.confidence <- d |>
   distinct(threshold, SD_c) |>
   add_epred_draws(m.confidence, re_formula=NA) |>
   ggplot(aes(x=threshold, group=SD_c, fill=SD_c)) +
@@ -367,10 +368,10 @@ d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
                     values=PALETTE) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'confidence.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'confidence.pdf'), p.confidence, width=10, height=5)
 
 
-d |>
+p.confidence_vignette <- d |>
   distinct(threshold, SD_c, vignette) |>
   add_epred_draws(m.confidence) |>
   ggplot(aes(x=threshold, group=SD_c, fill=SD_c)) +
@@ -385,4 +386,28 @@ d |>
                     values=PALETTE) +
   facet_wrap(~ vignette) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), p.confidence_vignette, width=10, height=5)
+
+
+#create multi-plot figures using patchwork
+fig1 <- (p.manipulation / p.normality) +
+  plot_layout(guides='collect') +
+  plot_annotation(tag_levels='A') &
+  theme(plot.tag=element_text(face='bold'),
+        plot.margin=margin(10, 10, 10, 10))
+fig1[[1]] <- fig1[[1]] + theme(axis.title.x=element_blank(),
+                               axis.text.x=element_blank(),
+                               axis.ticks.x=element_blank(),
+                               plot.margin=margin(10, 10, 30, 10))
+ggsave(paste0(plot_dir, 'manipulation_normality.pdf'), fig1, width=10, height=5)
+
+fig2 <- (p.cause / p.confidence) +
+  plot_layout(guides='collect') +
+  plot_annotation(tag_levels='A') &
+  theme(plot.tag=element_text(face='bold'),
+        plot.margin=margin(10, 10, 10, 10))
+fig2[[1]] <- fig2[[1]] + theme(axis.title.x=element_blank(),
+                               axis.text.x=element_blank(),
+                               axis.ticks.x=element_blank(),
+                              plot.margin=margin(10, 10, 30, 10))
+ggsave(paste0(plot_dir, 'cause_confidence.pdf'), fig2, width=10, height=5)
