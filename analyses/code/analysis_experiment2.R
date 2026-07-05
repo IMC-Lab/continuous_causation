@@ -3,6 +3,7 @@ library(tidybayes)
 library(ggdist)
 library(ordbetareg)
 library(bayestestR)
+library(patchwork)
 
 model_dir <- '../models/experiment2/'
 plot_dir <- '../plots/experiment2/'
@@ -58,7 +59,7 @@ prior.learning <- update(m.learning, sample_prior='only', cores=4)
 summary(m.learning, prior=TRUE)
 
 
-d.learning.check |>
+p.manipulation <- d.learning.check |>
   distinct(structure, normality, variable, block) |>
   add_epred_draws(m.learning, re_formula=NA) |>
   median_hdi() |>
@@ -79,10 +80,10 @@ d.learning.check |>
                         labels=c('Focal\nCause', 'Alternate\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-ggsave(paste0(plot_dir, 'manipulation_check.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'manipulation_check.pdf'), p.manipulation, width=10, height=5)
 
 
-d.learning.check |>
+p.manipulation_vignette <- d.learning.check |>
   distinct(vignette, structure, normality, variable, block) |>
   add_epred_draws(m.learning, re_formula=NA) |>
   median_hdi() |>
@@ -103,7 +104,7 @@ d.learning.check |>
                         labels=c('Focal\nCause', 'Alternate\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), width=10, height=15)
+ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), p.manipulation_vignette, width=10, height=15)
 
 
 
@@ -196,7 +197,7 @@ d.norm |>
   select(structure, normality, .linpred.lower, .linpred.upper, BF)
 
 
-d.norm |>
+p.normality <- d.norm |>
   distinct(normality, variable) |>
   add_epred_draws(m.norm, re_formula=NA) |>
   ggplot(aes(x=variable, fill=normality)) +
@@ -214,10 +215,10 @@ d.norm |>
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-ggsave(paste0(plot_dir, 'normality.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'normality.pdf'), p.normality, width=10, height=5)
 
 
-d.norm |>
+p.normality_vignette <- d.norm |>
   distinct(structure, normality, variable, vignette) |>
   add_epred_draws(m.norm) |>
   ggplot(aes(x=variable, fill=normality)) +
@@ -235,7 +236,7 @@ d.norm |>
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-ggsave(paste0(plot_dir, 'normality_vignette.pdf'), width=10, height=15)
+ggsave(paste0(plot_dir, 'normality_vignette.pdf'), p.normality_vignette, width=10, height=15)
 
 
 
@@ -271,7 +272,7 @@ d |>
   median_qi(.linpred, BF)
 
 
-d |>
+p.cause <- d |>
   distinct(normality) |>
   add_epred_draws(m.cause, re_formula=NA) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
@@ -285,9 +286,9 @@ d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
                     values=PALETTE) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'cause.pdf'), width=6, height=4)
+ggsave(paste0(plot_dir, 'cause.pdf'), p.cause, width=6, height=4)
 
-d |>
+p.cause_vignette <- d |>
   distinct(structure, normality, vignette) |>
   add_epred_draws(m.cause) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
@@ -303,7 +304,7 @@ d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
                     values=PALETTE) +
   theme_classic()
-ggsave(paste0(plot_dir, 'cause_vignette.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'cause_vignette.pdf'), p.cause_vignette, width=10, height=5)
 
 ## Plot prior/posteriors of model coefficients to visualize BFs
 m.cause |>
@@ -358,7 +359,7 @@ prior.confidence <- update(m.confidence, sample_prior='only', cores=4)
 print(m.confidence, prior=TRUE)
 
 
-d.norm |>
+p.confidence <- d.norm |>
   distinct(structure, normality) |>
   add_epred_draws(m.confidence, re_formula=NA) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
@@ -372,10 +373,10 @@ d.norm |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(mu=75)', 'Abnormal\n(mu=25)'),
                     values=PALETTE) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'confidence.pdf'), width=6, height=4)
+ggsave(paste0(plot_dir, 'confidence.pdf'), p.confidence, width=6, height=4)
 
 
-d.norm |>
+p.confidence_vignette <- d.norm |>
   distinct(structure, normality, vignette) |>
   add_epred_draws(m.confidence) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
@@ -390,4 +391,27 @@ d.norm |>
                     values=PALETTE) +
   facet_wrap(~ vignette) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), p.confidence_vignette, width=10, height=5)
+
+#create multi-plot figures using patchwork
+fig1 <- (p.manipulation / p.normality) +
+  plot_layout(guides='collect') +
+  plot_annotation(tag_levels='A') &
+  theme(plot.tag=element_text(face='bold'),
+        plot.margin=margin(10, 10, 10, 10))
+fig1[[1]] <- fig1[[1]] + theme(axis.title.x=element_blank(),
+                               axis.text.x=element_blank(),
+                               axis.ticks.x=element_blank(),
+                               plot.margin=margin(10, 10, 30, 10))
+ggsave(paste0(plot_dir, 'manipulation_normality.pdf'), fig1, width=10, height=5)
+
+fig2 <- (p.cause / p.confidence) +
+  plot_layout(guides='collect') +
+  plot_annotation(tag_levels='A') &
+  theme(plot.tag=element_text(face='bold'),
+        plot.margin=margin(10, 10, 10, 10))
+fig2[[1]] <- fig2[[1]] + theme(axis.title.x=element_blank(),
+                               axis.text.x=element_blank(),
+                               axis.ticks.x=element_blank(),
+                               plot.margin=margin(10, 10, 30, 10))
+ggsave(paste0(plot_dir, 'cause_confidence.pdf'), fig2, width=10, height=5)
