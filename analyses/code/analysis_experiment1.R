@@ -13,24 +13,22 @@ PALETTE <- c("#C0C0C0", "#E61C38")
 ## Read in the judgment data
 d <- read_csv('../data/experiment1_judgments.csv') |> 
   filter(attention_check == 'Yes.') |>
-  mutate(SD_c=factor(sd_c, levels=c(50, 1)),
-         threshold=factor(threshold, levels=c(199, 99))) |>
+  mutate(normality=factor(sd_c, levels=c(50, 1), labels=c('Normal', 'Abnormal')),
+         structure=factor(threshold, levels=c(199, 99),
+                          labels=c('Conjunctive', 'Disjunctive'))) |>
   select(-sd_c) |>
-  group_by(threshold, SD_c)
+  group_by(structure, normality)
 
 ## Read in the learning stage data
 d.learning <- read_csv('../data/experiment1_learning.csv') |>
   filter(id %in% d$id) |>
-  mutate(SD_c=factor(sd_c, levels=c(50, 1)),
-         threshold=factor(threshold, levels=c(199, 99)),
+  mutate(normality=factor(sd_c, levels=c(50, 1), labels=c('Normal', 'Abnormal')),
+         structure=factor(threshold, levels=c(199, 99),
+                          labels=c('Conjunctive', 'Disjunctive')),
          block=factor(block),
          trial=factor(trial)) |>
   select(-sd_c) |>
-  group_by(id, threshold, SD_c, block)
-
-
-
-
+  group_by(id, structure, normality, block)
 
 ## Estimate perceived variability by condition (manipulation check)
 d.learning.check <- d.learning |>
@@ -40,9 +38,18 @@ d.learning.check <- d.learning |>
   pivot_longer(c:a, names_to='variable', values_to='perceived_variability') |>
   ungroup()
 
+<<<<<<< HEAD
 m.learning <- ordbetareg(bf(perceived_variability ~ threshold*SD_c*variable*block + (1|id) +
                               (threshold*SD_c*variable*block || vignette),
                             phi ~ threshold*SD_c*variable*block + (1|id) + (1|vignette),
+=======
+
+
+
+m.learning <- ordbetareg(bf(perceived_variability ~ structure*normality*variable*block + (1|id) +
+                              (structure*normality*variable*block || vignette),
+                            phi ~ structure*normality*variable*block + (1|id) + (1|vignette),
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
                             center=FALSE),
                          data=d.learning.check, cores=4, chains=4, warmup=1000, iter=11000,
                          phi_reg='both',
@@ -54,66 +61,105 @@ m.learning <- ordbetareg(bf(perceived_variability ~ threshold*SD_c*variable*bloc
                          extra_prior=prior('normal(0, 1)', class='sd') +
                            prior('normal(0, 1)', class='sd', dpar='phi'),
                          backend='cmdstanr', adapt_delta=.95,
-                         #file=paste0(model_dir, 'learning.rds'))
-                         file='learning.rds')
+                         file=paste0(model_dir, 'learning.rds'))
 summary(m.learning, prior=TRUE)
 prior.learning <- update(m.learning, sample_prior='only', cores=4)
 
 
 d.learning.check |>
-  distinct(threshold, SD_c, variable, block) |>
+  distinct(structure, normality, variable, block) |>
   add_epred_draws(m.learning, re_formula=NA) |>
   median_hdi() |>
-  ggplot(aes(x=block, y=.epred, ymin=.lower, ymax=.upper, group=interaction(SD_c, variable))) +
-  facet_grid( ~ threshold, labeller=as_labeller(~ paste0('Threshold: ', .))) +
-  geom_ribbon(aes(fill=SD_c), alpha=.1) +
-  geom_line(aes(color=SD_c, linetype=variable), linewidth=1) +
+  ggplot(aes(x=block, y=.epred, ymin=.lower, ymax=.upper, group=interaction(normality, variable))) +
+  facet_grid( ~ structure, labeller=as_labeller(~ paste0('Structure: ', .))) +
+  geom_ribbon(aes(fill=normality), alpha=.1) +
+  geom_line(aes(color=normality, linetype=variable), linewidth=1) +
   scale_y_continuous('Perceived Variability', limits=0:1,
                      labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
   scale_x_discrete('Block', expand=c(.05, 0)) + 
-  scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
-  scale_color_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_color_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                      values=PALETTE) +
   scale_linetype_manual('Variable', values=c('dotted', 'solid'),
                         labels=c('Alternate\nCause', 'Focal\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
+<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'manipulation_check.pdf'), p.manipulation, width=10, height=5)
+=======
+ggsave(paste0(plot_dir, 'manipulation_check.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
 
 d.learning.check |>
-  distinct(vignette, threshold, SD_c, variable, block) |>
+  distinct(vignette, structure, normality, variable, block) |>
   add_epred_draws(m.learning, re_formula=NA) |>
   median_hdi() |>
   mutate(variable=factor(variable, levels=c('a', 'c'))) |>
   ggplot(aes(x=block, y=.epred, ymin=.lower, ymax=.upper,
-             group=interaction(SD_c, variable))) +
-  facet_grid(vignette ~ threshold, labeller=labeller(.cols=as_labeller(~ paste0('Threshold: ', .)))) +
-  geom_ribbon(aes(fill=SD_c), alpha=.1) +
-  geom_line(aes(color=SD_c, linetype=variable), linewidth=1) +
+             group=interaction(normality, variable))) +
+  facet_grid(vignette ~ structure, labeller=labeller(.cols=as_labeller(~ paste0('Structure: ', .)))) +
+  geom_ribbon(aes(fill=normality), alpha=.1) +
+  geom_line(aes(color=normality, linetype=variable), linewidth=1) +
   scale_y_continuous('Perceived Variability', limits=0:1,
                      labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
   scale_x_discrete('Block', expand=c(.05, 0)) + 
-  scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
-  scale_color_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_color_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                      values=PALETTE) +
   scale_linetype_manual('Variable', values=c('dotted', 'solid'),
                         labels=c('Focal\nCause', 'Alternate\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
+<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), p.manipulation_vignette, width=10, height=15)
+=======
+ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), width=10, height=15, device=grDevices::cairo_pdf)
+
+
+## contrasts by normality
+d.learning.check |>
+  distinct(structure, normality, variable, block) |>
+  add_linpred_draws(m.learning, re_formula=NA) |>
+  compare_levels(.linpred, by=normality) |>
+  left_join(d.learning.check |>
+              distinct(structure, normality, variable, block) |>
+              add_linpred_draws(prior.learning, re_formula=NA) |>
+              compare_levels(.linpred, by=normality) |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF) |>
+  select(structure, variable, block, contains('.linpred'), BF)
+
+d.learning.check |>
+  distinct(structure, normality, variable, block) |>
+  add_linpred_draws(m.learning, re_formula=NA) |>
+  compare_levels(.linpred, by=normality) |>
+  compare_levels(.linpred, by=variable) |>
+  compare_levels(.linpred, by=block) |>
+  left_join(d.learning.check |>
+              distinct(structure, normality, variable, block) |>
+              add_linpred_draws(prior.learning, re_formula=NA) |>
+              compare_levels(.linpred, by=normality) |>
+              compare_levels(.linpred, by=variable) |>
+              compare_levels(.linpred, by=block) |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF) |>
+  select(structure, variable, block, contains('.linpred'), BF)
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
 
 
 
 ## Expectation of actual value (normality check)
 d.norm <- d |>
   pivot_longer(vibes_c:vibes_a, names_prefix='vibes_',
-               names_to='variable', values_to='normality')
+               names_to='variable', values_to='perceived_normality')
 
-m.norm <- ordbetareg(bf(normality ~ threshold * SD_c * variable +
-                          (threshold * SD_c * variable || vignette),
-                        phi ~ threshold * SD_c * variable + (1 || vignette),
+m.norm <- ordbetareg(bf(perceived_normality ~ structure * normality * variable +
+                          (structure * normality * variable || vignette),
+                        phi ~ structure * normality * variable + (1 || vignette),
                         center=FALSE),
                      data=d.norm, cores=4, chains=4, warmup=1000, iter=11000, phi_reg='both',
                      dirichlet_prior=c(2,2,2),
@@ -130,107 +176,158 @@ summary(m.norm, prior=TRUE)
 
 ## normality contrasts
 d.norm |>
-  distinct(threshold, SD_c, variable) |>
+  distinct(structure, normality, variable) |>
   add_linpred_draws(m.norm, re_formula=NA) |>
-  compare_levels(.linpred, by='SD_c') |>
+  compare_levels(.linpred, by='normality') |>
   left_join(d.norm |>
-              distinct(threshold, SD_c, variable) |>
+              distinct(structure, normality, variable) |>
               add_linpred_draws(prior.norm, re_formula=NA) |>
-              compare_levels(.linpred, by='SD_c') |>
+              compare_levels(.linpred, by='normality') |>
               rename(.linpred.prior=.linpred)) |>
   mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
   median_qi(.linpred, BF) |>
-  select(threshold, variable, .linpred, .linpred.lower, .linpred.upper, BF)
+  select(structure, variable, .linpred, .linpred.lower, .linpred.upper, BF)
+
+## Normality x variable interaction
+d.norm |>
+  distinct(structure, normality, variable) |>
+  add_linpred_draws(m.norm, re_formula=NA) |>
+  compare_levels(.linpred, by='normality') |>
+  compare_levels(.linpred, by='variable') |>
+  left_join(d.norm |>
+              distinct(structure, normality, variable) |>
+              add_linpred_draws(prior.norm, re_formula=NA) |>
+              compare_levels(.linpred, by='normality') |>
+              compare_levels(.linpred, by='variable') |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF) |>
+  select(structure, variable, .linpred, .linpred.lower, .linpred.upper, BF)
+
+## Normality x variable x structure interaction
+d.norm |>
+  distinct(structure, normality, variable) |>
+  add_linpred_draws(m.norm, re_formula=NA) |>
+  compare_levels(.linpred, by='normality') |>
+  compare_levels(.linpred, by='variable') |>
+  compare_levels(.linpred, by='structure') |>
+  left_join(d.norm |>
+              distinct(structure, normality, variable) |>
+              add_linpred_draws(prior.norm, re_formula=NA) |>
+              compare_levels(.linpred, by='normality') |>
+              compare_levels(.linpred, by='variable') |>
+              compare_levels(.linpred, by='structure') |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF) |>
+  select(structure, variable, .linpred, .linpred.lower, .linpred.upper, BF)
 
 ## normality contrast by vignette
 d.norm |>
-  distinct(threshold, SD_c, variable, vignette) |>
+  distinct(structure, normality, variable, vignette) |>
   add_linpred_draws(m.norm) |>
-  compare_levels(.linpred, by='SD_c') |>
+  compare_levels(.linpred, by='normality') |>
   left_join(d.norm |>
-              distinct(threshold, SD_c, variable, vignette) |>
+              distinct(structure, normality, variable, vignette) |>
               add_linpred_draws(prior.norm) |>
-              compare_levels(.linpred, by='SD_c') |>
+              compare_levels(.linpred, by='normality') |>
               rename(.linpred.prior=.linpred)) |>
   mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
   median_qi(.linpred, BF) |>
-  select(threshold, variable, .linpred, .linpred.lower, .linpred.upper, BF)
+  select(structure, variable, .linpred, .linpred.lower, .linpred.upper, BF)
 
 
 ## plot prior/posteriors for normality contrast to visualize BF
 d.norm |>
-  distinct(threshold, SD_c, variable) |>
+  distinct(structure, normality, variable) |>
   add_linpred_draws(m.norm, re_formula=NA) |>
-  compare_levels(.linpred, by='SD_c') |>
+  compare_levels(.linpred, by='normality') |>
   mutate(model='posterior') |>
   bind_rows(d.norm |>
-              distinct(threshold, SD_c, variable) |>
+              distinct(structure, normality, variable) |>
               add_linpred_draws(prior.norm, re_formula=NA) |>
-              compare_levels(.linpred, by='SD_c') |>
+              compare_levels(.linpred, by='normality') |>
               mutate(model='prior')) |>
   ggplot(aes(x=.linpred, fill=model)) +
   stat_slab() +
   scale_fill_manual(values=c('skyblue', 'grey90')) +
   geom_vline(xintercept=0, linetype='dashed') +
-  facet_grid(variable ~ threshold) +
+  facet_grid(variable ~ structure) +
   coord_cartesian(xlim=c(-5, 5)) +
   theme_classic()
 
 ## contrasts of variable (Focal/Alternate) by normality/structure
 d.norm |>
-  distinct(threshold, SD_c, variable) |>
+  distinct(structure, normality, variable) |>
   add_linpred_draws(m.norm, re_formula=NA) |>
   compare_levels(.linpred, by='variable') |>
   left_join(d.norm |>
-              distinct(threshold, SD_c, variable) |>
+              distinct(structure, normality, variable) |>
               add_linpred_draws(prior.norm, re_formula=NA) |>
               compare_levels(.linpred, by='variable') |>
               rename(.linpred.prior=.linpred)) |>
   mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
   median_qi(.linpred, BF) |>
-  select(threshold, SD_c, .linpred.lower, .linpred.upper, BF)
+  select(structure, normality, .linpred.lower, .linpred.upper, BF)
 
 
+<<<<<<< HEAD
 p.normality <- d.norm |>
   distinct(threshold, SD_c, variable) |>
+=======
+d.norm |>
+  distinct(structure, normality, variable) |>
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.norm, re_formula=NA) |>
-  ggplot(aes(x=variable, fill=SD_c)) +
-  stat_slab(aes(y=normality, side=SD_c), show.legend=c(side=FALSE),
+  ggplot(aes(x=variable, fill=normality)) +
+  stat_slab(aes(y=perceived_normality, side=normality), show.legend=c(side=FALSE),
             position=position_dodge(.25), data=d.norm) +
   stat_pointinterval(aes(y=.epred), point_interval=median_hdi, .width=.95,
                      position=position_dodge(.25)) +
   scale_x_discrete(name='', labels=c('Alternate\nCause', 'Focal\nCause')) +
   scale_y_continuous('Surprisal Rating', limits=0:1,
                      labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
-  facet_wrap(~ threshold, labeller=as_labeller(~ paste0('Threshold: ', .))) +
+  facet_wrap(~ structure, labeller=as_labeller(~ paste0('Structure: ', .))) +
   scale_side_mirrored(name='',
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
+<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'normality.pdf'), p.normality, width=10, height=5)
 
 
 p.normality_vignette <- d.norm |>
   distinct(threshold, SD_c, variable, vignette) |>
+=======
+ggsave(paste0(plot_dir, 'normality.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
+
+
+d.norm |>
+  distinct(structure, normality, variable, vignette) |>
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.norm) |>
-  ggplot(aes(x=variable, fill=SD_c)) +
-  stat_slab(aes(y=normality, side=SD_c), show.legend=c(side=FALSE),
+  ggplot(aes(x=variable, fill=normality)) +
+  stat_slab(aes(y=perceived_normality, side=normality), show.legend=c(side=FALSE),
             position=position_dodge(.25), data=d.norm) +
   stat_pointinterval(aes(y=.epred), point_interval=median_hdi, .width=.95,
                      position=position_dodge(.25)) +
   scale_x_discrete(name='', labels=c('Alternate\nCause', 'Focal\nCause')) +
   scale_y_continuous('Surprisal Rating', limits=0:1,
                      labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
-  facet_grid(vignette ~ threshold, labeller=labeller(.cols=~ paste0('Threshold: ', .))) +
+  facet_grid(vignette ~ structure, labeller=labeller(.cols=~ paste0('Structure: ', .))) +
   scale_side_mirrored(name='',
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
+<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'normality_vignette.pdf'), p.normality_vignette, width=10, height=15)
+=======
+ggsave(paste0(plot_dir, 'normality_vignette.pdf'), width=10, height=15, device=grDevices::cairo_pdf)
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
 
 
 
@@ -238,8 +335,8 @@ ggsave(paste0(plot_dir, 'normality_vignette.pdf'), p.normality_vignette, width=1
 
 
 ## model for causal judgments
-m.cause <- ordbetareg(bf(cause ~ threshold * SD_c + (threshold * SD_c || vignette),
-                         phi ~ threshold * SD_c + (1 || vignette),
+m.cause <- ordbetareg(bf(cause ~ structure * normality + (structure * normality || vignette),
+                         phi ~ structure * normality + (1 || vignette),
                          center=FALSE),
                       data=d, cores=4, chains=4, warmup=1000, iter=11000, phi_reg='both',
                       dirichlet_prior=c(2,2,2),
@@ -257,90 +354,106 @@ print(m.cause, prior=TRUE)
 
 ## normality contrasts
 d |>
-  distinct(threshold, SD_c) |>
+  distinct(structure, normality) |>
   add_linpred_draws(m.cause, re_formula=NA) |>
-  compare_levels(.linpred, by=SD_c) |>
+  compare_levels(.linpred, by=normality) |>
   left_join(d.norm |>
-              distinct(threshold, SD_c) |>
+              distinct(structure, normality) |>
               add_linpred_draws(prior.cause, re_formula=NA) |>
-              compare_levels(.linpred, by=SD_c) |>
+              compare_levels(.linpred, by=normality) |>
               rename(.linpred.prior=.linpred)) |>
   mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
   median_qi(.linpred, BF)
 
+d |>
+  distinct(structure, normality) |>
+  add_linpred_draws(m.cause, re_formula=NA) |>
+  compare_levels(.linpred, by=normality) |>
+  compare_levels(.linpred, by=structure) |>
+  left_join(d.norm |>
+              distinct(structure, normality) |>
+              add_linpred_draws(prior.cause, re_formula=NA) |>
+              compare_levels(.linpred, by=normality) |>
+              compare_levels(.linpred, by=structure) |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF)
 
+<<<<<<< HEAD
 p.cause <- d |>
   distinct(threshold, SD_c) |>
+=======
+d |>
+  distinct(structure, normality) |>
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.cause, re_formula=NA) |>
-  ggplot(aes(x=threshold, group=SD_c, fill=SD_c)) +
-  stat_slab(aes(y=cause, side=SD_c), position=position_dodge(.25), data=d, adjust=.5) +
+  ggplot(aes(x=structure, group=normality, fill=normality)) +
+  stat_slab(aes(y=cause, side=normality), position=position_dodge(.25), data=d, adjust=.5) +
   stat_pointinterval(aes(y=.epred), point_interval=median_hdi, .width=.95,
                      position=position_dodge(.25)) +
-  scale_x_discrete(name='Threshold') +
+  scale_x_discrete(name='Structure') +
   scale_y_continuous('Causal Judgment', labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic(18)
+<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'cause.pdf'), p.cause, width=10, height=4)
 
 p.cause_vignette <- d |>
   distinct(threshold, SD_c, vignette) |>
+=======
+ggsave(paste0(plot_dir, 'cause.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
+
+d |>
+  distinct(structure, normality, vignette) |>
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.cause) |>
-  ggplot(aes(x=threshold, group=SD_c, fill=SD_c)) +
-  stat_slab(aes(y=cause, side=SD_c), position=position_dodge(.25), data=d) +
+  ggplot(aes(x=structure, group=normality, fill=normality)) +
+  stat_slab(aes(y=cause, side=normality), position=position_dodge(.25), data=d) +
   stat_pointinterval(aes(y=.epred), point_interval=median_hdi, .width=.95,
                      position=position_dodge(.25)) +
-  scale_x_discrete(name='Threshold') +
+  scale_x_discrete(name='Structure') +
   scale_y_continuous('Causal Judgment') +
   coord_cartesian(ylim=c(0, 1)) +
   facet_wrap(~ vignette) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic()
+<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'cause_vignette.pdf'), p.cause_vignette, width=10, height=5)
+=======
+ggsave(paste0(plot_dir, 'cause_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
 
-## Plot prior/posteriors of model coefficients to visualize BFs
-m.cause |>
-  gather_draws(`b_Intercept`, `b_threshold99`,
-               `b_SD_c1`, `b_threshold99:SD_c1`) |>
-  ggplot(aes(x=.value, y=.variable)) +
-  stat_slab(alpha=.25, normalize='none', scale=.25,
-            data=prior.cause |>
-              gather_draws(`b_Intercept`, `b_threshold99`,
-                           `b_SD_c1`, `b_threshold99:SD_c1`)) +
-  stat_halfeye(normalize='none', scale=.25, fill='skyblue') +
-  geom_vline(xintercept=0, linetype='dashed') +
-  coord_cartesian(xlim=c(-5, 5)) +
-  theme_classic(18)
 
 ## Check for differences in precision/inverse variance parameter
 d |>
-  distinct(threshold, SD_c) |>
+  distinct(structure, normality) |>
   add_epred_draws(m.cause, dpar='phi', re_formula=NA) |>
-  ggplot(aes(x=threshold, y=phi, group=SD_c, fill=SD_c, side=SD_c)) +
+  ggplot(aes(x=structure, y=phi, group=normality, fill=normality, side=normality)) +
   stat_halfeye(position=position_dodge(.25)) +
   geom_hline(yintercept=0, linetype='dashed') +
-  scale_x_discrete(name='Threshold') +
+  scale_x_discrete(name='Structure') +
   scale_y_continuous('Precision Parameter') +
   coord_cartesian(ylim=c(0, 8)) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic()
-ggsave(paste0(plot_dir, 'cause_precision.pdf'), width=10, height=4)
+ggsave(paste0(plot_dir, 'cause_precision.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
 
 
 
 
 
 ## model for confidence ratings
-m.confidence <- ordbetareg(bf(confidence ~ threshold * SD_c + (threshold * SD_c || vignette),
-                              phi ~ threshold * SD_c + (1 || vignette),
+m.confidence <- ordbetareg(bf(confidence ~ structure * normality + (structure * normality || vignette),
+                              phi ~ structure * normality + (1 || vignette),
                               center=FALSE),
                            data=d, cores=4, chains=4, warmup=1000, iter=11000, phi_reg='both',
                            dirichlet_prior=c(2,2,2),
@@ -348,44 +461,102 @@ m.confidence <- ordbetareg(bf(confidence ~ threshold * SD_c + (threshold * SD_c 
                            coef_prior_mean=0, coef_prior_SD=2,
                            phi_intercept_prior_mean=1, phi_intercept_prior_SD=1,
                            phi_coef_prior_mean=0, phi_coef_prior_SD=1,
-                           extra_prior=prior('normal(0, 1)', class='sd'),
+                           extra_prior=prior('normal(0, 1)', class='sd') +
+                             prior('normal(0, 1)', class='sd', dpar='phi'),
                            backend='cmdstanr',
                            file=paste0(model_dir, 'confidence.rds'))
 prior.confidence <- update(m.confidence, sample_prior='only', cores=4)
 print(m.confidence, prior=TRUE)
 
+<<<<<<< HEAD
 p.confidence <- d |>
   distinct(threshold, SD_c) |>
+=======
+## normality contrasts
+d |>
+  distinct(structure, normality) |>
+  add_linpred_draws(m.confidence, re_formula=NA) |>
+  compare_levels(.linpred, by=normality) |>
+  left_join(d.norm |>
+              distinct(structure, normality) |>
+              add_linpred_draws(prior.confidence, re_formula=NA) |>
+              compare_levels(.linpred, by=normality) |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF)
+
+d |>
+  distinct(structure, normality) |>
+  add_linpred_draws(m.confidence, re_formula=NA) |>
+  compare_levels(.linpred, by=normality) |>
+  compare_levels(.linpred, by=structure) |>
+  left_join(d.norm |>
+              distinct(structure, normality) |>
+              add_linpred_draws(prior.confidence, re_formula=NA) |>
+              compare_levels(.linpred, by=normality) |>
+              compare_levels(.linpred, by=structure) |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF)
+
+
+## intercepts
+d |>
+  distinct(structure, normality) |>
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.confidence, re_formula=NA) |>
-  ggplot(aes(x=threshold, group=SD_c, fill=SD_c)) +
-  stat_slab(aes(y=confidence, side=SD_c), position=position_dodge(.25), data=d, adjust=.5) +
+  group_by(.draw) |>
+  summarize(.epred=mean(.epred)) |>
+  left_join(d |>
+              distinct(structure, normality) |>
+              add_epred_draws(prior.confidence, re_formula=NA) |>
+              group_by(.draw) |>
+              summarize(.epred.prior=mean(.epred))) |>
+  mutate(BF=exp(bf_pointnull(.epred, .epred.prior)$log_BF)) |>
+  median_qi(.epred, BF)
+  
+
+d |>
+  distinct(structure, normality) |>
+  add_epred_draws(m.confidence, re_formula=NA) |>
+  ggplot(aes(x=structure, group=normality, fill=normality)) +
+  stat_slab(aes(y=confidence, side=normality), position=position_dodge(.25), data=d, adjust=.5) +
   stat_pointinterval(aes(y=.epred), point_interval=median_hdi, .width=.95,
                      position=position_dodge(.25)) +
-  scale_x_discrete(name='Threshold') +
+  scale_x_discrete(name='Structure') +
   scale_y_continuous('Confidence', labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic(18)
+<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'confidence.pdf'), p.confidence, width=10, height=5)
 
 
 p.confidence_vignette <- d |>
   distinct(threshold, SD_c, vignette) |>
+=======
+ggsave(paste0(plot_dir, 'confidence.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
+
+
+d |>
+  distinct(structure, normality, vignette) |>
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.confidence) |>
-  ggplot(aes(x=threshold, group=SD_c, fill=SD_c)) +
-  stat_slab(aes(y=confidence, side=SD_c), position=position_dodge(.25), data=d, adjust=.5) +
+  ggplot(aes(x=structure, group=normality, fill=normality)) +
+  stat_slab(aes(y=confidence, side=normality), position=position_dodge(.25), data=d, adjust=.5) +
   stat_pointinterval(aes(y=.epred), point_interval=median_hdi, .width=.95,
                      position=position_dodge(.25)) +
-  scale_x_discrete(name='Threshold') +
+  scale_x_discrete(name='Structure') +
   scale_y_continuous('Confidence', labels=c('0', '.25', '.5', '.75', '1'), expand=c(0, 0)) +
-  scale_side_mirrored(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_side_mirrored(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                       start='bottomleft') +
-  scale_fill_manual(name='Normality', labels=c('Normal\n(SD=50)', 'Abnormal\n(SD=1)'),
+  scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   facet_wrap(~ vignette) +
   theme_classic(18)
+<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), p.confidence_vignette, width=10, height=5)
 
 
@@ -411,3 +582,6 @@ fig2[[1]] <- fig2[[1]] + theme(axis.title.x=element_blank(),
                                axis.ticks.x=element_blank(),
                               plot.margin=margin(10, 10, 30, 10))
 ggsave(paste0(plot_dir, 'cause_confidence.pdf'), fig2, width=10, height=5)
+=======
+ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
+>>>>>>> 47d133656fdb435483e38225ccf03ce081053768
