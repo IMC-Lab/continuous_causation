@@ -38,18 +38,12 @@ d.learning.check <- d.learning |>
   pivot_longer(c:a, names_to='variable', values_to='perceived_variability') |>
   ungroup()
 
-<<<<<<< HEAD
-m.learning <- ordbetareg(bf(perceived_variability ~ threshold*SD_c*variable*block + (1|id) +
-                              (threshold*SD_c*variable*block || vignette),
-                            phi ~ threshold*SD_c*variable*block + (1|id) + (1|vignette),
-=======
 
 
 
 m.learning <- ordbetareg(bf(perceived_variability ~ structure*normality*variable*block + (1|id) +
                               (structure*normality*variable*block || vignette),
                             phi ~ structure*normality*variable*block + (1|id) + (1|vignette),
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
                             center=FALSE),
                          data=d.learning.check, cores=4, chains=4, warmup=1000, iter=11000,
                          phi_reg='both',
@@ -85,11 +79,7 @@ d.learning.check |>
                         labels=c('Alternate\nCause', 'Focal\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'manipulation_check.pdf'), p.manipulation, width=10, height=5)
-=======
-ggsave(paste0(plot_dir, 'manipulation_check.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
 
 d.learning.check |>
   distinct(vignette, structure, normality, variable, block) |>
@@ -112,43 +102,7 @@ d.learning.check |>
                         labels=c('Focal\nCause', 'Alternate\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), p.manipulation_vignette, width=10, height=15)
-=======
-ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), width=10, height=15, device=grDevices::cairo_pdf)
-
-
-## contrasts by normality
-d.learning.check |>
-  distinct(structure, normality, variable, block) |>
-  add_linpred_draws(m.learning, re_formula=NA) |>
-  compare_levels(.linpred, by=normality) |>
-  left_join(d.learning.check |>
-              distinct(structure, normality, variable, block) |>
-              add_linpred_draws(prior.learning, re_formula=NA) |>
-              compare_levels(.linpred, by=normality) |>
-              rename(.linpred.prior=.linpred)) |>
-  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
-  median_qi(.linpred, BF) |>
-  select(structure, variable, block, contains('.linpred'), BF)
-
-d.learning.check |>
-  distinct(structure, normality, variable, block) |>
-  add_linpred_draws(m.learning, re_formula=NA) |>
-  compare_levels(.linpred, by=normality) |>
-  compare_levels(.linpred, by=variable) |>
-  compare_levels(.linpred, by=block) |>
-  left_join(d.learning.check |>
-              distinct(structure, normality, variable, block) |>
-              add_linpred_draws(prior.learning, re_formula=NA) |>
-              compare_levels(.linpred, by=normality) |>
-              compare_levels(.linpred, by=variable) |>
-              compare_levels(.linpred, by=block) |>
-              rename(.linpred.prior=.linpred)) |>
-  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
-  median_qi(.linpred, BF) |>
-  select(structure, variable, block, contains('.linpred'), BF)
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
 
 
 
@@ -271,13 +225,8 @@ d.norm |>
   select(structure, normality, .linpred.lower, .linpred.upper, BF)
 
 
-<<<<<<< HEAD
 p.normality <- d.norm |>
-  distinct(threshold, SD_c, variable) |>
-=======
-d.norm |>
   distinct(structure, normality, variable) |>
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.norm, re_formula=NA) |>
   ggplot(aes(x=variable, fill=normality)) +
   stat_slab(aes(y=perceived_normality, side=normality), show.legend=c(side=FALSE),
@@ -294,19 +243,11 @@ d.norm |>
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-<<<<<<< HEAD
-ggsave(paste0(plot_dir, 'normality.pdf'), p.normality, width=10, height=5)
+ggsave(paste0(plot_dir, 'normality.pdf'), p.normality, width=10, height=5, device=grDevices::cairo_pdf)
 
 
 p.normality_vignette <- d.norm |>
-  distinct(threshold, SD_c, variable, vignette) |>
-=======
-ggsave(paste0(plot_dir, 'normality.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
-
-
-d.norm |>
   distinct(structure, normality, variable, vignette) |>
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.norm) |>
   ggplot(aes(x=variable, fill=normality)) +
   stat_slab(aes(y=perceived_normality, side=normality), show.legend=c(side=FALSE),
@@ -323,11 +264,7 @@ d.norm |>
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'normality_vignette.pdf'), p.normality_vignette, width=10, height=15)
-=======
-ggsave(paste0(plot_dir, 'normality_vignette.pdf'), width=10, height=15, device=grDevices::cairo_pdf)
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
 
 
 
@@ -379,13 +316,8 @@ d |>
   mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
   median_qi(.linpred, BF)
 
-<<<<<<< HEAD
 p.cause <- d |>
-  distinct(threshold, SD_c) |>
-=======
-d |>
   distinct(structure, normality) |>
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.cause, re_formula=NA) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
   stat_slab(aes(y=cause, side=normality), position=position_dodge(.25), data=d, adjust=.5) +
@@ -398,17 +330,10 @@ d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic(18)
-<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'cause.pdf'), p.cause, width=10, height=4)
 
 p.cause_vignette <- d |>
   distinct(threshold, SD_c, vignette) |>
-=======
-ggsave(paste0(plot_dir, 'cause.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
-
-d |>
-  distinct(structure, normality, vignette) |>
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.cause) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
   stat_slab(aes(y=cause, side=normality), position=position_dodge(.25), data=d) +
@@ -423,11 +348,7 @@ d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic()
-<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'cause_vignette.pdf'), p.cause_vignette, width=10, height=5)
-=======
-ggsave(paste0(plot_dir, 'cause_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
 
 
 ## Check for differences in precision/inverse variance parameter
@@ -468,10 +389,6 @@ m.confidence <- ordbetareg(bf(confidence ~ structure * normality + (structure * 
 prior.confidence <- update(m.confidence, sample_prior='only', cores=4)
 print(m.confidence, prior=TRUE)
 
-<<<<<<< HEAD
-p.confidence <- d |>
-  distinct(threshold, SD_c) |>
-=======
 ## normality contrasts
 d |>
   distinct(structure, normality) |>
@@ -503,7 +420,6 @@ d |>
 ## intercepts
 d |>
   distinct(structure, normality) |>
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.confidence, re_formula=NA) |>
   group_by(.draw) |>
   summarize(.epred=mean(.epred)) |>
@@ -516,7 +432,7 @@ d |>
   median_qi(.epred, BF)
   
 
-d |>
+p.confidence <- d |>
   distinct(structure, normality) |>
   add_epred_draws(m.confidence, re_formula=NA) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
@@ -530,19 +446,11 @@ d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic(18)
-<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'confidence.pdf'), p.confidence, width=10, height=5)
 
 
 p.confidence_vignette <- d |>
   distinct(threshold, SD_c, vignette) |>
-=======
-ggsave(paste0(plot_dir, 'confidence.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
-
-
-d |>
-  distinct(structure, normality, vignette) |>
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
   add_epred_draws(m.confidence) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
   stat_slab(aes(y=confidence, side=normality), position=position_dodge(.25), data=d, adjust=.5) +
@@ -556,7 +464,6 @@ d |>
                     values=PALETTE) +
   facet_wrap(~ vignette) +
   theme_classic(18)
-<<<<<<< HEAD
 ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), p.confidence_vignette, width=10, height=5)
 
 
@@ -582,6 +489,3 @@ fig2[[1]] <- fig2[[1]] + theme(axis.title.x=element_blank(),
                                axis.ticks.x=element_blank(),
                               plot.margin=margin(10, 10, 30, 10))
 ggsave(paste0(plot_dir, 'cause_confidence.pdf'), fig2, width=10, height=5)
-=======
-ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
->>>>>>> 47d133656fdb435483e38225ccf03ce081053768
