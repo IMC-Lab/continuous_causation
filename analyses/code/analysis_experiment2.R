@@ -378,7 +378,7 @@ p.cause <- d |>
 p.cause
 ggsave(paste0(plot_dir, 'cause.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
 
-p.cause_vignette <- d |>
+d |>
   distinct(structure, normality, vignette) |>
   add_epred_draws(m.cause) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
@@ -398,7 +398,7 @@ p.cause_vignette <- d |>
                              'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic()
-ggsave(paste0(plot_dir, 'cause_vignette.pdf'), p.cause_vignette, width=10, height=5)
+ggsave(paste0(plot_dir, 'cause_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
 
 
 ## Plot prior/posteriors of model coefficients to visualize BFs
@@ -452,7 +452,6 @@ print(m.confidence, prior=TRUE)
 
 
 
-p.confidence <- d.norm |>
 ## normality contrasts
 d |>
   distinct(structure, normality) |>
@@ -497,7 +496,7 @@ d |>
 
 
 
-d.norm |>
+p.confidence <- d.norm |>
   distinct(structure, normality) |>
   add_epred_draws(m.confidence, re_formula=NA) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
@@ -511,10 +510,11 @@ d.norm |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'confidence.pdf'), p.confidence, width=6, height=4)
+p.confidence
+ggsave(paste0(plot_dir, 'confidence.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
 
 
-p.confidence_vignette <- d.norm |>
+d.norm |>
   distinct(structure, normality, vignette) |>
   add_epred_draws(m.confidence) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
@@ -529,27 +529,24 @@ p.confidence_vignette <- d.norm |>
                     values=PALETTE) +
   facet_wrap(~ vignette) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), p.confidence_vignette, width=10, height=5)
+ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
 
-#create multi-plot figures using patchwork
-fig1 <- (p.manipulation / p.normality) +
+
+
+
+
+
+
+## Produce final figures
+(p.manipulation / p.normality) +
+  plot_annotation(tag_levels='A') &
+  theme(plot.tag=element_text(face='bold'))
+ggsave(paste0(plot_dir, 'manipulation_normality.pdf'), width=10, height=10, device=grDevices::cairo_pdf)
+
+(p.cause | p.confidence) +
   plot_layout(guides='collect') +
   plot_annotation(tag_levels='A') &
-  theme(plot.tag=element_text(face='bold'),
-        plot.margin=margin(10, 10, 10, 10))
-fig1[[1]] <- fig1[[1]] + theme(axis.title.x=element_blank(),
-                               axis.text.x=element_blank(),
-                               axis.ticks.x=element_blank(),
-                               plot.margin=margin(10, 10, 30, 10))
-ggsave(paste0(plot_dir, 'manipulation_normality.pdf'), fig1, width=10, height=5)
+  theme(plot.tag=element_text(face='bold'))
+ggsave(paste0(plot_dir, 'cause_confidence.pdf'), width=10, height=4, device=grDevices::cairo_pdf)
 
-fig2 <- (p.cause / p.confidence) +
-  plot_layout(guides='collect') +
-  plot_annotation(tag_levels='A') &
-  theme(plot.tag=element_text(face='bold'),
-        plot.margin=margin(10, 10, 10, 10))
-fig2[[1]] <- fig2[[1]] + theme(axis.title.x=element_blank(),
-                               axis.text.x=element_blank(),
-                               axis.ticks.x=element_blank(),
-                               plot.margin=margin(10, 10, 30, 10))
-ggsave(paste0(plot_dir, 'cause_confidence.pdf'), fig2, width=10, height=5)
+
