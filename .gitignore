@@ -1,6 +1,7 @@
 # Model files
 **/*.rds
 **/*.*~
+**/#*.*#
 
 # data files
 analyses/data/initial_experiment

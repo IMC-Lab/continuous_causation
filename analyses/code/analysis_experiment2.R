@@ -78,10 +78,11 @@ p.manipulation <- d.learning.check |>
                         labels=c('Focal\nCause', 'Alternate\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-ggsave(paste0(plot_dir, 'manipulation_check.pdf'), p.manipulation, width=10, height=5)
+p.manipulation
+ggsave(paste0(plot_dir, 'manipulation_check.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
 
 
-p.manipulation_vignette <- d.learning.check |>
+d.learning.check |>
   distinct(vignette, structure, normality, variable, block) |>
   add_epred_draws(m.learning, re_formula=NA) |>
   median_hdi() |>
@@ -102,7 +103,7 @@ p.manipulation_vignette <- d.learning.check |>
                         labels=c('Focal\nCause', 'Alternate\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), p.manipulation_vignette, width=10, height=15)
+ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), width=10, height=15, device=grDevices::cairo_pdf)
 
 ## contrasts by normality
 d.learning.check |>
@@ -280,10 +281,11 @@ p.normality <- d.norm |>
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-ggsave(paste0(plot_dir, 'normality.pdf'), p.normality, width=10, height=5)
+p.normality
+ggsave(paste0(plot_dir, 'normality.pdf'), p.normality, width=10, height=5, device=grDevices::cairo_pdf)
 
 
-p.normality_vignette <- d.norm |>
+d.norm |>
   distinct(structure, normality, variable, vignette) |>
   add_epred_draws(m.norm) |>
   ggplot(aes(x=variable, fill=normality)) +
@@ -302,7 +304,7 @@ p.normality_vignette <- d.norm |>
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-ggsave(paste0(plot_dir, 'normality_vignette.pdf'), p.normality_vignette, width=10, height=15)
+ggsave(paste0(plot_dir, 'normality_vignette.pdf'), width=10, height=15, device=grDevices::cairo_pdf)
 
 
 
@@ -373,7 +375,8 @@ p.cause <- d |>
                              'Abnormal\n(\u03BC=25)'),
                     values=PALETTE) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'cause.pdf'), p.cause, width=6, height=4)
+p.cause
+ggsave(paste0(plot_dir, 'cause.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
 
 p.cause_vignette <- d |>
   distinct(structure, normality, vignette) |>

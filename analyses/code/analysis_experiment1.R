@@ -5,7 +5,6 @@ library(ordbetareg)
 library(bayestestR)
 library(patchwork)
 
-
 model_dir <- '../models/experiment1/'
 plot_dir <- '../plots/experiment1/'
 PALETTE <- c("#C0C0C0", "#E61C38")
@@ -60,7 +59,7 @@ summary(m.learning, prior=TRUE)
 prior.learning <- update(m.learning, sample_prior='only', cores=4)
 
 
-d.learning.check |>
+p.learning <- d.learning.check |>
   distinct(structure, normality, variable, block) |>
   add_epred_draws(m.learning, re_formula=NA) |>
   median_hdi() |>
@@ -79,7 +78,8 @@ d.learning.check |>
                         labels=c('Alternate\nCause', 'Focal\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-ggsave(paste0(plot_dir, 'manipulation_check.pdf'), p.manipulation, width=10, height=5)
+p.learning
+ggsave(paste0(plot_dir, 'manipulation_check.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
 
 d.learning.check |>
   distinct(vignette, structure, normality, variable, block) |>
@@ -102,7 +102,7 @@ d.learning.check |>
                         labels=c('Focal\nCause', 'Alternate\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
-ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), p.manipulation_vignette, width=10, height=15)
+ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), width=10, height=15, device=grDevices::cairo_pdf)
 
 
 
@@ -243,10 +243,11 @@ p.normality <- d.norm |>
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-ggsave(paste0(plot_dir, 'normality.pdf'), p.normality, width=10, height=5, device=grDevices::cairo_pdf)
+p.normality
+ggsave(paste0(plot_dir, 'normality.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
 
 
-p.normality_vignette <- d.norm |>
+d.norm |>
   distinct(structure, normality, variable, vignette) |>
   add_epred_draws(m.norm) |>
   ggplot(aes(x=variable, fill=normality)) +
@@ -264,7 +265,7 @@ p.normality_vignette <- d.norm |>
                     values=PALETTE) +
   theme_classic(18) +
   theme(axis.title.x=element_blank())
-ggsave(paste0(plot_dir, 'normality_vignette.pdf'), p.normality_vignette, width=10, height=15)
+ggsave(paste0(plot_dir, 'normality_vignette.pdf'), width=10, height=15, device=grDevices::cairo_pdf)
 
 
 
@@ -294,7 +295,7 @@ d |>
   distinct(structure, normality) |>
   add_linpred_draws(m.cause, re_formula=NA) |>
   compare_levels(.linpred, by=normality) |>
-  left_join(d.norm |>
+  left_join(d |>
               distinct(structure, normality) |>
               add_linpred_draws(prior.cause, re_formula=NA) |>
               compare_levels(.linpred, by=normality) |>
@@ -316,6 +317,22 @@ d |>
   mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
   median_qi(.linpred, BF)
 
+
+d |>
+  distinct(structure, normality, vignette) |>
+  add_linpred_draws(m.cause) |>
+  compare_levels(.linpred, by=normality) |>
+  left_join(d |>
+              distinct(structure, normality, vignette) |>
+              add_linpred_draws(prior.cause) |>
+              compare_levels(.linpred, by=normality) |>
+              rename(.linpred.prior=.linpred)) |>
+  mutate(BF=exp(bf_pointnull(.linpred, .linpred.prior)$log_BF)) |>
+  median_qi(.linpred, BF)
+
+
+
+
 p.cause <- d |>
   distinct(structure, normality) |>
   add_epred_draws(m.cause, re_formula=NA) |>
@@ -330,9 +347,10 @@ p.cause <- d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'cause.pdf'), p.cause, width=10, height=4)
+p.cause
+ggsave(paste0(plot_dir, 'cause.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
 
-p.cause_vignette <- d |>
+d |>
   distinct(threshold, SD_c, vignette) |>
   add_epred_draws(m.cause) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
@@ -348,7 +366,7 @@ p.cause_vignette <- d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic()
-ggsave(paste0(plot_dir, 'cause_vignette.pdf'), p.cause_vignette, width=10, height=5)
+ggsave(paste0(plot_dir, 'cause_vignette.pdf'), width=10, height=5)
 
 
 ## Check for differences in precision/inverse variance parameter
@@ -446,7 +464,8 @@ p.confidence <- d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'confidence.pdf'), p.confidence, width=10, height=5)
+p.confidence
+ggsave(paste0(plot_dir, 'confidence.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
 
 
 p.confidence_vignette <- d |>
@@ -464,28 +483,23 @@ p.confidence_vignette <- d |>
                     values=PALETTE) +
   facet_wrap(~ vignette) +
   theme_classic(18)
-ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), p.confidence_vignette, width=10, height=5)
+p.confidence.vignette
+ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
 
 
-#create multi-plot figures using patchwork
-fig1 <- (p.manipulation / p.normality) +
+
+
+
+
+
+## Produce final figures
+(p.learning / p.normality) +
+  plot_annotation(tag_levels='A') &
+  theme(plot.tag=element_text(face='bold'))
+ggsave(paste0(plot_dir, 'manipulation_normality.pdf'), width=10, height=10, device=grDevices::cairo_pdf)
+
+(p.cause | p.confidence) +
   plot_layout(guides='collect') +
   plot_annotation(tag_levels='A') &
-  theme(plot.tag=element_text(face='bold'),
-        plot.margin=margin(10, 10, 10, 10))
-fig1[[1]] <- fig1[[1]] + theme(axis.title.x=element_blank(),
-                               axis.text.x=element_blank(),
-                               axis.ticks.x=element_blank(),
-                               plot.margin=margin(10, 10, 30, 10))
-ggsave(paste0(plot_dir, 'manipulation_normality.pdf'), fig1, width=10, height=5)
-
-fig2 <- (p.cause / p.confidence) +
-  plot_layout(guides='collect') +
-  plot_annotation(tag_levels='A') &
-  theme(plot.tag=element_text(face='bold'),
-        plot.margin=margin(10, 10, 10, 10))
-fig2[[1]] <- fig2[[1]] + theme(axis.title.x=element_blank(),
-                               axis.text.x=element_blank(),
-                               axis.ticks.x=element_blank(),
-                              plot.margin=margin(10, 10, 30, 10))
-ggsave(paste0(plot_dir, 'cause_confidence.pdf'), fig2, width=10, height=5)
+  theme(plot.tag=element_text(face='bold'))
+ggsave(paste0(plot_dir, 'cause_confidence.pdf'), width=10, height=4, device=grDevices::cairo_pdf)
