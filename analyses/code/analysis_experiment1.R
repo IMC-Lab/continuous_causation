@@ -351,7 +351,7 @@ p.cause
 ggsave(paste0(plot_dir, 'cause.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
 
 d |>
-  distinct(threshold, SD_c, vignette) |>
+  distinct(threshold, normality, vignette) |>
   add_epred_draws(m.cause) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
   stat_slab(aes(y=cause, side=normality), position=position_dodge(.25), data=d) +
@@ -366,7 +366,7 @@ d |>
   scale_fill_manual(name='Normality', labels=c('Normal\n(\u03C3=50)', 'Abnormal\n(\u03C3=1)'),
                     values=PALETTE) +
   theme_classic()
-ggsave(paste0(plot_dir, 'cause_vignette.pdf'), width=10, height=5)
+ggsave(paste0(plot_dir, 'cause_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
 
 
 ## Check for differences in precision/inverse variance parameter
@@ -468,8 +468,8 @@ p.confidence
 ggsave(paste0(plot_dir, 'confidence.pdf'), width=6, height=4, device=grDevices::cairo_pdf)
 
 
-p.confidence_vignette <- d |>
-  distinct(threshold, SD_c, vignette) |>
+d |>
+  distinct(threshold, normality, vignette) |>
   add_epred_draws(m.confidence) |>
   ggplot(aes(x=structure, group=normality, fill=normality)) +
   stat_slab(aes(y=confidence, side=normality), position=position_dodge(.25), data=d, adjust=.5) +
@@ -483,7 +483,6 @@ p.confidence_vignette <- d |>
                     values=PALETTE) +
   facet_wrap(~ vignette) +
   theme_classic(18)
-p.confidence.vignette
 ggsave(paste0(plot_dir, 'confidence_vignette.pdf'), width=10, height=5, device=grDevices::cairo_pdf)
 
 
