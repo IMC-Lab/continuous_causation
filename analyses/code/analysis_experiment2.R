@@ -75,7 +75,7 @@ p.manipulation <- d.learning.check |>
   scale_color_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                      values=PALETTE) +
   scale_linetype_manual('Variable', values=c('dotted', 'solid'),
-                        labels=c('Focal\nCause', 'Alternate\nCause')) +
+                        labels=c('Alternate\nCause', 'Focal\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
 p.manipulation
@@ -100,7 +100,7 @@ d.learning.check |>
   scale_color_manual(name='Normality', labels=c('Normal\n(\u03BC=75)', 'Abnormal\n(\u03BC=25)'),
                      values=PALETTE) +
   scale_linetype_manual('Variable', values=c('dotted', 'solid'),
-                        labels=c('Focal\nCause', 'Alternate\nCause')) +
+                        labels=c('Alternate\nCause', 'Focal\nCause')) +
   theme_classic(18) +
   theme(panel.grid.major.y=element_line(color='grey80', linewidth=.1))
 ggsave(paste0(plot_dir, 'manipulation_check_vignette.pdf'), width=10, height=15, device=grDevices::cairo_pdf)
