@@ -1,0 +1,22 @@
+project:
+  type: website
+  render:
+    - _slides
+    - index.qmd
+
+website:
+  title: "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    toc: true
+
+execute:
+  cache: true

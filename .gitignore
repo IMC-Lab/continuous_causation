@@ -62,3 +62,10 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+
+/.quarto/
+**/*.quarto_ipynb
+_site/
+**/index_cache/
+**/index_files/

@@ -1,0 +1,11 @@
+title: ucl-revealjs
+author: Kevin O'Neill
+version: 1.0.0
+quarto-required: ">=1.9.0"
+contributes:
+  formats:
+    revealjs:
+      theme: [default, ucl.scss]
+      logo: https://cdn.ucl.ac.uk/logos/ucl/ucl-logo--primary.svg
+      template-partials:
+        - title-slide.html

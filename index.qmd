@@ -1,0 +1,11 @@
+---
+title: "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes"
+---
+
+Statistical normality robustly influences causal judgments of binary causal variables (events which either do or do not occur): people judge statistically abnormal events as more causally responsible when causes are jointly necessary for an outcome, but as less responsible when causes are individually sufficient. However, whether this pattern extends to continuous causes, which vary in degree, remains unknown. Across two experiments (N = 1,184 U.S. Prolific participants), we examined this question using a learning paradigm in which participants learned the statistical properties of two continuous causes before making a final causal judgment. We manipulated normality via variance (Experiment 1) or mean (Experiment 2). Despite successful manipulation checks, we found strong evidence that causal judgments were unaffected by normality in both experiments, with no corresponding effects on confidence. These findings suggest that normality effects, while seemingly robust in the field of causation, may be specific to causal structures involving binary variables.
+
+
+[Preprint](https://doi.org/10.31234/osf.io/e8f53_v2){target="_blank"}
+[OSF](https://osf.io/6qs8x/overview){target="_blank"}
+[GitHub](https://github.com/IMC-Lab/continuous_causation){target="_blank"}
+[Slides](_slides/index.html){target="_blank"}
