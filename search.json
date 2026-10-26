@@ -1,0 +1,107 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "",
+    "text": "Statistical normality robustly influences causal judgments of binary causal variables (events which either do or do not occur): people judge statistically abnormal events as more causally responsible when causes are jointly necessary for an outcome, but as less responsible when causes are individually sufficient. However, whether this pattern extends to continuous causes, which vary in degree, remains unknown. Across two experiments (N = 1,184 U.S. Prolific participants), we examined this question using a learning paradigm in which participants learned the statistical properties of two continuous causes before making a final causal judgment. We manipulated normality via variance (Experiment 1) or mean (Experiment 2). Despite successful manipulation checks, we found strong evidence that causal judgments were unaffected by normality in both experiments, with no corresponding effects on confidence. These findings suggest that normality effects, while seemingly robust in the field of causation, may be specific to causal structures involving binary variables.\nPreprint OSF GitHub Slides"
+  },
+  {
+    "objectID": "_slides/index.html#section",
+    "href": "_slides/index.html#section",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "",
+    "text": "Icard et al. (2017)"
+  },
+  {
+    "objectID": "_slides/index.html#a-formal-description",
+    "href": "_slides/index.html#a-formal-description",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "A formal description",
+    "text": "A formal description\n\n\n\n\n\n\n\n\n\n\n\n\n\\(C=1\\), \\(A=1\\).\nSo, \\(E = 1\\).\nTo what extent did \\(C=1\\) cause \\(E=1\\)?"
+  },
+  {
+    "objectID": "_slides/index.html#two-causal-structures",
+    "href": "_slides/index.html#two-causal-structures",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "Two causal structures",
+    "text": "Two causal structures\n\n\nConjunctive\n\\(E = \\; C \\wedge A\\)\n\n\n\\(C=1\\) and \\(A=1\\) are both necessary\nNeither \\(C=1\\) nor \\(A=1\\) is sufficient\n\n\n\n\n\nDisjunctive\n\\(E = \\; C \\vee A\\)\n\n\nNeither \\(C=1\\) nor \\(A=1\\) are necessary\nEither \\(C=1\\) or \\(A=1\\) is sufficient\n\n\n\n\n\nIcard et al. (2017)"
+  },
+  {
+    "objectID": "_slides/index.html#a-formal-description-1",
+    "href": "_slides/index.html#a-formal-description-1",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "A formal description",
+    "text": "A formal description\n\n\n\n\n\n\n\n\n\n\n\n\n\\(C=c \\;=\\; A=a\\).\n\\(c+a &gt; \\theta\\), so \\(E = 1\\).\nTo what extent did \\(C=c\\) cause \\(E=1\\)?"
+  },
+  {
+    "objectID": "_slides/index.html#two-special-cases",
+    "href": "_slides/index.html#two-special-cases",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "Two special cases",
+    "text": "Two special cases\n\n\nConjunctive\n\\(c+a=\\theta+1\\)\n\n\n\\(C\\ge c\\) and \\(A\\ge a\\) are both necessary\nNeither \\(C=c\\) nor \\(A=c\\) is sufficient\n\n\n\n\n\nDisjunctive\n\\(c=a=\\theta+1\\)\n\n\nNeither \\(C\\ge c\\) nor \\(A\\ge a\\) are necessary\nEither \\(C=c\\) or \\(A=a\\) is sufficient\n\n\n\n\nDo norms affect causal judgments?"
+  },
+  {
+    "objectID": "_slides/index.html#manipulations",
+    "href": "_slides/index.html#manipulations",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "Manipulations",
+    "text": "Manipulations"
+  },
+  {
+    "objectID": "_slides/index.html#participants-learned-the-distribution-of-events",
+    "href": "_slides/index.html#participants-learned-the-distribution-of-events",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "Participants learned the distribution of events",
+    "text": "Participants learned the distribution of events"
+  },
+  {
+    "objectID": "_slides/index.html#participants-found-abnormal-events-surprising",
+    "href": "_slides/index.html#participants-found-abnormal-events-surprising",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "Participants found abnormal events surprising",
+    "text": "Participants found abnormal events surprising"
+  },
+  {
+    "objectID": "_slides/index.html#no-influence-of-norms-on-causal-judgments",
+    "href": "_slides/index.html#no-influence-of-norms-on-causal-judgments",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "No influence of norms oncausal judgments",
+    "text": "No influence of norms oncausal judgments"
+  },
+  {
+    "objectID": "_slides/index.html#manipulations-1",
+    "href": "_slides/index.html#manipulations-1",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "Manipulations",
+    "text": "Manipulations"
+  },
+  {
+    "objectID": "_slides/index.html#participants-learned-the-distribution-of-events-1",
+    "href": "_slides/index.html#participants-learned-the-distribution-of-events-1",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "Participants learned the distribution of events",
+    "text": "Participants learned the distribution of events"
+  },
+  {
+    "objectID": "_slides/index.html#participants-found-abnormal-events-surprising-1",
+    "href": "_slides/index.html#participants-found-abnormal-events-surprising-1",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "Participants found abnormal events surprising",
+    "text": "Participants found abnormal events surprising"
+  },
+  {
+    "objectID": "_slides/index.html#no-influence-of-norms-on-causal-judgments-1",
+    "href": "_slides/index.html#no-influence-of-norms-on-causal-judgments-1",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "No influence of norms oncausal judgments",
+    "text": "No influence of norms oncausal judgments"
+  },
+  {
+    "objectID": "_slides/index.html#conclusions-1",
+    "href": "_slides/index.html#conclusions-1",
+    "title": "The Limits of Normality Effects on Causal Judgments: Evidence from Continuous Causes",
+    "section": "Conclusions",
+    "text": "Conclusions\n\nActual causation is well-studied when events are binary\nBut we don’t know much about cases where causes are continuous variables!\nEven when participants learn relevant norms, they don’t affect causal judgments in such contexts"
+  }
+]
