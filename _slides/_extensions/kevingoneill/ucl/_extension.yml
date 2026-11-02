@@ -9,3 +9,5 @@ contributes:
       logo: https://cdn.ucl.ac.uk/logos/ucl/ucl-logo--primary.svg
       template-partials:
         - title-slide.html
+      include-in-header:
+        - text: <script src="_assets/fontawesome.js"></script>

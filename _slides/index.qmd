@@ -4,8 +4,6 @@ subtitle: Evidence From Continuous Causes
 format:
   ucl-revealjs:
     fig-format: svg
-    include-in-header:
-      - text: <script src="fontawesome.js"></script>
 author:
   - name: Kaylee Miceli, Nina Van Rooy, Felipe De Brigard
     affiliation: 
@@ -27,7 +25,7 @@ bibliography: references.bib
 filters:
   - tikz
 tikz:
-  cache: true
+  cache: false
   save-tex: false
   tex-dir: tikz-tex   # any path; defaults to 'tikz-tex'
   svg-command: "pdf2svg {input} {output}"  # use pdf2svg because inkscape breaks fonts
@@ -57,11 +55,11 @@ library(patchwork)
 library(distributional)
 library(ggtext)
 
+source("_assets/plotting.R")
+
 PALETTE <- c("#C0C0C0", "#E61C38")
 
-set_theme(theme(plot.background=element_rect(fill="#fafafa", color=NA)))
-
-theme_cc <- function(base_size=18, base_family="", ink="black", paper="#fafafa") {
+theme_cc <- function(base_size=18, base_family="", ink="black", paper=ucl_white) {
   list(
     theme_classic(base_size=base_size, base_family=base_family,
                   ink=ink, paper=paper),
@@ -108,14 +106,6 @@ theme_exp2 <- function(ylab, base_size=18, base_family="", ink="black", paper=NA
                          labels=c("Normal\n(\u03BC=75)", "Abnormal\n(\u03BC=25)"),
                          values=PALETTE)
     ))
-}
-
-
-## display a box over a plot for animations
-hide_plot <- function(plot, fill='#fafafa') {
-  plot + inset_element(plot_spacer() +
-                         theme(plot.background=element_rect(fill=fill)),
-                       0, 0, 1, 1, align_to='full')
 }
 ```
 
@@ -237,7 +227,7 @@ m.exp2.confidence <- readRDS("../analyses/models/experiment2/confidence.rds")
 ## A formal description
 
 :::{.r-stack height=600}
-::::{.fragment .center-flex}
+::::{.fragment .center-horizontally}
 ```{.tikz width=1000}
 %%| filename: binary_causal_structure_1
 %%| additionalPackages: \usepackage{amsmath}
@@ -255,7 +245,7 @@ m.exp2.confidence <- readRDS("../analyses/models/experiment2/confidence.rds")
 ```
 ::::
 
-::::{.fragment .center-flex}
+::::{.fragment .center-horizontally}
 ```{.tikz width=1000}
 %%| filename: binary_causal_structure_2
 %%| additionalPackages: \usepackage{amsmath}
@@ -273,7 +263,7 @@ m.exp2.confidence <- readRDS("../analyses/models/experiment2/confidence.rds")
 ```
 ::::
 
-::::{.fragment .center-flex}
+::::{.fragment .center-horizontally}
 ```{.tikz width=1000}
 %%| filename: binary_causal_structure_3
 %%| additionalPackages: \usepackage{amsmath}
@@ -368,7 +358,7 @@ m.exp2.confidence <- readRDS("../analyses/models/experiment2/confidence.rds")
 ## A formal description
 
 :::{.r-stack height=600}
-::::{.fragment .center-flex}
+::::{.fragment .center-horizontally}
 ```{.tikz width=1000}
 %%| filename: causal_structure_1
 %%| additionalPackages: \usepackage{amsmath}
@@ -386,7 +376,7 @@ m.exp2.confidence <- readRDS("../analyses/models/experiment2/confidence.rds")
 ```
 ::::
 
-::::{.fragment .center-flex}
+::::{.fragment .center-horizontally}
 ```{.tikz width=1000}
 %%| filename: causal_structure_2
 %%| additionalPackages: \usepackage{amsmath}
@@ -404,7 +394,7 @@ m.exp2.confidence <- readRDS("../analyses/models/experiment2/confidence.rds")
 ```
 ::::
 
-::::{.fragment .center-flex}
+::::{.fragment .center-horizontally}
 ```{.tikz width=1000}
 %%| filename: causal_structure_3
 %%| additionalPackages: \usepackage{amsmath}

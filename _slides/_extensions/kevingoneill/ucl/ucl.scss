@@ -21,9 +21,6 @@ $ucl-light-orange: #e66c37;
 $ucl-light-pink: #e645ab;
 $ucl-light-green: #1aab40;
 
-
-
-
 $body-bg: $ucl-white;
 $body-color: $ucl-dark-purple;
 $text-muted: $ucl-pale-purple;
@@ -225,20 +222,15 @@ $mermaid-node-fg-color: $ucl-dark-purple;
 
 // centering classis
 .center-horizontally {
-    display: block !important;
-    margin: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
 .center-vertically {
     margin: 0;
     position: absolute;
     top: 50%;
-}
-
-.center-flex {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
 }
 
 .center-xy {
@@ -300,7 +292,7 @@ $mermaid-node-fg-color: $ucl-dark-purple;
 
 .top-left {
     position: absolute;
-    top: 10px;
+    top: 90px;
     left: 0px;
 }
 

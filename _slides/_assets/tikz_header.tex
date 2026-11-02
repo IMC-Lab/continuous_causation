@@ -1,0 +1,43 @@
+\definecolor{UCL_dark_purple}{RGB}{54,26,84}
+\definecolor{UCL_off_white}{RGB}{250,250,250}
+\definecolor{UCL_paper_white}{RGB}{255,255,255}
+\definecolor{UCL_bright_purple}{RGB}{153,59,255}
+\definecolor{UCL_mid_purple}{RGB}{186,130,255}
+\definecolor{UCL_pale_purple}{RGB}{221,189,255}
+\definecolor{UCL_light_purple}{RGB}{238,222,255}
+\definecolor{UCL_heritage_blue}{RGB}{48,214,255}
+
+\usetikzlibrary{bayesnet, shapes, decorations, arrows, calc, arrows.meta, fit, positioning}
+
+\tikzset{
+  every picture/.style={background rectangle/.style={fill=yellow!20}},
+  every node/.style={
+    draw, align=center,
+    minimum size=1cm,
+    fill=UCL_dark_purple, color=UCL_dark_purple, text=UCL_off_white
+  },
+  every edge/.style={-Triangle[], draw, color=UCL_dark_purple},
+  image/.style = {
+    draw=none, fill=none,
+    inner sep=0, outer sep=0,
+    minimum size=1cm, align=none
+  },
+  hidden/.style = {
+    draw=none, fill=none, opacity=0
+  },
+  unboxed/.style = {
+    draw=none, fill=none, text=UCL_dark_purple
+  },
+  obs/.style = {
+    draw=none, fill=UCL_bright_purple, text=UCL_dark_purple
+  }
+  auto, semithick, node distance=.5cm and 1.5cm,
+  state/.style ={circle, draw, minimum width=1cm},
+  point/.style = {circle, draw, inner sep=0.04cm,fill,node contents={}},
+  bidirected/.style={Latex-Latex,dashed},
+  el/.style = {inner sep=2pt, align=left, sloped}
+}
+
+%% math definitions
+\newcommand{\normal}[2]{\mathcal{N}\left(#1,\,#2\right)}
+\newcommand{\bernoulli}[1]{\textrm{Bernoulli}\left(#1\right)}
