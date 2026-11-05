@@ -4,6 +4,7 @@ subtitle: Evidence From Continuous Causes
 format:
   ucl-revealjs:
     fig-format: svg
+    pdf-separate-fragments: true
 author:
   - name: Kaylee Miceli, Nina Van Rooy, Felipe De Brigard
     affiliation: 
@@ -16,7 +17,7 @@ author:
       name: University College London
       department: Department of Experimental Psychology, Institute of Cognitive Neuroscience
       url: https://www.ucl.ac.uk/brain-sciences/icn
-    url: https://www.kevingoneill.github.io
+    url: https://kevingoneill.github.io
 embed-resources: true  # use this option for publication
 
 bibliography: references.bib
@@ -1176,5 +1177,32 @@ p.exp2.confidence <- d.exp2 |>
 
 
 # thanks! {.dark}
+
+<br>
+
+:::{.columns}
+::::{.column width="33%"}
+:::::{.center-horizontally}
+![](figures/kaylee.png){height=250}
+:::::
+[Kaylee Miceli]{.center-horizontally}
+::::
+
+::::{.column width="33%"}
+:::::{.center-horizontally}
+![](https://static.wixstatic.com/media/3b98e9_ca901fcb25f04d9681159b03a8bf3e49~mv2.jpg/v1/crop/x_0,y_50,w_2174,h_2414/fill/w_216,h_240,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Nina.jpg){height=250}
+:::::
+[Nina Van Rooy]{.center-horizontally}
+::::
+
+::::{.column width="33%"}
+:::::{.center-horizontally}
+![](https://static.wixstatic.com/media/3b98e9_4c981f3e07544bb3a2506b8deacc0191~mv2.jpg/v1/crop/x_31,y_0,w_1651,h_2104/fill/w_299,h_381,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Headshot%20Felipe_edited.jpg){height=250}
+:::::
+[Felipe De Brigard]{.center-horizontally}
+::::
+:::
+
+<https://osf.io/preprints/psyarxiv/e8f53>
 
 # References
