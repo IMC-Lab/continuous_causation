@@ -653,7 +653,7 @@ epred.exp1.learning |>
   geom_ribbon(aes(fill=normality), alpha=.1) +
   geom_line(aes(color=normality, linetype=variable), linewidth=1) +
   facet_grid( ~ structure) +
-  theme_exp1("Perceived Average") +
+  theme_exp1("Perceived Variability") +
   scale_x_discrete("Block", expand=c(.05, 0)) + 
   theme(panel.grid.major.y=element_line(color="grey80", linewidth=.1))
 ```
